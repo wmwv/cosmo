@@ -34,6 +34,7 @@ func (cos *Cosmology) somethingelse(z float64) (Ez float64) {
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
+// E.g., Hogg arXiv:9905116  Eq. 14
 // It's not called dE both because it's not quite dE (it lacks the dz)
 // but also because "dE" is easily confused with "dark energy"
 func (cos *Cosmology) E(z float64) (ez float64) {
