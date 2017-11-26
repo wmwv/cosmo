@@ -85,7 +85,7 @@ func TestEOm(t *testing.T) {
 	z_vec = []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
 	for _, z := range z_vec {
-		exp = 2.0 * hubbleDistance * (1-math.Sqrt(1/(1+z)))
+		exp = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
 		obs = cos.ComovingDistance(z)
 		if !floats.EqualWithinAbs(obs, exp, tol) {
 			t.Errorf("Failed OM, OL = (1, 0) analytic comoving distance test."+
