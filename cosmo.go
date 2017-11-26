@@ -28,8 +28,6 @@ type Cosmology struct {
 	c float64 // Speed of light
 }
 
-//   E(z) = int_0^z (...) dz
-// Integration is done via gonum.quad
 func (cos *Cosmology) LuminosityDistance(z float64) (distance float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }
@@ -68,6 +66,8 @@ func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 
 // E calculates the Hubble parameter as a fraction of its present value
 // E.g., Hogg arXiv:9905116  Eq. 14
+//   E(z) = int_0^z (...) dz
+// Integration is done via gonum.quad
 func (cos *Cosmology) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
 	// TODO
