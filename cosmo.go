@@ -27,6 +27,12 @@ type Cosmology struct {
 	//    nuToPhotonDensity float64 // Neutrino density / photon density
 }
 
+// DistanceModulus returns the magnitude difference between 1 Mpc and
+// the luminosity distance for the given z.
+func (cos *Cosmology) DistanceModulus(z float64) (distance float64) {
+	return 5*math.Log10(cos.LuminosityDistance(z)) + 25
+}
+
 func (cos *Cosmology) LuminosityDistance(z float64) (distance float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }

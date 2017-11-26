@@ -34,6 +34,27 @@ func TestELcdm(t *testing.T) {
 	}
 }
 
+func TestDistanceModulus(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+	tol = 1e-8
+	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
+	//  exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193}
+	for i, z := range z_vec {
+		obs = cos.DistanceModulus(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat LCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
 func TestLuminosityDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
