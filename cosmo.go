@@ -37,9 +37,12 @@ func (cos *Cosmology) somethingelse(z float64) (Ez float64) {
 // E.g., Hogg arXiv:9905116  Eq. 14
 func (cos *Cosmology) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
+	// TODO
+	// Consider an if or switch on the value of cos.w0
+	// Do performance testing to see in what circumstances it matters.
 	ez = math.Sqrt((1+z)*(1+z)*
 		((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) +
-		cos.Ol0)
+		cos.Ol0*math.Pow(1+z, 3*(1+cos.w0)))
 	return ez
 }
 
