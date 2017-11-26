@@ -19,13 +19,12 @@ type Cosmology struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
 	Ok0     float64 // Curvature Density at z=0
-	H0      float64 // Hubble constant at z=0.  km/s/Mpc
+	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	w0      float64 // Dark energy equation-of-state parameter
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
-	Tcmb0   float64 // Temperature of the CMb at z=0.
+	Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
 	//    nuToPhotonDensity float64 // Neutrino density / photon density
-	c float64 // Speed of light
 }
 
 func (cos *Cosmology) LuminosityDistance(z float64) (distance float64) {
