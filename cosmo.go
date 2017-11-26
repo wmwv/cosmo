@@ -54,5 +54,5 @@ func (cos *Cosmology) Evec(z []float64) (ez []float64) {
 	for _, z := range z {
 		ez = append(ez, cos.E(z))
 	}
-    return ez
+	return ez
 }
