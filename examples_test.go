@@ -8,6 +8,7 @@ import (
 // TestE* tests that basic calculation of E
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestELcdmScalar(t *testing.T) {
+	var exp, obs, tol float64
 	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
@@ -16,12 +17,19 @@ func TestELcdmScalar(t *testing.T) {
 	//   sqrt(0.27*(1+1.0)**3 + 0.0 * (1+1.0)**2 + 0.73)
 	//   sqrt(0.27*8 + 0 + 0.73)
 	//   sqrt(2.89)
-	exp := 1.7
-	obs := cos.E(1.0)
-	tol := 1e-9
+	exp = 1.7
+	obs = cos.E(1.0)
+	tol = 1e-9
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed scalar flat LCDM test.  Expected %f, return %f", exp, obs)
 	}
+
+	exp = 1 / 1.7
+	obs = cos.Einv(1.0)
+	if !floats.EqualWithinAbs(obs, exp, tol) {
+		t.Errorf("Failed scalar flat LCDM test.  Expected %f, return %f", exp, obs)
+	}
+
 }
 
 func TestEvecLcdm(t *testing.T) {

@@ -46,6 +46,14 @@ func (cos *Cosmology) E(z float64) (ez float64) {
 	return ez
 }
 
+// inv_E is the thing generally integrated for calculating distances
+// and related quantities
+func (cos *Cosmology) Einv(z float64) (invEz float64) {
+	// TODO: Is 1/Sqrt() notable slower than Pow(-0.5)?
+	// If so, then it's worth writing out inv_E again here.
+	return 1 / cos.E(z)
+}
+
 // Evec returns vectorized form of 'E'.
 // I haven't figured out whether this is useful or makes sense
 // in a Go framework, which looping over functions is more expected.
