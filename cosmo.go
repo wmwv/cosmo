@@ -42,3 +42,14 @@ func (cos *Cosmology) E(z float64) (ez float64) {
 		cos.Ol0)
 	return ez
 }
+
+// Evec returns vectorized form of 'E'.
+// I haven't figured out whether this is useful or makes sense
+// in a Go framework, which looping over functions is more expected.
+// thank in IDL, Matlab, or Python numpy+scipy worlds.
+func (cos *Cosmology) Evec(z []float64) (ez []float64) {
+	for _, z := range z {
+		ez = append(ez, cos.E(z))
+	}
+    return ez
+}
