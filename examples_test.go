@@ -10,7 +10,6 @@ import (
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestELcdm(t *testing.T) {
 	var exp, obs, tol float64
-	var z_vec, exp_vec []float64
 	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
@@ -33,13 +32,43 @@ func TestELcdm(t *testing.T) {
 		t.Errorf("Failed flat LCDM Einv(z) test.  Expected %f, return %f",
 			exp, obs)
 	}
+}
 
-	z_vec = []float64{0.2, 0.4, 0.9, 1.2}
-	exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+func TestLuminosityDistance(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+	tol = 1e-6
+	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
+	//  exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}
 	for i, z := range z_vec {
 		obs = cos.LuminosityDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed flat LCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestComovingTransverseDistance(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+	tol = 1e-6
+	//	z_vec = []float64{0.2, 0.4, 0.9, 1.2}
+	//	exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
+	for i, z := range z_vec {
+		obs = cos.ComovingTransverseDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat LCDM comoving transverse distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
