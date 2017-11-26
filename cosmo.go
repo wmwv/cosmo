@@ -12,6 +12,8 @@ import (
 	"math"
 )
 
+const SpeedOfLightKmS = 299792.458 // km/s
+
 // Cosmology stores the key information needed for a given cosmology
 type Cosmology struct {
 	Om0     float64 // Matter Density at z=0
@@ -23,14 +25,45 @@ type Cosmology struct {
 	Onu0    float64 // Neutrino density
 	Tcmb0   float64 // Temperature of the CMb at z=0.
 	//    nuToPhotonDensity float64 // Neutrino density / photon density
+	c float64 // Speed of light
 }
 
 //   E(z) = int_0^z (...) dz
 // Integration is done via gonum.quad
-func (cos *Cosmology) somethingelse(z float64) (Ez float64) {
+func (cos *Cosmology) LuminosityDistance(z float64) (distance float64) {
+	return (1 + z) * cos.ComovingTransverseDistance(z)
+}
+
+// ComovingTransversedistance is the comoving distance at z as seen from z=0
+// Returns scalar in Megaparsecs
+func (cos *Cosmology) ComovingTransverseDistance(z float64) (distance float64) {
+	return (1 + z) * cos.ComovingTransverseDistanceZ1Z2(0, z)
+}
+
+// ComovingTransverseDistanceZ1Z2 is the comoving distance at z2 as seen from z1
+// Returns scalar in Megaparsecs
+func (cos *Cosmology) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance float64) {
+	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
+	if cos.Ok0 == 0 {
+		return comovingDistance
+	}
+
+	hubbleDistance := cos.HubbleDistance()
+	return hubbleDistance /
+		math.Sinh(math.Sqrt(cos.Ok0)*comovingDistance/hubbleDistance)
+}
+
+func (cos *Cosmology) HubbleDistance() float64 {
+	return SpeedOfLightKmS / cos.H0
+}
+
+func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
+	return cos.ComovingDistanceZ1Z2(0, z)
+}
+
+func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	n := 10000 // integration points
-	Ez = quad.Fixed(cos.E, 0, z, n, nil, 0)
-	return Ez
+	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
 
 // E calculates the Hubble parameter as a fraction of its present value

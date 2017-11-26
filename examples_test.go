@@ -2,6 +2,7 @@ package cosmo
 
 import (
 	"gonum.org/v1/gonum/floats"
+	"math"
 	"testing"
 )
 
@@ -9,6 +10,7 @@ import (
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestELcdm(t *testing.T) {
 	var exp, obs, tol float64
+	var z_vec, exp_vec []float64
 	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
@@ -32,6 +34,36 @@ func TestELcdm(t *testing.T) {
 			exp, obs)
 	}
 
+	z_vec = []float64{0.2, 0.4, 0.9, 1.2}
+	exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	for i, z := range z_vec {
+		obs = cos.LuminosityDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat LCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+// Analytic case of Omega_Lambda = 0
+func TestEOm(t *testing.T) {
+	var z_vec []float64
+	var obs, exp, tol float64
+	cos := Cosmology{Om0: 1.0, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	tol = 1e-9
+	z_vec = []float64{1.0, 10.0, 500.0, 1000.0}
+	hubbleDistance := SpeedOfLightKmS / cos.H0
+	for _, z := range z_vec {
+		exp = 2.0 * hubbleDistance * (1-math.Sqrt(1/(1+z)))
+		obs = cos.ComovingDistance(z)
+		if !floats.EqualWithinAbs(obs, exp, tol) {
+			t.Errorf("Failed OM, OL = (1, 0) analytic comoving distance test."+
+				"  Expected %f, return %f",
+				exp, obs)
+		}
+	}
 }
 
 func TestEvecLcdm(t *testing.T) {
