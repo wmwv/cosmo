@@ -5,6 +5,25 @@ import (
 	"testing"
 )
 
+func benchmarkEN(n int, b *testing.B) {
+	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+	var z float64
+	z_max := 1.0
+	step := z_max / float64(n)
+	for i := 0; i < b.N; i++ {
+		for j := 0; j < n; j++ {
+			z = 0.001 + step*float64(j)
+			cos.E(z)
+		}
+	}
+}
+
+func BenchmarkEN(b *testing.B) {
+//    benchmarkEN(10000, b)
+    benchmarkNdistance(10000, "E", b)
+}
+
 func BenchmarkE(b *testing.B) {
 	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
 	z := 1.0
@@ -68,5 +87,5 @@ func BenchmarkNLuminosityDistance(b *testing.B) {
 }
 
 func BenchmarkNE(b *testing.B) {
-    benchmarkNdistance(10000, "E", b)
+	benchmarkNdistance(10000, "E", b)
 }
