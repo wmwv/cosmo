@@ -65,7 +65,7 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 }
 
 func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
-	n := 10000 // integration points
+	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
 
