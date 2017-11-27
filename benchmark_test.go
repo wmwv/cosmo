@@ -66,3 +66,7 @@ func BenchmarkNComovingDistance(b *testing.B) {
 func BenchmarkNLuminosityDistance(b *testing.B) {
 	benchmarkNdistance(10000, "LuminosityDistance", b)
 }
+
+func BenchmarkNE(b *testing.B) {
+    benchmarkNdistance(10000, "E", b)
+}
