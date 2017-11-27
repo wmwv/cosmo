@@ -87,8 +87,13 @@ func (cos *Cosmology) E(z float64) (ez float64) {
 // inv_E is the thing generally integrated for calculating distances
 // and related quantities
 func (cos *Cosmology) Einv(z float64) (invEz float64) {
-	// TODO: Is 1/Sqrt() notable slower than Pow(-0.5)?
-	// If so, then it's worth writing out inv_E again here.
+	// TODO: Is 1/Sqrt() notably slower than Pow(-0.5)?
+	// No.
+	// Pow(-0.5) is in fact implemented as 1/Sqrt() in math.pow.go
+	// func pow(x, y float64) float64 {
+	//    [...]
+	// case y == -0.5:
+	//    return 1 / Sqrt(x)
 	return 1 / cos.E(z)
 }
 
