@@ -11,14 +11,14 @@ import astropy.units as u
 cosmo = astropy.cosmology.FlatLambdaCDM(H0=70, Om0=0.3)
 
 
-def run_comoving_distance(n=10000):
-    z = np.arange(n) + 0.001
-    return cosmo.comoving_distance(z)
+def run_comoving_distance(n=10000, z_max=10.0):
+    z = (z_max/n) * np.arange(n) + 0.001
+    return z, cosmo.comoving_distance(z)
 
 
-def run_comoving_distance_elliptic(n=10000):
-    z = np.arange(n) + 0.001
-    return comoving_distance_elliptic(z, cosmo.H0, cosmo.Om0)
+def run_comoving_distance_elliptic(n=10000, z_max=10.0):
+    z = (z_max/n) * np.arange(n) + 0.001
+    return z, comoving_distance_elliptic(z, cosmo.H0, cosmo.Om0)
 
 
 def comoving_distance_elliptic(z, H0, Om0):
@@ -56,8 +56,42 @@ def T_carlson(z):
     pass
 
 
-if __name__ == "__main__":
-    dc = run_comoving_distance(n=100)
-    dc_elliptic = run_comoving_distance_elliptic(n=100)
+def mpc_to_modulus(dist):
+    modulus = 5*np.log10(dist/u.Mpc) + 25
+    return modulus
 
-    print("DC - DC_elliptic: ", dc-dc_elliptic)
+
+def plot_z_dc_elliptic(z, dc, elliptic, plotname='z_dc_elliptic.pdf',
+                       debug=False):
+    import matplotlib.pyplot as plt
+    if debug:
+        print("DC - DC_elliptic: ", dc-dc_elliptic)
+    fig = plt.figure(figsize=(6,8))
+    plt.subplot(2,1,1)
+    plt.plot(z, dc, label='dc')
+    plt.plot(z, dc_elliptic, label='dc_elliptic')
+    plt.plot(z, dc - dc_elliptic, label='dc - dc_elliptic')
+    plt.plot(z, 10000*(dc/dc_elliptic), linestyle='--',
+             label='10,000 * (dc / dc_elliptic)')
+    plt.ylabel('Mpc')
+    plt.xlabel('z')
+    plt.ylim(10000*np.array([-1, +1]))
+    plt.legend()
+
+    dc_mag = mpc_to_modulus(dc)
+    dc_elliptic_mag = mpc_to_modulus(dc_elliptic)
+    plt.subplot(2,1,2)
+    plt.plot(z, dc_mag, label='dc')
+    plt.plot(z, dc_elliptic_mag, label='dc_elliptic')
+    plt.plot(z, dc_mag - dc_elliptic_mag, label='dc - dc_elliptic')
+    plt.ylabel('Distance Modulus')
+    plt.xlabel('z')
+
+    plt.savefig(plotname)
+
+
+if __name__ == "__main__":
+    z, dc = run_comoving_distance(n=100)
+    z, dc_elliptic = run_comoving_distance_elliptic(n=100)
+
+    plot_z_dc_elliptic(z, dc, dc_elliptic)
