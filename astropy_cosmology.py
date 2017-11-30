@@ -97,8 +97,9 @@ def plot_z_dc_elliptic(z, dc, elliptic, plotname='z_dc_elliptic.pdf',
 
 
 if __name__ == "__main__":
-    z, dc = run_comoving_distance(n=100)
-    z, dc_elliptic = run_comoving_distance_elliptic(n=100)
+    n = 1000000
+    z, dc = run_comoving_distance(n)
+    z, dc_elliptic = run_comoving_distance_elliptic(n)
 
     plot = False
     if plot:
