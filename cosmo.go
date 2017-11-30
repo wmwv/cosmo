@@ -65,7 +65,7 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 }
 
 func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
-	n := 10000 // integration points
+	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
 
@@ -75,20 +75,30 @@ func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 // Integration is done via gonum.quad
 func (cos *Cosmology) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
+	var deScale float64
 	// TODO
 	// Consider an if or switch on the value of cos.w0
 	// Do performance testing to see in what circumstances it matters.
-	ez = math.Sqrt((1+z)*(1+z)*
-		((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) +
-		cos.Ol0*math.Pow(1+z, 3*(1+cos.w0)))
+	switch cos.w0 {
+	case -1:
+		deScale = 1
+	default:
+		deScale = math.Pow(1+z, 3*(1+cos.w0))
+	}
+	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) + cos.Ol0*deScale)
 	return ez
 }
 
 // inv_E is the thing generally integrated for calculating distances
 // and related quantities
 func (cos *Cosmology) Einv(z float64) (invEz float64) {
-	// TODO: Is 1/Sqrt() notable slower than Pow(-0.5)?
-	// If so, then it's worth writing out inv_E again here.
+	// TODO: Is 1/Sqrt() notably slower than Pow(-0.5)?
+	// No.
+	// Pow(-0.5) is in fact implemented as 1/Sqrt() in math.pow.go
+	// func pow(x, y float64) float64 {
+	//    [...]
+	// case y == -0.5:
+	//    return 1 / Sqrt(x)
 	return 1 / cos.E(z)
 }
 
