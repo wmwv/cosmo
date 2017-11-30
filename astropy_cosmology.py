@@ -27,13 +27,9 @@ def run_comoving_distance_elliptic(n=10000, z_max=10.0):
 def comoving_distance_elliptic(z, H0, Om0):
     """Calculate comoving distance using incomplete elliptic integration
     """
-    print("z, H0, Om0: ", z, H0, Om0)
-    s = ((1-Om0)/Om0) ** (-1/3)
-    prefactor = const.c/(H0*np.sqrt(s*Om0))
+    s = ((1-Om0)/Om0) ** (1/3)
+    prefactor = (const.c/H0)*(1/np.sqrt(s*Om0))
     prefactor = prefactor.to(u.Mpc)
-    print("s, prefactor: ", s, prefactor)
-    print("T(s): ", T_legendre(s))
-    print("T(s/(1+z)): ", T_legendre(s/(1+z)))
     return prefactor * (T_legendre(s) - T_legendre(s/(1+z)))
 
 
@@ -47,8 +43,9 @@ def T_legendre(x):
     phi = np.arccos((1 + (1-math.sqrt(3))*x) /
                     (1 + (1+math.sqrt(3))*x))
     k = np.cos(np.pi/12)
-    print("phi, k: ", phi, k)
-    return 3**(1./4) * F(phi, k)
+    m = k*k  # np.cos(np.pi/12)**2 == 1/2 + math.sqrt(3)/4
+    # ellipkinc expects m=k*k as its second argument.
+    return 3**(-1./4) * F(phi, m)
 
 
 def T_carlson(z):
