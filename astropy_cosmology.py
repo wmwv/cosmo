@@ -5,7 +5,7 @@ from __future__ import division, print_function
 import math
 
 import numpy as np
-import scipy
+import scipy.special
 
 import astropy.cosmology
 import astropy.constants as const
@@ -29,7 +29,7 @@ def comoving_distance_elliptic(z, H0, Om0):
     """
     s = ((1-Om0)/Om0) ** (1/3)
     prefactor = (const.c/H0)*(1/np.sqrt(s*Om0))
-    prefactor = prefactor.to(u.Mpc)
+    prefactor = prefactor.to(u.Mpc)  # normalize from km/s/Mpc
     return prefactor * (T_legendre(s) - T_legendre(s/(1+z)))
 
 
@@ -100,4 +100,6 @@ if __name__ == "__main__":
     z, dc = run_comoving_distance(n=100)
     z, dc_elliptic = run_comoving_distance_elliptic(n=100)
 
-    plot_z_dc_elliptic(z, dc, dc_elliptic)
+    plot = False
+    if plot:
+        plot_z_dc_elliptic(z, dc, dc_elliptic)
