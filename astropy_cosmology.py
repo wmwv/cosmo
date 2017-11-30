@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 from __future__ import division, print_function
+
+import math
+
 import numpy as np
 import scipy
 
@@ -40,7 +43,9 @@ def T_legendre(x):
     T(x) = 3^{-\frac{1}{4}} F\left(arccos\left(\frac{1+(1-\sqrt{3}x}{1+(1+\sqrt{3})x}\right), \cos\frac{\pi}{12}\right)
     """
     F = scipy.special.ellipkinc
-    phi = np.arccos((1+(1-np.sqrt(3))*x)/(1+(1+np.sqrt(3))*x))
+    # math.sqrt is several times faster than np.sqrt for scalars
+    phi = np.arccos((1 + (1-math.sqrt(3))*x) /
+                    (1 + (1+math.sqrt(3))*x))
     k = np.cos(np.pi/12)
     print("phi, k: ", phi, k)
     return 3**(1./4) * F(phi, k)
