@@ -36,7 +36,11 @@ def comoving_distance_elliptic(z, H0, Om0):
 def T_legendre(x):
     """Compute T(x) using Legendre elliptical integrals of the first kind.
 
-    T(x) = 3^{-\frac{1}{4}} F\left(arccos\left(\frac{1+(1-\sqrt{3}x}{1+(1+\sqrt{3})x}\right), \cos\frac{\pi}{12}\right)
+    T(x) = 3^{-\frac{1}{4}}
+           F\left(arccos\left(\frac{1+(1-\sqrt{3}x}{1+(1+\sqrt{3})x}\right),
+                  \cos\frac{\pi}{12}\right)
+    where
+    F(phi, m) = int_0^phi {1/sqrt(1 - m \sin^2{t})} dt
     """
     F = scipy.special.ellipkinc
     # math.sqrt is several times faster than np.sqrt for scalars
