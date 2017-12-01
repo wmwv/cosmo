@@ -24,7 +24,7 @@ func BenchmarkEN(b *testing.B) {
 }
 
 func BenchmarkENdistance(b *testing.B) {
-    benchmarkNdistance(10000, "E", b)
+	benchmarkNdistance(10000, "E", b)
 }
 
 func BenchmarkE(b *testing.B) {
