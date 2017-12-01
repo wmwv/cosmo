@@ -76,6 +76,27 @@ func TestLuminosityDistance(t *testing.T) {
 	}
 }
 
+func TestAngularDiameterDistance(t *testing.T) {
+    var z_vec, exp_vec []float64
+    var obs, tol float64
+    cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+    tol = 1e-6
+    //  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
+    //  exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+    z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+    exp_vec = []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}
+    for i, z := range z_vec {
+        obs = cos.AngularDiameterDistance(z)
+        if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+            t.Errorf("Failed flat LCDM angular diameter distance test."+
+                "  Expected %f, return %f",
+                exp_vec[i], obs)
+        }
+
+    }
+}
+
 func TestComovingTransverseDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
