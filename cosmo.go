@@ -65,7 +65,7 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 	return cos.ComovingDistanceZ1Z2(0, z)
 }
 
-// ComovingDistanceElliptic calculates the comoving distance between two z
+// ComovingDistanceZ1Z2Elliptic calculates the comoving distance between two z
 //   in a flat lambda CDM cosmology using elliptic integrals.
 func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
 	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
@@ -84,11 +84,16 @@ func TElliptic(s float64) float64 {
 	return 4 * mathext.EllipticRF(x, y, z)
 }
 
+// ComovingDistanceZ1Z2 Integrate calculates the comoving distance between two z
+//   in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
 func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
 
+// ComovingDistanceZ1Z2 is the base function for calculation of comoving distances
+//   Here is where the choice of fundamental calculation method is made:
+//   Elliptic integral, quadrature integration, or analytic for special cases.
 func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	switch {
 	case cos.Om0 < 1:
