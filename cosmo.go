@@ -83,16 +83,20 @@ func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance flo
 //   basic integral at the heart of cosmological distance calculations
 // gonum.org/v1/mathext/EllipticF (Legendre form) reformats
 //   and calls EllipticRF (Carlson form)
-func TElliptic(x float64) float64 {
-	numer := 1 + (1-math.Sqrt(3))*x
-	denom := 1 + (1+math.Sqrt(3))*x
-	phi := math.Acos(numer / denom)
+func TElliptic(s float64) float64 {
+	numer := 1 + (1-math.Sqrt(3))*s
+	denom := 1 + (1+math.Sqrt(3))*s
+	sin_part := math.Sqrt(denom*denom-numer*numer) / denom
+	cos_part := numer / denom
+//	phi := math.Acos(numer / denom)
 	// math.Sqrt is ~35 times faster than math.Cos
 	// Although I would expect these fixed constants
 	//  to be calculated at compile time, I don't know if that happens.
 	// k := math.Cos(math.Pi / 12)
 	m := 0.5 + math.Sqrt(3)/4 // = cos(pi/12)**2
-	return math.Pow(3, -1./4) * mathext.EllipticF(phi, m)
+	x := cos_part * cos_part
+	y := 1 - m*sin_part*sin_part
+	return math.Pow(3, -1./4) * sin_part * mathext.EllipticRF(x, y, 1)
 }
 
 func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
