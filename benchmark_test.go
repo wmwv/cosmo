@@ -24,7 +24,7 @@ func BenchmarkEN(b *testing.B) {
 }
 
 func BenchmarkENdistance(b *testing.B) {
-    benchmarkNdistance(10000, "E", b)
+	benchmarkNdistance(10000, "E", b)
 }
 
 func BenchmarkE(b *testing.B) {
@@ -69,11 +69,11 @@ func benchmarkNdistance(n int, distFunc string, b *testing.B) {
 	}
 }
 
-func BenchmarkComovingDistanceDistance(b *testing.B) {
+func BenchmarkComovingDistance(b *testing.B) {
 	benchmarkDistance("ComovingDistance", b)
 }
 
-func BenchmarkComovingTransverseDistanceDistance(b *testing.B) {
+func BenchmarkComovingTransverseDistance(b *testing.B) {
 	benchmarkDistance("ComovingTransverseDistance", b)
 }
 

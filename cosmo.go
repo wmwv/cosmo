@@ -9,6 +9,7 @@ package cosmo
 
 import (
 	"gonum.org/v1/gonum/integrate/quad"
+	"gonum.org/v1/gonum/mathext"
 	"math"
 )
 
@@ -64,9 +65,42 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 	return cos.ComovingDistanceZ1Z2(0, z)
 }
 
-func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
+// ComovingDistanceZ1Z2Elliptic calculates the comoving distance between two z
+//   in a flat lambda CDM cosmology using elliptic integrals.
+func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
+	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
+	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
+	return prefactor * (TElliptic(s/(1+z1)) - TElliptic(s/(1+z2)))
+}
+
+// TElliptic uses elliptic integral of the first kind in Carlson form
+//   to calculate the basic integral for cosmological distances
+// gonum.org/v1/mathext/EllipticRF (Carlson form)
+func TElliptic(s float64) float64 {
+	m := (2 * math.Sqrt(s*s-s+1) / s) + (2 / s) - 1
+	x := m
+	y := m + 3 - 2*math.Sqrt(3)
+	z := m + 3 + 2*math.Sqrt(3)
+	return 4 * mathext.EllipticRF(x, y, z)
+}
+
+// ComovingDistanceZ1Z2 Integrate calculates the comoving distance between two z
+//   in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
+func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
+}
+
+// ComovingDistanceZ1Z2 is the base function for calculation of comoving distances
+//   Here is where the choice of fundamental calculation method is made:
+//   Elliptic integral, quadrature integration, or analytic for special cases.
+func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
+	switch {
+	case cos.Om0 < 1:
+		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
+	default:
+		return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
+	}
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
