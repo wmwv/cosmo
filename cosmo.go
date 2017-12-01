@@ -65,12 +65,6 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 	return cos.ComovingDistanceZ1Z2(0, z)
 }
 
-// ComovingDistanceElliptic calculates the comoving distance from 0 to z
-//   in a flat lambda CDM cosmology using elliptic integrals.
-func (cos *Cosmology) ComovingDistanceElliptic(z float64) (distance float64) {
-	return cos.ComovingDistanceZ1Z2Elliptic(0, z)
-}
-
 // ComovingDistanceElliptic calculates the comoving distance between two z
 //   in a flat lambda CDM cosmology using elliptic integrals.
 func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {

@@ -97,7 +97,7 @@ func TestComovingTransverseDistance(t *testing.T) {
 	}
 }
 
-func TestComovingDistanceElliptic(t *testing.T) {
+func TestComovingDistanceZ1Z2Integrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
 	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
@@ -108,7 +108,7 @@ func TestComovingDistanceElliptic(t *testing.T) {
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec = []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
 	for i, z := range z_vec {
-		obs = cos.ComovingDistanceElliptic(z)
+		obs = cos.ComovingDistanceZ1Z2Integrate(0, z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed flat LCDM comoving distance elliptic test."+
 				"  Expected %f, return %f",
