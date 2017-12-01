@@ -93,6 +93,10 @@ func BenchmarkLuminosityDistance(b *testing.B) {
 	benchmarkDistance("LuminosityDistance", b)
 }
 
+func BenchmarkLookbackTime(b *testing.B) {
+	benchmarkDistance("LookbackTime", b)
+}
+
 func BenchmarkNComovingDistance(b *testing.B) {
 	benchmarkNdistance(10000, "ComovingDistance", b)
 }
@@ -106,5 +110,9 @@ func BenchmarkNE(b *testing.B) {
 }
 
 func BenchmarkComovingDistanceOM(b *testing.B) {
-    benchmarkDistanceOM("ComovingDistance", b)
+	benchmarkDistanceOM("ComovingDistance", b)
+}
+
+func BenchmarkLookbackTimeOM(b *testing.B) {
+	benchmarkDistanceOM("LookbackTime", b)
 }

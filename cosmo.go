@@ -151,6 +151,15 @@ func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
 }
 
 func (cos *Cosmology) LookbackTime(z float64) (time float64) {
+    switch {
+    case cos.Ol0 == 0:
+        return cos.LookbackTimeOM(z)
+    default:
+        return cos.LookbackTimeIntegrate(z)
+    }
+}
+
+func (cos *Cosmology) LookbackTimeIntegrate(z float64) (time float64) {
 	n := 1000                  // Integration will be n-point Gaussian quadrature
 	hubbleTime := (1 / cos.H0) // 1/(km/s/Mpc) = Mpc s / km
 	hubbleTime *= kmInAMpc     // s
@@ -158,6 +167,21 @@ func (cos *Cosmology) LookbackTime(z float64) (time float64) {
 
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
 	return hubbleTime * quad.Fixed(integrand, 0, z, n, nil, 0)
+}
+
+func (cos *Cosmology) LookbackTimeOM(z float64) (time float64) {
+    return lookbackTimeOM(z, cos.Om0, cos.H0)
+}
+
+// Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
+func lookbackTimeOM(z, Om0, H0 float64) (time float64) {
+	hubbleTime := (1 / H0)  // 1/(km/s/Mpc) = Mpc s / km
+	hubbleTime *= kmInAMpc  // s
+	hubbleTime /= secInAGyr // Gyr
+
+	return hubbleTime *
+		(math.Sqrt(1+Om0*z)/((1-Om0)*(1+z)) -
+			Om0*math.Pow(1-Om0, -3./2)*math.Asinh((1/Om0-1)/(1+z)))
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
