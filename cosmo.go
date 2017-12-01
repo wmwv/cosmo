@@ -100,11 +100,49 @@ func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance fl
 //   Elliptic integral, quadrature integration, or analytic for special cases.
 func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	switch {
+	// Test for Ol0==0 first so that (Om0, Ol0) = (1, 0)
+	// is handled by the analytic solution
+	// rather than the explicit integration.
+	case cos.Ol0 == 0:
+		return cos.ComovingDistanceOMZ1Z2(z1, z2)
 	case cos.Om0 < 1:
 		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
 		return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
 	}
+}
+
+// ComovingDistanceOM calculates the analytic case of Omega_total=Omega_M
+func (cos *Cosmology) ComovingDistanceOM(z float64) (distance float64) {
+	// Call the internal function that just takes direct arguments
+	//   with nothing passed via the struct.
+	return comovingDistanceOM(z, cos.Om0, cos.H0)
+}
+
+// ComovingDistanceOMZ1Z2 calculates the analytic case of Omega_total=Omega_M
+//    for the distance between two redshifts.
+//
+// This *Z1Z2 form exists to parallel the other versions
+//  and allow it to be a shortcut option in ComovingDistanceZ1Z2.
+// Naively, it's twice as expensive to do this as (0, z2)
+// But this is such a trivial calculation, it probably doesn't matter.
+func (cos *Cosmology) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {
+	return comovingDistanceOM(z2, cos.Om0, cos.H0) -
+		comovingDistanceOM(z1, cos.Om0, cos.H0)
+}
+
+// comovingDistanceOM calculates the analytic case of Omega_total=Omega_M
+//   This is meant as the internal function that doesn't use a struct.
+//
+//   Hogg, 1999
+//   Peebles, 1993
+//   Weinberg, 1972
+//   Mattig, 1958
+//   Transcribed from Kantowski 2000 (arXiv:0002334)
+func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
+	return (SpeedOfLightKmS / H0) *
+		2 * (2 - Om0*(1-z) - (2-Om0)*math.Sqrt(1+Om0*z)) /
+		((1 + z) * Om0 * Om0)
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
