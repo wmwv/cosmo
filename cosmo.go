@@ -38,6 +38,10 @@ func (cos *Cosmology) LuminosityDistance(z float64) (distance float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }
 
+func (cos *Cosmology) AngularDiameterDistance(z float64) (distance float64) {
+	return cos.ComovingTransverseDistance(z) / (1 + z)
+}
+
 // ComovingTransversedistance is the comoving distance at z as seen from z=0
 // Returns scalar in Megaparsecs
 func (cos *Cosmology) ComovingTransverseDistance(z float64) (distance float64) {
