@@ -68,17 +68,23 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 // ComovingDistanceElliptic calculates the comoving distance in a flat lambda CDM
 //   cosmology using elliptic integrals.
 func (cos *Cosmology) ComovingDistanceElliptic(z float64) (distance float64) {
+	return cos.ComovingDistanceZ1Z2Elliptic(0, z)
+}
+
+// ComovingDistanceElliptic calculates the comoving distance in a flat lambda CDM
+//   cosmology using elliptic integrals.
+func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
 	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
 	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
-	return prefactor * (TLegendre(s) - TLegendre(s/(1+z)))
+	return prefactor * (TLegendre(s/(1+z1)) - TLegendre(s/(1+z2)))
 }
 
 // TLegendre uses elliptic integral of the first kind
 //   in the Legendre representation to calculation the expensive
 //   basic integral at the heart of cosmological distance calculations
 func TLegendre(x float64) float64 {
-	numer := 1 + (1 - math.Sqrt(3))*x
-	denom := 1 + (1 + math.Sqrt(3))*x
+	numer := 1 + (1-math.Sqrt(3))*x
+	denom := 1 + (1+math.Sqrt(3))*x
 	phi := math.Acos(numer / denom)
 	// math.Sqrt is ~35 times faster than math.Cos
 	// Although I would expect these fixed constants
@@ -88,9 +94,13 @@ func TLegendre(x float64) float64 {
 	return math.Pow(3, -1./4) * mathext.EllipticF(phi, m)
 }
 
-func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
+func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
+}
+
+func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
+	return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
