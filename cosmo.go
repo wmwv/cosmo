@@ -102,9 +102,9 @@ func (cos *Cosmology) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance fl
 func (cos *Cosmology) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	switch {
 	case cos.Om0 < 1:
-        return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
+		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
-        return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
+		return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
 	}
 }
 
