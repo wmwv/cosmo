@@ -69,11 +69,11 @@ func benchmarkNdistance(n int, distFunc string, b *testing.B) {
 	}
 }
 
-func BenchmarkComovingDistanceDistance(b *testing.B) {
+func BenchmarkComovingDistance(b *testing.B) {
 	benchmarkDistance("ComovingDistance", b)
 }
 
-func BenchmarkComovingTransverseDistanceDistance(b *testing.B) {
+func BenchmarkComovingTransverseDistance(b *testing.B) {
 	benchmarkDistance("ComovingTransverseDistance", b)
 }
 
