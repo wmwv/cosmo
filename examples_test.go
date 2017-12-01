@@ -160,6 +160,27 @@ func TestComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	}
 }
 
+func TestLookbackTime(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+	tol = 1e-6
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	// Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
+	exp_vec = []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}
+	for i, z := range z_vec {
+		obs = cos.LookbackTime(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat LCDM lookback time test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+
+}
+
 // Analytic case of Omega_Lambda = 0
 func TestEOm(t *testing.T) {
 	var z_vec []float64

@@ -14,6 +14,11 @@ import (
 )
 
 const SpeedOfLightKmS = 299792.458 // km/s
+// https://en.wikipedia.org/wiki/Parsec
+//   Accessed 2017-12-01
+const kmInAMpc = 3.08567758149137e19 // km/Mpc
+//   365*24*360 * one billion
+const secInAGyr = 31557600 * 1e9 // s/Gyr
 
 // Cosmology stores the key information needed for a given cosmology
 type Cosmology struct {
@@ -143,6 +148,16 @@ func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
 	return (SpeedOfLightKmS / H0) *
 		2 * (2 - Om0*(1-z) - (2-Om0)*math.Sqrt(1+Om0*z)) /
 		((1 + z) * Om0 * Om0)
+}
+
+func (cos *Cosmology) LookbackTime(z float64) (time float64) {
+	n := 1000                  // Integration will be n-point Gaussian quadrature
+	hubbleTime := (1 / cos.H0) // 1/(km/s/Mpc) = Mpc s / km
+	hubbleTime *= kmInAMpc     // s
+	hubbleTime /= secInAGyr    // Gyr
+
+	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
+	return hubbleTime * quad.Fixed(integrand, 0, z, n, nil, 0)
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
