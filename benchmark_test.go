@@ -73,6 +73,10 @@ func BenchmarkComovingDistance(b *testing.B) {
 	benchmarkDistance("ComovingDistance", b)
 }
 
+func BenchmarkComovingDistanceElliptic(b *testing.B) {
+	benchmarkDistance("ComovingDistanceElliptic", b)
+}
+
 func BenchmarkComovingTransverseDistance(b *testing.B) {
 	benchmarkDistance("ComovingTransverseDistance", b)
 }
