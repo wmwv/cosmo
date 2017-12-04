@@ -208,7 +208,7 @@ func TestLookbackTimeOM(t *testing.T) {
 	// Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
 	exp_vec = []float64{4.51471693, 6.62532254, 8.57486509, 9.45923582}
 	for i, z := range z_vec {
-		obs = cos.LookbackTime(z)
+		obs = cos.LookbackTimeOM(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed (OM, OL)=(0.3, 0) lookback time test."+
 				"  Expected %f, return %f",
@@ -227,7 +227,7 @@ func TestLookbackTimeOL(t *testing.T) {
 	// Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
 	exp_vec = []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605}
 	for i, z := range z_vec {
-		obs = cos.LookbackTime(z)
+		obs = cos.LookbackTimeOL(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed (OM, OL)=(0, 0.5) lookback time test."+
 				"  Expected %f, return %f",
