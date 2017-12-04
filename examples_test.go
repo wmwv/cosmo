@@ -179,6 +179,25 @@ func TestLookbackTime(t *testing.T) {
 	}
 }
 
+func TestLookbackTimeIntegrate(t *testing.T) {
+    var z_vec, exp_vec []float64
+    var obs, tol float64
+    cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+    tol = 1e-6
+    z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+    // Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
+    exp_vec = []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}
+    for i, z := range z_vec {
+        obs = cos.LookbackTimeIntegrate(z)
+        if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+            t.Errorf("Failed flat LCDM lookback time integrate test."+
+                "  Expected %f, return %f",
+                exp_vec[i], obs)
+        }
+    }
+}
+
 func TestLookbackTimeOM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
@@ -249,6 +268,25 @@ func TestAgeFlatLCDM(t *testing.T) {
         obs = cos.Age(z)
         if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
             t.Errorf("Failed flat LCDM age test."+
+                "  Expected %f, return %f",
+                exp_vec[i], obs)
+        }
+    }
+}
+
+func TestAgeIntegrate(t *testing.T) {
+    var z_vec, exp_vec []float64
+    var obs, tol float64
+    cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+
+    tol = 1e-6
+    z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+    // Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
+    exp_vec = []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
+    for i, z := range z_vec {
+        obs = cos.AgeIntegrate(z)
+        if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+            t.Errorf("Failed flat LCDM ageIntegrate test."+
                 "  Expected %f, return %f",
                 exp_vec[i], obs)
         }
