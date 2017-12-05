@@ -177,12 +177,12 @@ func (cos *Cosmology) LookbackTimeOM(z float64) (time float64) {
 
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 3
 func lookbackTimeOL(z, Ol0, H0 float64) (time float64) {
-	return ageOL(0, Ol0, H0) - ageOL(z, Ol0, H0) 
+	return ageOL(0, Ol0, H0) - ageOL(z, Ol0, H0)
 }
 
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
 func lookbackTimeOM(z, Om0, H0 float64) (time float64) {
-    return ageOM(0, Om0, H0) - ageOM(z, Om0, H0) 
+	return ageOM(0, Om0, H0) - ageOM(z, Om0, H0)
 }
 
 func (cos *Cosmology) Age(z float64) (time float64) {
@@ -209,8 +209,8 @@ func (cos *Cosmology) AgeIntegrate(z float64) (time float64) {
 		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z)-z*(2+z)*cos.Ol0)
 		return 1 / denom
 	}
-    // When given math.Inf(), quad.Fixed automatically redefines variables
-    // to successfully do the numerical integration.
+	// When given math.Inf(), quad.Fixed automatically redefines variables
+	// to successfully do the numerical integration.
 	return HubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
 }
 
