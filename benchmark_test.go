@@ -46,13 +46,13 @@ func BenchmarkEinv(b *testing.B) {
 // benchmarkDistanceOM is a helper function to be called by specific benchmarks
 //   for an Omega_Lambda = 0 cosmology
 func benchmarkDistanceOM(distFunc string, b *testing.B) {
-    cos := Cosmology{Om0: 0.27, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
-    z := 1.0
+	cos := Cosmology{Om0: 0.27, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	z := 1.0
 
-    funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
-    for i := 0; i < b.N; i++ {
-        funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
-    }
+	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
+	for i := 0; i < b.N; i++ {
+		funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
+	}
 }
 
 // benchmarkDistance is a helper function to be called by specific benchmarks
@@ -93,6 +93,10 @@ func BenchmarkLuminosityDistance(b *testing.B) {
 	benchmarkDistance("LuminosityDistance", b)
 }
 
+func BenchmarkLookbackTime(b *testing.B) {
+	benchmarkDistance("LookbackTime", b)
+}
+
 func BenchmarkNComovingDistance(b *testing.B) {
 	benchmarkNdistance(10000, "ComovingDistance", b)
 }
@@ -106,5 +110,9 @@ func BenchmarkNE(b *testing.B) {
 }
 
 func BenchmarkComovingDistanceOM(b *testing.B) {
-    benchmarkDistanceOM("ComovingDistance", b)
+	benchmarkDistanceOM("ComovingDistance", b)
+}
+
+func BenchmarkLookbackTimeOM(b *testing.B) {
+	benchmarkDistanceOM("LookbackTime", b)
 }

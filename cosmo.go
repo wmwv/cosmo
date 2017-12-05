@@ -14,6 +14,11 @@ import (
 )
 
 const SpeedOfLightKmS = 299792.458 // km/s
+// https://en.wikipedia.org/wiki/Parsec
+//   Accessed 2017-12-01
+const kmInAMpc = 3.08567758149137e19 // km/Mpc
+//   365*24*360 * one billion
+const secInAGyr = 31557600 * 1e9 // s/Gyr
 
 // Cosmology stores the key information needed for a given cosmology
 type Cosmology struct {
@@ -143,6 +148,102 @@ func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
 	return (SpeedOfLightKmS / H0) *
 		2 * (2 - Om0*(1-z) - (2-Om0)*math.Sqrt(1+Om0*z)) /
 		((1 + z) * Om0 * Om0)
+}
+
+func (cos *Cosmology) LookbackTime(z float64) (time float64) {
+	switch {
+	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
+		return cos.LookbackTimeOM(z)
+	case (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
+		return cos.LookbackTimeOL(z)
+	default:
+		return cos.LookbackTimeIntegrate(z)
+	}
+}
+
+func (cos *Cosmology) LookbackTimeIntegrate(z float64) (time float64) {
+	n := 1000 // Integration will be n-point Gaussian quadrature
+	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
+	return HubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
+}
+
+func (cos *Cosmology) LookbackTimeOL(z float64) (time float64) {
+	return lookbackTimeOL(z, cos.Ol0, cos.H0)
+}
+
+func (cos *Cosmology) LookbackTimeOM(z float64) (time float64) {
+	return lookbackTimeOM(z, cos.Om0, cos.H0)
+}
+
+// Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 3
+func lookbackTimeOL(z, Ol0, H0 float64) (time float64) {
+	return ageOL(0, Ol0, H0) - ageOL(z, Ol0, H0)
+}
+
+// Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
+func lookbackTimeOM(z, Om0, H0 float64) (time float64) {
+	return ageOM(0, Om0, H0) - ageOM(z, Om0, H0)
+}
+
+func (cos *Cosmology) Age(z float64) (time float64) {
+	switch {
+	case cos.Om0+cos.Ol0 == 1:
+		return cos.AgeFlatLCDM(z)
+	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
+		return cos.AgeOM(z)
+	case (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
+		return cos.AgeOL(z)
+	default:
+		return cos.AgeIntegrate(z)
+	}
+}
+
+func (cos *Cosmology) AgeFlatLCDM(z float64) (time float64) {
+	return HubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
+		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
+}
+
+func (cos *Cosmology) AgeIntegrate(z float64) (time float64) {
+	n := 1000 // Integration will be n-point Gaussian quadrature
+	integrand := func(z float64) float64 {
+		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z)-z*(2+z)*cos.Ol0)
+		return 1 / denom
+	}
+	// When given math.Inf(), quad.Fixed automatically redefines variables
+	// to successfully do the numerical integration.
+	return HubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
+}
+
+func (cos *Cosmology) AgeOL(z float64) (time float64) {
+	return ageOL(z, cos.Ol0, cos.H0)
+}
+
+func (cos *Cosmology) AgeOM(z float64) (time float64) {
+	return ageOM(z, cos.Om0, cos.H0)
+}
+
+// Calculate the Hubble time, c/H0.
+// Expects input H0 in km/s/Mpc
+// Returns time in Gyr
+func HubbleTime(H0 float64) (time float64) {
+	hubbleTime := (1 / H0)  // 1/(km/s/Mpc) = Mpc s / km
+	hubbleTime *= kmInAMpc  // s
+	hubbleTime /= secInAGyr // Gyr
+
+	return hubbleTime
+}
+
+// Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 3
+func ageOL(z, Ol0, H0 float64) (time float64) {
+	return HubbleTime(H0) * (1 / math.Sqrt(Ol0)) *
+		math.Asinh(1/((1+z)*math.Sqrt((1/Ol0)-1)))
+}
+
+// Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
+func ageOM(z, Om0, H0 float64) (time float64) {
+	return HubbleTime(H0) *
+		(math.Sqrt(1+Om0*z)/((1-Om0)*(1+z)) -
+			Om0*math.Pow(1-Om0, -3./2)*math.Asinh(math.Sqrt((1/Om0-1)/(1+z))))
 }
 
 // E calculates the Hubble parameter as a fraction of its present value
