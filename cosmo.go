@@ -120,13 +120,13 @@ func (cos *Cosmology) ComovingDistance(z float64) (distance float64) {
 func (cos *Cosmology) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
 	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
 	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
-	return prefactor * (TElliptic(s/(1+z1)) - TElliptic(s/(1+z2)))
+	return prefactor * (tElliptic(s/(1+z1)) - tElliptic(s/(1+z2)))
 }
 
-// TElliptic uses elliptic integral of the first kind in Carlson form
+// tElliptic uses elliptic integral of the first kind in Carlson form
 //   to calculate the basic integral for cosmological distances
 // gonum.org/v1/mathext/EllipticRF (Carlson form)
-func TElliptic(s float64) float64 {
+func tElliptic(s float64) float64 {
 	m := (2 * math.Sqrt(s*s-s+1) / s) + (2 / s) - 1
 	x := m
 	y := m + 3 - 2*math.Sqrt(3)
