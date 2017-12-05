@@ -242,9 +242,14 @@ func TestAge(t *testing.T) {
 	cos := Cosmology{Om0: 0.3, Ol0: 0.6, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
+
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
-	exp_vec = []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
+	// Calculated via
+	//   import astropy.cosmology
+	//   z = [0.5, 1.0, 2.0, 3.0]
+	//   astropy.cosmology.LambdaCDM(70, 0.3, 0.6).age(z)
+	exp_vec = []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301}
+
 	for i, z := range z_vec {
 		obs = cos.Age(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
