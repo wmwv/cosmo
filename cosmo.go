@@ -210,7 +210,7 @@ func (cos *Cosmology) LookbackTime(z float64) (time float64) {
 func (cos *Cosmology) LookbackTimeIntegrate(z float64) (time float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
-	return HubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
+	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
 }
 
 // LookbackTimeOL is lookback time for dark-energy only Universe
@@ -280,7 +280,7 @@ func (cos *Cosmology) Age(z float64) (time float64) {
 // Equation is in many sources.
 // I took this from Thomas and Kantowski, 2000 PRD, 62, 103507.
 func (cos *Cosmology) AgeFlatLCDM(z float64) (time float64) {
-	return HubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
+	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
 		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
 }
 
@@ -299,7 +299,7 @@ func (cos *Cosmology) AgeIntegrate(z float64) (time float64) {
 	}
 	// When given math.Inf(), quad.Fixed automatically redefines variables
 	// to successfully do the numerical integration.
-	return HubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
+	return hubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
 }
 
 // AgeOL is the time from redshift ∞ to z
@@ -320,7 +320,7 @@ func (cos *Cosmology) AgeOM(z float64) (time float64) {
 //
 // H0 : Hubble parameter at z=0.  [km/s/Mpc]
 // Returns time in Gyr
-func HubbleTime(H0 float64) (time float64) {
+func hubbleTime(H0 float64) (time float64) {
 	hubbleTime := (1 / H0)  // 1/(km/s/Mpc) = Mpc s / km
 	hubbleTime *= kmInAMpc  // s
 	hubbleTime /= secInAGyr // Gyr
@@ -339,7 +339,7 @@ func HubbleTime(H0 float64) (time float64) {
 // Equation is in many sources.  Sppecifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 3
 func ageOL(z, Ol0, H0 float64) (time float64) {
-	return HubbleTime(H0) * (1 / math.Sqrt(Ol0)) *
+	return hubbleTime(H0) * (1 / math.Sqrt(Ol0)) *
 		math.Asinh(1/((1+z)*math.Sqrt((1/Ol0)-1)))
 }
 
@@ -355,7 +355,7 @@ func ageOL(z, Ol0, H0 float64) (time float64) {
 // Equation is in many sources.  Specifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
 func ageOM(z, Om0, H0 float64) (time float64) {
-	return HubbleTime(H0) *
+	return hubbleTime(H0) *
 		(math.Sqrt(1+Om0*z)/((1-Om0)*(1+z)) -
 			Om0*math.Pow(1-Om0, -3./2)*math.Asinh(math.Sqrt((1/Om0-1)/(1+z))))
 }
