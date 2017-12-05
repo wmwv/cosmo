@@ -6,6 +6,18 @@ import (
 	"testing"
 )
 
+func TestCosmologyInterface(t *testing.T) {
+	age_distance := func(cos Cosmology) {
+		z := 0.5
+		age := cos.Age(z)
+		dc := cos.ComovingDistance(z)
+		_, _ = age, dc
+	}
+
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	age_distance(cos)
+}
+
 // TestE* tests that basic calculation of E
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestELcdm(t *testing.T) {
