@@ -35,7 +35,7 @@ type Cosmology struct {
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
 	Ok0     float64 // Curvature Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
-	w0      float64 // Dark energy equation-of-state parameter
+	W0      float64 // Dark energy equation-of-state parameter
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
 	Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
@@ -366,13 +366,13 @@ func (cos *Cosmology) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
 	var deScale float64
 	// TODO
-	// Consider an if or switch on the value of cos.w0
+	// Consider an if or switch on the value of cos.W0
 	// Do performance testing to see in what circumstances it matters.
-	switch cos.w0 {
+	switch cos.W0 {
 	case -1:
 		deScale = 1
 	default:
-		deScale = math.Pow(1+z, 3*(1+cos.w0))
+		deScale = math.Pow(1+z, 3*(1+cos.W0))
 	}
 	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) + cos.Ol0*deScale)
 	return ez
