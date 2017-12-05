@@ -29,6 +29,33 @@ const kmInAMpc = 3.08567758149137e19 // km/Mpc
 //   365*24*3600 * one billion
 const secInAGyr = 31557600 * 1e9 // s/Gyr
 
+// Cosmology specifies all of the functions we need for cosmological calculation
+type Cosmology interface {
+	Age(z float64) (time float64)
+	AgeFlatLCDM(z float64) (time float64)
+	AgeIntegrate(z float64) (time float64)
+	AgeOL(z float64) (time float64)
+	AgeOM(z float64) (time float64)
+	AngularDiameterDistance(z float64) (distance float64)
+	ComovingDistance(z float64) (distance float64)
+	ComovingDistanceOM(z float64) (distance float64)
+	ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64)
+	ComovingDistanceZ1Z2(z1, z2 float64) (distance float64)
+	ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64)
+	ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64)
+	ComovingTransverseDistance(z float64) (distance float64)
+	ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance float64)
+	DistanceModulus(z float64) (distmod float64)
+	E(z float64) (ez float64)
+	Einv(z float64) (invEz float64)
+	HubbleDistance() float64
+	LookbackTime(z float64) (time float64)
+	LookbackTimeIntegrate(z float64) (time float64)
+	LookbackTimeOL(z float64) (time float64)
+	LookbackTimeOM(z float64) (time float64)
+	LuminosityDistance(z float64) (distance float64)
+}
+
 // LambdaCDM stores the key information needed for a given cosmology
 type LambdaCDM struct {
 	Om0     float64 // Matter Density at z=0
