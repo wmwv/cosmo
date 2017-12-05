@@ -316,7 +316,10 @@ func TestAgeOM(t *testing.T) {
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.FlatLambdaCDM(70, 0.3).lookback_time
+	// Calculated via
+	//   import astropy.cosmology
+	//   z = [0.5, 1.0, 2.0, 3.0]
+	//   astropy.cosmology.LambdaCDM(70, 0.3, 0.).age(z)
 	exp_vec = []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065}
 	for i, z := range z_vec {
 		obs = cos.AgeOM(z)
