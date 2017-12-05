@@ -10,7 +10,7 @@ import (
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestELcdm(t *testing.T) {
 	var exp, obs, tol float64
-	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -37,7 +37,7 @@ func TestELcdm(t *testing.T) {
 func TestDistanceModulus(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-8
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -58,7 +58,7 @@ func TestDistanceModulus(t *testing.T) {
 func TestLuminosityDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -79,7 +79,7 @@ func TestLuminosityDistance(t *testing.T) {
 func TestAngularDiameterDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -100,7 +100,7 @@ func TestAngularDiameterDistance(t *testing.T) {
 func TestComovingTransverseDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -121,7 +121,7 @@ func TestComovingTransverseDistance(t *testing.T) {
 func TestComovingDistanceZ1Z2Integrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -142,7 +142,7 @@ func TestComovingDistanceZ1Z2Integrate(t *testing.T) {
 func TestComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	//	z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -163,7 +163,7 @@ func TestComovingDistanceZ1Z2Elliptic(t *testing.T) {
 func TestLookbackTime(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -182,7 +182,7 @@ func TestLookbackTime(t *testing.T) {
 func TestLookbackTimeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -201,7 +201,7 @@ func TestLookbackTimeIntegrate(t *testing.T) {
 func TestLookbackTimeOM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -220,7 +220,7 @@ func TestLookbackTimeOM(t *testing.T) {
 func TestLookbackTimeOL(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -239,7 +239,7 @@ func TestLookbackTimeOL(t *testing.T) {
 func TestAge(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.6, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.6, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 
@@ -263,7 +263,7 @@ func TestAge(t *testing.T) {
 func TestAgeFlatLCDM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -287,7 +287,7 @@ func TestAgeFlatLCDM(t *testing.T) {
 func TestAgeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -312,7 +312,7 @@ func TestAgeOM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
 	var ageIntegrate float64
-	cos := Cosmology{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -340,7 +340,7 @@ func TestAgeOM(t *testing.T) {
 func TestAgeOL(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := Cosmology{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -360,7 +360,7 @@ func TestAgeOL(t *testing.T) {
 func TestEOm(t *testing.T) {
 	var z_vec []float64
 	var obs, exp, tol float64
-	cos := Cosmology{Om0: 1.0, Ol0: 0., Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 1.0, Ol0: 0., Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 	tol = 1e-9
 	z_vec = []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
@@ -376,7 +376,7 @@ func TestEOm(t *testing.T) {
 }
 
 func TestEvecLcdm(t *testing.T) {
-	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -1.0, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
 	// Check array
 	z := []float64{0.5, 1.0}
 	// Calculated using astropy.cosmology.FlatLambdaCDM (v1.3.2)
@@ -392,7 +392,7 @@ func TestEvecLcdm(t *testing.T) {
 // Check value of E(z = [0.5, 1.0])
 // Testing both value and array
 func TestEwCDM(t *testing.T) {
-	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, w0: -0.9, Tcmb0: 0.}
+	cos := Cosmology{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -0.9, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
 	exp := 1.7489240754
