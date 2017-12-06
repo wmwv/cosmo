@@ -57,6 +57,25 @@ type Cosmology interface {
 }
 
 // LambdaCDM stores the key information needed for a given cosmology
+//
+// The methods are implemented as value receivers
+// There's a mild performance hit for using value receivers instead of pointer receivers
+//   40% for individual calls to Einv, Einv
+//   1-2% for calls to the general *Distance methods.
+//
+// For now the use case model with the Cosmology interface seems more amenable
+// to value receivers and the performance penalty is acceptable.
+//
+//  func TestCosmologyInterface(t *testing.T) {
+//    age_distance := func(cos Cosmology) {
+//        z := 0.5
+//        age := cos.Age(z)
+//        dc := cos.ComovingDistance(z)
+//        _, _ = age, dc
+//    }
+//
+//  cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+//  age_distance(cos)
 type LambdaCDM struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
