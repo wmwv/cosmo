@@ -23,14 +23,13 @@ import (
 //        _, _ = age, dc
 //    }
 //
-//  cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+//  cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 //  age_distance(cos)
 type LambdaCDM struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
 	Ok0     float64 // Curvature Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
-	W0      float64 // Dark energy equation-of-state parameter
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
 	Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
@@ -261,16 +260,7 @@ func (cos LambdaCDM) AgeOM(z float64) (time float64) {
 // E.g., Hogg arXiv:9905116  Eq. 14
 func (cos LambdaCDM) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
-	var deScale float64
-	// TODO
-	// Consider an if or switch on the value of cos.W0
-	// Do performance testing to see in what circumstances it matters.
-	switch cos.W0 {
-	case -1:
-		deScale = 1
-	default:
-		deScale = math.Pow(1+z, 3*(1+cos.W0))
-	}
+	deScale := 1.0
 	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) + cos.Ol0*deScale)
 	return ez
 }

@@ -6,7 +6,7 @@ import (
 )
 
 func benchmarkEN(n int, b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 
 	var z float64
 	z_max := 1.0
@@ -28,7 +28,7 @@ func BenchmarkENdistance(b *testing.B) {
 }
 
 func BenchmarkE(b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.E(z)
@@ -36,7 +36,7 @@ func BenchmarkE(b *testing.B) {
 }
 
 func BenchmarkEinv(b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.Einv(z)
@@ -46,7 +46,7 @@ func BenchmarkEinv(b *testing.B) {
 // benchmarkDistanceOM is a helper function to be called by specific benchmarks
 //   for an Omega_Lambda = 0 cosmology
 func benchmarkDistanceOM(distFunc string, b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0., Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0., Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -57,7 +57,7 @@ func benchmarkDistanceOM(distFunc string, b *testing.B) {
 
 // benchmarkDistance is a helper function to be called by specific benchmarks
 func benchmarkDistance(distFunc string, b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -68,7 +68,7 @@ func benchmarkDistance(distFunc string, b *testing.B) {
 
 // benchmarkNdistance is a helper function to be called by specific benchmarks
 func benchmarkNdistance(n int, distFunc string, b *testing.B) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, W0: -1.0, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
 	z_max := 1.0
