@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func benchmarkEN(n int, b *testing.B) {
+func benchmarkLambdaCDMEN(n int, b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 
 	var z float64
@@ -19,15 +19,15 @@ func benchmarkEN(n int, b *testing.B) {
 	}
 }
 
-func BenchmarkEN(b *testing.B) {
-	benchmarkEN(10000, b)
+func BenchmarkLambdaCDMEN(b *testing.B) {
+	benchmarkLambdaCDMEN(10000, b)
 }
 
-func BenchmarkENdistance(b *testing.B) {
-	benchmarkNdistance(10000, "E", b)
+func BenchmarkLambdaCDMENdistance(b *testing.B) {
+	benchmarkLambdaCDMNdistance(10000, "E", b)
 }
 
-func BenchmarkE(b *testing.B) {
+func BenchmarkLambdaCDME(b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
@@ -35,7 +35,7 @@ func BenchmarkE(b *testing.B) {
 	}
 }
 
-func BenchmarkEinv(b *testing.B) {
+func BenchmarkLambdaCDMEinv(b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
@@ -43,9 +43,9 @@ func BenchmarkEinv(b *testing.B) {
 	}
 }
 
-// benchmarkDistanceOM is a helper function to be called by specific benchmarks
+// benchmarkLambdaCDMDistanceOM is a helper function to be called by specific benchmarkLambdaCDMs
 //   for an Omega_Lambda = 0 cosmology
-func benchmarkDistanceOM(distFunc string, b *testing.B) {
+func benchmarkLambdaCDMDistanceOM(distFunc string, b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0., Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 
@@ -55,8 +55,8 @@ func benchmarkDistanceOM(distFunc string, b *testing.B) {
 	}
 }
 
-// benchmarkDistance is a helper function to be called by specific benchmarks
-func benchmarkDistance(distFunc string, b *testing.B) {
+// benchmarkLambdaCDMDistance is a helper function to be called by specific benchmarkLambdaCDMs
+func benchmarkLambdaCDMDistance(distFunc string, b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	z := 1.0
 
@@ -66,8 +66,8 @@ func benchmarkDistance(distFunc string, b *testing.B) {
 	}
 }
 
-// benchmarkNdistance is a helper function to be called by specific benchmarks
-func benchmarkNdistance(n int, distFunc string, b *testing.B) {
+// benchmarkLambdaCDMNdistance is a helper function to be called by specific benchmarkLambdaCDMs
+func benchmarkLambdaCDMNdistance(n int, distFunc string, b *testing.B) {
 	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
@@ -81,38 +81,38 @@ func benchmarkNdistance(n int, distFunc string, b *testing.B) {
 	}
 }
 
-func BenchmarkComovingDistance(b *testing.B) {
-	benchmarkDistance("ComovingDistance", b)
+func BenchmarkLambdaCDMComovingDistance(b *testing.B) {
+	benchmarkLambdaCDMDistance("ComovingDistance", b)
 }
 
-func BenchmarkComovingTransverseDistance(b *testing.B) {
-	benchmarkDistance("ComovingTransverseDistance", b)
+func BenchmarkLambdaCDMComovingTransverseDistance(b *testing.B) {
+	benchmarkLambdaCDMDistance("ComovingTransverseDistance", b)
 }
 
-func BenchmarkLuminosityDistance(b *testing.B) {
-	benchmarkDistance("LuminosityDistance", b)
+func BenchmarkLambdaCDMLuminosityDistance(b *testing.B) {
+	benchmarkLambdaCDMDistance("LuminosityDistance", b)
 }
 
-func BenchmarkLookbackTime(b *testing.B) {
-	benchmarkDistance("LookbackTime", b)
+func BenchmarkLambdaCDMLookbackTime(b *testing.B) {
+	benchmarkLambdaCDMDistance("LookbackTime", b)
 }
 
-func BenchmarkNComovingDistance(b *testing.B) {
-	benchmarkNdistance(10000, "ComovingDistance", b)
+func BenchmarkLambdaCDMNComovingDistance(b *testing.B) {
+	benchmarkLambdaCDMNdistance(10000, "ComovingDistance", b)
 }
 
-func BenchmarkNLuminosityDistance(b *testing.B) {
-	benchmarkNdistance(10000, "LuminosityDistance", b)
+func BenchmarkLambdaCDMNLuminosityDistance(b *testing.B) {
+	benchmarkLambdaCDMNdistance(10000, "LuminosityDistance", b)
 }
 
-func BenchmarkNE(b *testing.B) {
-	benchmarkNdistance(10000, "E", b)
+func BenchmarkLambdaCDMNE(b *testing.B) {
+	benchmarkLambdaCDMNdistance(10000, "E", b)
 }
 
-func BenchmarkComovingDistanceOM(b *testing.B) {
-	benchmarkDistanceOM("ComovingDistance", b)
+func BenchmarkLambdaCDMComovingDistanceOM(b *testing.B) {
+	benchmarkLambdaCDMDistanceOM("ComovingDistance", b)
 }
 
-func BenchmarkLookbackTimeOM(b *testing.B) {
-	benchmarkDistanceOM("LookbackTime", b)
+func BenchmarkLambdaCDMLookbackTimeOM(b *testing.B) {
+	benchmarkLambdaCDMDistanceOM("LookbackTime", b)
 }
