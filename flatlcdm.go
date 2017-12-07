@@ -5,7 +5,7 @@ import (
 	"math"
 )
 
-// LambdaCDM stores the key information needed for a given cosmology
+// FlatLCDM stores the key information needed for a given cosmology
 //
 // The methods are implemented as value receivers
 // There's a mild performance hit for using value receivers instead of pointer receivers
@@ -23,9 +23,9 @@ import (
 //        _, _ = age, dc
 //    }
 //
-//  cos := FlatCDM{Om0: 0.27, H0: 70, W0: -1.0, Tcmb0: 0.}
+//  cos := FlatLCDM{Om0: 0.27, H0: 70, W0: -1.0, Tcmb0: 0.}
 //  age_distance(cos)
-type FlatCDM struct {
+type FlatLCDM struct {
 	Om0     float64 // Matter Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	W0      float64 // Dark energy equation-of-state parameter
@@ -40,7 +40,7 @@ type FlatCDM struct {
 // z : redshift
 //
 // distmod : [mag]
-func (cos FlatCDM) DistanceModulus(z float64) (distmod float64) {
+func (cos FlatLCDM) DistanceModulus(z float64) (distmod float64) {
 	return 5*math.Log10(cos.LuminosityDistance(z)) + 25
 }
 
@@ -48,7 +48,7 @@ func (cos FlatCDM) DistanceModulus(z float64) (distmod float64) {
 // z : redshift
 //
 // distance : Mpc
-func (cos FlatCDM) LuminosityDistance(z float64) (distance float64) {
+func (cos FlatLCDM) LuminosityDistance(z float64) (distance float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }
 
@@ -56,7 +56,7 @@ func (cos FlatCDM) LuminosityDistance(z float64) (distance float64) {
 // z : redshift
 //
 // distance : Mpc/rad
-func (cos FlatCDM) AngularDiameterDistance(z float64) (distance float64) {
+func (cos FlatLCDM) AngularDiameterDistance(z float64) (distance float64) {
 	return cos.ComovingTransverseDistance(z) / (1 + z)
 }
 
@@ -64,7 +64,7 @@ func (cos FlatCDM) AngularDiameterDistance(z float64) (distance float64) {
 // z : redshift
 //
 // distance : Mpc
-func (cos FlatCDM) ComovingTransverseDistance(z float64) (distance float64) {
+func (cos FlatLCDM) ComovingTransverseDistance(z float64) (distance float64) {
 	return cos.ComovingTransverseDistanceZ1Z2(0, z)
 }
 
@@ -72,7 +72,7 @@ func (cos FlatCDM) ComovingTransverseDistance(z float64) (distance float64) {
 // z : redshift
 //
 // distance : Mpc
-func (cos FlatCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance float64) {
+func (cos FlatLCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
 	return comovingDistance
 }
@@ -80,7 +80,7 @@ func (cos FlatCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance floa
 // HubbleDistance is the inverse of the Hubble parameter
 //
 // distance : Mpc
-func (cos FlatCDM) HubbleDistance() float64 {
+func (cos FlatLCDM) HubbleDistance() float64 {
 	return SpeedOfLightKmS / cos.H0
 }
 
@@ -91,7 +91,7 @@ func (cos FlatCDM) HubbleDistance() float64 {
 // will be separated by a proper distance of 10*2 Mpc at a=1.0 (z=0)
 // The comoving distance between these objects is 20 Mpc
 //
-func (cos FlatCDM) ComovingDistance(z float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistance(z float64) (distance float64) {
 	return cos.ComovingDistanceZ1Z2(0, z)
 }
 
@@ -104,7 +104,7 @@ func (cos FlatCDM) ComovingDistance(z float64) (distance float64) {
 //     Mészáros & Řípai 2013, A&A, 556, A13.
 // and a useful summary in
 //     Baes, Camps, Van De Putte, 2017, MNRAS, 468, 927.
-func (cos FlatCDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64) {
 	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
 	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
 	return prefactor * (tElliptic(s/(1+z1)) - tElliptic(s/(1+z2)))
@@ -112,7 +112,7 @@ func (cos FlatCDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float6
 
 // ComovingDistanceZ1Z2Integrate is the comoving distance between two z
 //   in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
-func (cos FlatCDM) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
@@ -120,7 +120,7 @@ func (cos FlatCDM) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float
 // ComovingDistanceZ1Z2 is the base function for calculation of comoving distances
 //   Here is where the choice of fundamental calculation method is made:
 //   Elliptic integral, quadrature integration, or analytic for special cases.
-func (cos FlatCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	switch {
 	case cos.Om0 < 1:
 		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
@@ -130,7 +130,7 @@ func (cos FlatCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 }
 
 // ComovingDistanceOM is the analytic case of Omega_total=Omega_M
-func (cos FlatCDM) ComovingDistanceOM(z float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistanceOM(z float64) (distance float64) {
 	// Call the internal function that just takes direct arguments
 	//   with nothing passed via the struct.
 	return comovingDistanceOM(z, cos.Om0, cos.H0)
@@ -143,7 +143,7 @@ func (cos FlatCDM) ComovingDistanceOM(z float64) (distance float64) {
 //  and allow it to be a shortcut option in ComovingDistanceZ1Z2.
 // Naively, it's twice as expensive to do this as (0, z2)
 // But this is such a trivial calculation, it probably doesn't matter.
-func (cos FlatCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {
+func (cos FlatLCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {
 	return comovingDistanceOM(z2, cos.Om0, cos.H0) -
 		comovingDistanceOM(z1, cos.Om0, cos.H0)
 }
@@ -151,7 +151,7 @@ func (cos FlatCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {
 // LookbackTime is the time from redshift 0 to z.
 //
 // z : redshift
-func (cos FlatCDM) LookbackTime(z float64) (time float64) {
+func (cos FlatLCDM) LookbackTime(z float64) (time float64) {
 	switch {
 	case (0 < cos.Om0) && (cos.Om0 != 1):
 		return cos.LookbackTimeOM(z)
@@ -163,7 +163,7 @@ func (cos FlatCDM) LookbackTime(z float64) (time float64) {
 // LookbackTimeIntegrate is the lookback time using explicit integration
 //
 // z : redshift
-func (cos FlatCDM) LookbackTimeIntegrate(z float64) (time float64) {
+func (cos FlatLCDM) LookbackTimeIntegrate(z float64) (time float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
@@ -173,14 +173,14 @@ func (cos FlatCDM) LookbackTimeIntegrate(z float64) (time float64) {
 // All matter is non-relativistic.
 //
 // z : redshift
-func (cos FlatCDM) LookbackTimeOM(z float64) (time float64) {
+func (cos FlatLCDM) LookbackTimeOM(z float64) (time float64) {
 	return lookbackTimeOM(z, cos.Om0, cos.H0)
 }
 
 // Age is the time from redshift ∞ to z.
 //
 // z : redshift
-func (cos FlatCDM) Age(z float64) (time float64) {
+func (cos FlatLCDM) Age(z float64) (time float64) {
 	return cos.AgeFlatLCDM(z)
 }
 
@@ -189,7 +189,7 @@ func (cos FlatCDM) Age(z float64) (time float64) {
 //
 // Equation is in many sources.
 // I took this from Thomas and Kantowski, 2000 PRD, 62, 103507.
-func (cos FlatCDM) AgeFlatLCDM(z float64) (time float64) {
+func (cos FlatLCDM) AgeFlatLCDM(z float64) (time float64) {
 	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
 		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
 }
@@ -201,7 +201,7 @@ func (cos FlatCDM) AgeFlatLCDM(z float64) (time float64) {
 // I happened to copy this from
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 1.
 // Current implementation is fixed quadrature using mathext.integrate.quad.Fixed
-func (cos FlatCDM) AgeIntegrate(z float64) (time float64) {
+func (cos FlatLCDM) AgeIntegrate(z float64) (time float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 {
 		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z))
@@ -215,13 +215,13 @@ func (cos FlatCDM) AgeIntegrate(z float64) (time float64) {
 // AgeOL is the time from redshift ∞ to z
 // with only non-relativistic matter and curvature.
 // z : redshift
-func (cos FlatCDM) AgeOM(z float64) (time float64) {
+func (cos FlatLCDM) AgeOM(z float64) (time float64) {
 	return ageOM(z, cos.Om0, cos.H0)
 }
 
 // E is the Hubble parameter as a fraction of its present value.
 // E.g., Hogg arXiv:9905116  Eq. 14
-func (cos FlatCDM) E(z float64) (ez float64) {
+func (cos FlatLCDM) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
 	Ok0 := 1 - cos.Om0
 	ez = math.Sqrt((1 + z) * (1 + z) * ((oR*(1+z)+cos.Om0)*(1+z) + Ok0))
@@ -230,7 +230,7 @@ func (cos FlatCDM) E(z float64) (ez float64) {
 
 // Einv is the inverse Hubble parameter
 // Implementation is just to return E(z)
-func (cos FlatCDM) Einv(z float64) (invEz float64) {
+func (cos FlatLCDM) Einv(z float64) (invEz float64) {
 	// 1/Sqrt() is not notably slower than Pow(-0.5)
 	//
 	// Pow(-0.5) is in fact implemented as 1/Sqrt() in math.pow.go
@@ -247,7 +247,7 @@ func (cos FlatCDM) Einv(z float64) (invEz float64) {
 // I haven't figured out whether this is useful or makes sense
 // in a Go framework, which looping over functions is more expected.
 // thank in IDL, Matlab, or Python numpy+scipy worlds.
-func (cos FlatCDM) Evec(z []float64) (ez []float64) {
+func (cos FlatLCDM) Evec(z []float64) (ez []float64) {
 	for _, z := range z {
 		ez = append(ez, cos.E(z))
 	}

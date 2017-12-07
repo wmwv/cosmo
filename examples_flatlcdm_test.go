@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestFlatCDMCosmologyInterface(t *testing.T) {
+func TestFlatLCDMCosmologyInterface(t *testing.T) {
 	age_distance := func(cos Cosmology) {
 		z := 0.5
 		age := cos.Age(z)
@@ -14,15 +14,15 @@ func TestFlatCDMCosmologyInterface(t *testing.T) {
 		_, _ = age, dc
 	}
 
-	cos := FlatCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
 	age_distance(cos)
 }
 
 // TestE* tests that basic calculation of E
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
-func TestFlatCDMELcdm(t *testing.T) {
+func TestFlatLCDMELcdm(t *testing.T) {
 	var exp, obs, tol float64
-	cos := FlatCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -46,10 +46,10 @@ func TestFlatCDMELcdm(t *testing.T) {
 	}
 }
 
-func TestFlatCDMDistanceModulus(t *testing.T) {
+func TestFlatLCDMDistanceModulus(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-8
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -67,10 +67,10 @@ func TestFlatCDMDistanceModulus(t *testing.T) {
 	}
 }
 
-func TestFlatCDMLuminosityDistance(t *testing.T) {
+func TestFlatLCDMLuminosityDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -88,10 +88,10 @@ func TestFlatCDMLuminosityDistance(t *testing.T) {
 	}
 }
 
-func TestFlatCDMAngularDiameterDistance(t *testing.T) {
+func TestFlatLCDMAngularDiameterDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -109,10 +109,10 @@ func TestFlatCDMAngularDiameterDistance(t *testing.T) {
 	}
 }
 
-func TestFlatCDMComovingTransverseDistance(t *testing.T) {
+func TestFlatLCDMComovingTransverseDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -130,10 +130,10 @@ func TestFlatCDMComovingTransverseDistance(t *testing.T) {
 	}
 }
 
-func TestFlatCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
+func TestFlatLCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -151,10 +151,10 @@ func TestFlatCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	}
 }
 
-func TestFlatCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
+func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -172,14 +172,14 @@ func TestFlatCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	}
 }
 
-func TestFlatCDMLookbackTime(t *testing.T) {
+func TestFlatLCDMLookbackTime(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.FlatFlatCDM(70, 0.3).lookback_time
+	// Calculated via astropy.cosmology.FlatFlatLCDM(70, 0.3).lookback_time
 	exp_vec = []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}
 	for i, z := range z_vec {
 		obs = cos.LookbackTime(z)
@@ -191,14 +191,14 @@ func TestFlatCDMLookbackTime(t *testing.T) {
 	}
 }
 
-func TestFlatCDMLookbackTimeIntegrate(t *testing.T) {
+func TestFlatLCDMLookbackTimeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.FlatFlatCDM(70, 0.3).lookback_time
+	// Calculated via astropy.cosmology.FlatFlatLCDM(70, 0.3).lookback_time
 	exp_vec = []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}
 	for i, z := range z_vec {
 		obs = cos.LookbackTimeIntegrate(z)
@@ -210,10 +210,10 @@ func TestFlatCDMLookbackTimeIntegrate(t *testing.T) {
 	}
 }
 
-func TestFlatCDMAgeFlatLCDM(t *testing.T) {
+func TestFlatLCDMAgeFlatLCDM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -221,7 +221,7 @@ func TestFlatCDMAgeFlatLCDM(t *testing.T) {
 	// Calculated via
 	//   import astropy.cosmology
 	//   z = [0.5, 1.0, 2.0, 3.0]
-	//   astropy.cosmology.FlatFlatCDM(70, 0.3).age(z)
+	//   astropy.cosmology.FlatFlatLCDM(70, 0.3).age(z)
 	exp_vec = []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
@@ -234,10 +234,10 @@ func TestFlatCDMAgeFlatLCDM(t *testing.T) {
 	}
 }
 
-func TestFlatCDMAgeIntegrate(t *testing.T) {
+func TestFlatLCDMAgeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := FlatCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -245,7 +245,7 @@ func TestFlatCDMAgeIntegrate(t *testing.T) {
 	// Calculated via
 	//   import astropy.cosmology
 	//   z = [0.5, 1.0, 2.0, 3.0]
-	//   astropy.cosmology.FlatFlatCDM(70, 0.3).age(z)
+	//   astropy.cosmology.FlatFlatLCDM(70, 0.3).age(z)
 	exp_vec = []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
@@ -259,10 +259,10 @@ func TestFlatCDMAgeIntegrate(t *testing.T) {
 }
 
 // Analytic case of Omega_Lambda = 0
-func TestFlatCDMEOm(t *testing.T) {
+func TestFlatLCDMEOm(t *testing.T) {
 	var z_vec []float64
 	var obs, exp, tol float64
-	cos := FlatCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
+	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
 	tol = 1e-9
 	z_vec = []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
@@ -277,11 +277,11 @@ func TestFlatCDMEOm(t *testing.T) {
 	}
 }
 
-func TestFlatCDMEvecLcdm(t *testing.T) {
-	cos := FlatCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
+func TestFlatLCDMEvecLcdm(t *testing.T) {
+	cos := FlatLCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
 	// Check array
 	z := []float64{0.5, 1.0}
-	// Calculated using astropy.cosmology.FlatFlatCDM (v1.3.2)
+	// Calculated using astropy.cosmology.FlatFlatLCDM (v1.3.2)
 	exp := []float64{1.2811127975318957, 1.7}
 	tol := 1e-9
 	obs := cos.Evec(z)
