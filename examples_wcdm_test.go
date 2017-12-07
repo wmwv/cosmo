@@ -349,25 +349,6 @@ func TestWCDMAgeOM(t *testing.T) {
 	}
 }
 
-func TestWCDMAgeOL(t *testing.T) {
-	var z_vec, exp_vec []float64
-	var obs, tol float64
-	cos := WCDM{Om0: 0., Ol0: 0.5, W0: -0.8, H0: 70, Tcmb0: 0.}
-
-	tol = 1e-6
-	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.wCDM(70, 0., 0.5, w0=-0.8).age
-	exp_vec = []float64{11.92761171, 9.21171467, 6.31668938, 4.80011133}
-	for i, z := range z_vec {
-		obs = cos.AgeOL(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed (OM, OL)=(0, 0.5) age test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-	}
-}
-
 // Analytic case of Omega_Lambda = 0
 func TestWCDMEOm(t *testing.T) {
 	var z_vec []float64
