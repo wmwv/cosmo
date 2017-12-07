@@ -184,9 +184,9 @@ func TestWCDMLookbackTime(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.LookbackTime(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM lookback time test."+
+			t.Errorf("Failed flat wCDM w0=%.1f lookback time test."+
 				"  Expected %f, return %f",
-				exp_vec[i], obs)
+				cos.W0, exp_vec[i], obs)
 		}
 	}
 }
@@ -194,18 +194,18 @@ func TestWCDMLookbackTime(t *testing.T) {
 func TestWCDMLookbackTimeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.2).lookback_time
-	exp_vec = []float64{5.18796426, 7.98542226, 10.58842012, 11.71902479}
+	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.1).lookback_time
+	exp_vec = []float64{5.11509518, 7.85406053, 10.42213038, 11.54588106}
 	for i, z := range z_vec {
 		obs = cos.LookbackTimeIntegrate(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM lookback time integrate test."+
+			t.Errorf("Failed flat wCDM w0=%.1f lookback time integrate test."+
 				"  Expected %f, return %f",
-				exp_vec[i], obs)
+				cos.W0, exp_vec[i], obs)
 		}
 	}
 }
