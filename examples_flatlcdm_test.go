@@ -20,7 +20,7 @@ func TestFlatLCDMCosmologyInterface(t *testing.T) {
 
 // TestE* tests that basic calculation of E
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
-func TestFlatLCDMELcdm(t *testing.T) {
+func TestFlatLCDME(t *testing.T) {
 	var exp, obs, tol float64
 	cos := FlatLCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
 
