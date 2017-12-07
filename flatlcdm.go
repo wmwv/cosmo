@@ -152,12 +152,7 @@ func (cos FlatLCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {
 //
 // z : redshift
 func (cos FlatLCDM) LookbackTime(z float64) (time float64) {
-	switch {
-	case (0 < cos.Om0) && (cos.Om0 != 1):
-		return cos.LookbackTimeOM(z)
-	default:
-		return cos.LookbackTimeIntegrate(z)
-	}
+	return cos.LookbackTimeIntegrate(z)
 }
 
 // LookbackTimeIntegrate is the lookback time using explicit integration
@@ -203,8 +198,9 @@ func (cos FlatLCDM) AgeFlatLCDM(z float64) (time float64) {
 // Current implementation is fixed quadrature using mathext.integrate.quad.Fixed
 func (cos FlatLCDM) AgeIntegrate(z float64) (time float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
+	Ol0 := 1 - cos.Om0
 	integrand := func(z float64) float64 {
-		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z))
+		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z)-z*(2+z)*Ol0)
 		return 1 / denom
 	}
 	// When given math.Inf(), quad.Fixed automatically redefines variables
