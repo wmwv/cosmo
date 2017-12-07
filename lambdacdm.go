@@ -23,12 +23,11 @@ import (
 //        _, _ = age, dc
 //    }
 //
-//  cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
+//  cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, H0: 70, Tcmb0: 0.}
 //  age_distance(cos)
 type LambdaCDM struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
-	Ok0     float64 // Curvature Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
@@ -75,13 +74,14 @@ func (cos LambdaCDM) ComovingTransverseDistance(z float64) (distance float64) {
 // distance : Mpc
 func (cos LambdaCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
-	if cos.Ok0 == 0 {
+	Ok0 := 1 - (cos.Om0 + cos.Ol0)
+	if Ok0 == 0 {
 		return comovingDistance
 	}
 
 	hubbleDistance := cos.HubbleDistance()
 	return hubbleDistance /
-		math.Sinh(math.Sqrt(cos.Ok0)*comovingDistance/hubbleDistance)
+		math.Sinh(math.Sqrt(Ok0)*comovingDistance/hubbleDistance)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter
@@ -261,7 +261,8 @@ func (cos LambdaCDM) AgeOM(z float64) (time float64) {
 func (cos LambdaCDM) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
 	deScale := 1.0
-	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+cos.Ok0) + cos.Ol0*deScale)
+	Ok0 := 1 - (cos.Om0 + cos.Ol0)
+	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+Ok0) + cos.Ol0*deScale)
 	return ez
 }
 

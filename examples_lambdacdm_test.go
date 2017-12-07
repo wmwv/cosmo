@@ -14,7 +14,7 @@ func TestLambdaCDMCosmologyInterface(t *testing.T) {
 		_, _ = age, dc
 	}
 
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, H0: 70, Tcmb0: 0.}
 	age_distance(cos)
 }
 
@@ -22,7 +22,7 @@ func TestLambdaCDMCosmologyInterface(t *testing.T) {
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestLambdaCDMELcdm(t *testing.T) {
 	var exp, obs, tol float64
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, H0: 70, Tcmb0: 0.}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -49,7 +49,7 @@ func TestLambdaCDMELcdm(t *testing.T) {
 func TestLambdaCDMDistanceModulus(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-8
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -70,7 +70,7 @@ func TestLambdaCDMDistanceModulus(t *testing.T) {
 func TestLambdaCDMLuminosityDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -91,7 +91,7 @@ func TestLambdaCDMLuminosityDistance(t *testing.T) {
 func TestLambdaCDMAngularDiameterDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -112,7 +112,7 @@ func TestLambdaCDMAngularDiameterDistance(t *testing.T) {
 func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -133,7 +133,7 @@ func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
 func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -154,7 +154,7 @@ func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
@@ -175,7 +175,7 @@ func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 func TestLambdaCDMLookbackTime(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -194,7 +194,7 @@ func TestLambdaCDMLookbackTime(t *testing.T) {
 func TestLambdaCDMLookbackTimeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -213,7 +213,7 @@ func TestLambdaCDMLookbackTimeIntegrate(t *testing.T) {
 func TestLambdaCDMLookbackTimeOM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -232,7 +232,7 @@ func TestLambdaCDMLookbackTimeOM(t *testing.T) {
 func TestLambdaCDMLookbackTimeOL(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0., Ol0: 0.5, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -251,7 +251,7 @@ func TestLambdaCDMLookbackTimeOL(t *testing.T) {
 func TestLambdaCDMAge(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.6, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.6, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 
@@ -275,7 +275,7 @@ func TestLambdaCDMAge(t *testing.T) {
 func TestLambdaCDMAgeFlatLCDM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -299,7 +299,7 @@ func TestLambdaCDMAgeFlatLCDM(t *testing.T) {
 func TestLambdaCDMAgeIntegrate(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -324,7 +324,7 @@ func TestLambdaCDMAgeOM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
 	var ageIntegrate float64
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0., Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -352,7 +352,7 @@ func TestLambdaCDMAgeOM(t *testing.T) {
 func TestLambdaCDMAgeOL(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := LambdaCDM{Om0: 0., Ol0: 0.5, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0., Ol0: 0.5, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
@@ -372,7 +372,7 @@ func TestLambdaCDMAgeOL(t *testing.T) {
 func TestLambdaCDMEOm(t *testing.T) {
 	var z_vec []float64
 	var obs, exp, tol float64
-	cos := LambdaCDM{Om0: 1.0, Ol0: 0., Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 1.0, Ol0: 0., H0: 70, Tcmb0: 0.}
 	tol = 1e-9
 	z_vec = []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
@@ -388,7 +388,7 @@ func TestLambdaCDMEOm(t *testing.T) {
 }
 
 func TestLambdaCDMEvecLcdm(t *testing.T) {
-	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, Ok0: 0., H0: 70, Tcmb0: 0.}
+	cos := LambdaCDM{Om0: 0.27, Ol0: 0.73, H0: 70, Tcmb0: 0.}
 	// Check array
 	z := []float64{0.5, 1.0}
 	// Calculated using astropy.cosmology.FlatLambdaCDM (v1.3.2)
