@@ -223,8 +223,9 @@ func (cos FlatLCDM) AgeOM(z float64) (time float64) {
 // E.g., Hogg arXiv:9905116  Eq. 14
 func (cos FlatLCDM) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
-	Ok0 := 1 - cos.Om0
-	ez = math.Sqrt((1 + z) * (1 + z) * ((oR*(1+z)+cos.Om0)*(1+z) + Ok0))
+	deScale := 1.0
+	Ol0 := 1 - cos.Om0
+	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)) + Ol0*deScale)
 	return ez
 }
 
