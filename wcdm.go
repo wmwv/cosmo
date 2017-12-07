@@ -263,10 +263,11 @@ func (cos WCDM) E(z float64) (ez float64) {
 	if cos.W0 == -1 {
 		deScale = 1.0
 	} else {
-		deScale = math.Exp(3 * (1 + cos.W0))
+		deScale = math.Pow(1+z, 3*(1.0+cos.W0))
 	}
 	Ok0 := 1 - (cos.Om0 + cos.Ol0)
-	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)+Ok0) + cos.Ol0*deScale)
+	ez = math.Sqrt((1+z)*(1+z)*(1+z)*(1+z)*oR + (1+z)*(1+z)*(1+z)*cos.Om0 +
+		(1+z)*(1+z)*Ok0 + cos.Ol0*deScale)
 	return ez
 }
 
