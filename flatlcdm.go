@@ -172,21 +172,13 @@ func (cos FlatLCDM) LookbackTimeOM(z float64) (time float64) {
 	return lookbackTimeOM(z, cos.Om0, cos.H0)
 }
 
-// Age is the time from redshift ∞ to z.
-//
-// z : redshift
-func (cos FlatLCDM) Age(z float64) (time float64) {
-	return cos.AgeFlatLCDM(z)
-}
-
 // AgeFlatLCDM is the time from redshift ∞ to z
 // in a flat LCDM cosmology.
 //
 // Equation is in many sources.
 // I took this from Thomas and Kantowski, 2000 PRD, 62, 103507.
-func (cos FlatLCDM) AgeFlatLCDM(z float64) (time float64) {
-	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
-		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
+func (cos FlatLCDM) Age(z float64) (time float64) {
+	return ageFlatLCDM(z, cos.Om0, cos.H0)
 }
 
 // AgeIntegrate is the time from redshift ∞ to z
