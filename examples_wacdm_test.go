@@ -6,7 +6,7 @@ import (
 )
 
 func TestWACDMCosmologyInterface(t *testing.T) {
-	age_distance := func(cos Cosmology) {
+	age_distance := func(cos FLRW) {
 		z := 0.5
 		age := cos.Age(z)
 		dc := cos.ComovingDistance(z)

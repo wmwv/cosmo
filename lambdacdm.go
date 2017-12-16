@@ -12,8 +12,8 @@ import (
 //   40% for individual calls to Einv, Einv
 //   1-2% for calls to the general *Distance methods.
 //
-// For now the use case model with the Cosmology interface seems more amenable
-// to value receivers and the performance penalty is acceptable.
+// For now the use case model seems more amenable to value receivers
+//   and the performance penalty is acceptable.
 //
 //  func TestCosmologyInterface(t *testing.T) {
 //    age_distance := func(cos Cosmology) {

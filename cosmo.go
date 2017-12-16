@@ -26,8 +26,9 @@ const kmInAMpc = 3.08567758149137e19 // km/Mpc
 //   365*24*3600 * one billion
 const secInAGyr = 31557600 * 1e9 // s/Gyr
 
-// Cosmology specifies all of the functions we need for cosmological calculation
-type Cosmology interface {
+// FLRW specifies all of the functions we need for cosmological calculation
+// Friedmann-Lemaître-Robertson-Walker metric.
+type FLRW interface {
 	Age(z float64) (time float64)
 	AngularDiameterDistance(z float64) (distance float64)
 	ComovingDistance(z float64) (distance float64)
