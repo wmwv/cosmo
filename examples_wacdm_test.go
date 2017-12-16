@@ -33,14 +33,14 @@ func TestWACDMELcdm(t *testing.T) {
 	obs = cos.E(1.0)
 	tol = 1e-9
 	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed flat wCDM E(z) test.  Expected %f, return %f",
+		t.Errorf("Failed flat waCDM E(z) test.  Expected %f, return %f",
 			exp, obs)
 	}
 
 	exp = 1 / 1.7
 	obs = cos.Einv(1.0)
 	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed flat wCDM Einv(z) test.  Expected %f, return %f",
+		t.Errorf("Failed flat waCDM Einv(z) test.  Expected %f, return %f",
 			exp, obs)
 	}
 }
@@ -48,16 +48,42 @@ func TestWACDMELcdm(t *testing.T) {
 func TestWACDMDistanceModulus(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 3, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-8
-	// Calculated via astropy.cosmology.w0waCDM(70, 0.3, 0.7, -1.2, 3).distmod(z)
+	// Calculated via
+	//   from astropy.cosmology import w0waCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   w0waCDM(70, 0.3, 0.7, -1.2, 3).distmod(z)
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec = []float64{42.20567831, 43.92122272, 45.57180818, 46.47483095}
 	for i, z := range z_vec {
 		obs = cos.DistanceModulus(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM luminosity distance test."+
+			t.Errorf("Failed flat waCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestWACDMLcdmDistanceModulus(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 0, H0: 70, Tcmb0: 0.}
+
+	tol = 1e-8
+	// Calculated via
+	//   from astropy.cosmology import w0waCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   w0waCDM(70, 0.3, 0.7, -1.2, 0).distmod(z)
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}
+	for i, z := range z_vec {
+		obs = cos.DistanceModulus(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat waCDM luminosity distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
@@ -72,15 +98,15 @@ func TestWACDMLuminosityDistance(t *testing.T) {
 
 	tol = 1e-6
 	// Calculated via
-	// from astropy.cosmology import w0waCDM
-	// z = np.asarray([0.5, 1.0, 2.0, 3.0])
-	// w0waCDM(70, 0.3, 0.7, -1, 2).luminosity_distance(z)
+	//   from astropy.cosmology import w0waCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   w0waCDM(70, 0.3, 0.7, -1, 2).luminosity_distance(z)
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec = []float64{2723.8564247, 6067.27548444, 13407.53496469, 21024.89761811}
 	for i, z := range z_vec {
 		obs = cos.LuminosityDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM luminosity distance test."+
+			t.Errorf("Failed flat waCDM luminosity distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
@@ -103,7 +129,7 @@ func TestWACDMAngularDiameterDistance(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.AngularDiameterDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM angular diameter distance test."+
+			t.Errorf("Failed flat waCDM angular diameter distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
@@ -126,7 +152,7 @@ func TestWACDMComovingTransverseDistance(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.ComovingTransverseDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM comoving transverse distance test."+
+			t.Errorf("Failed flat waCDM comoving transverse distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
@@ -149,7 +175,7 @@ func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.ComovingDistanceZ1Z2Integrate(0, z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM comoving distance elliptic test."+
+			t.Errorf("Failed flat waCDM comoving distance elliptic test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
@@ -172,7 +198,7 @@ func TestWACDMLookbackTime(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.LookbackTime(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM w0=%.1f lookback time test."+
+			t.Errorf("Failed flat waCDM w0=%.1f lookback time test."+
 				"  Expected %f, return %f",
 				cos.W0, exp_vec[i], obs)
 		}
@@ -194,7 +220,7 @@ func TestWACDMLookbackTimeIntegrate(t *testing.T) {
 	for i, z := range z_vec {
 		obs = cos.LookbackTimeIntegrate(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM w0=%.1f lookback time integrate test."+
+			t.Errorf("Failed flat waCDM w0=%.1f lookback time integrate test."+
 				"  Expected %f, return %f",
 				cos.W0, exp_vec[i], obs)
 		}
