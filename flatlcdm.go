@@ -213,7 +213,11 @@ func (cos FlatLCDM) E(z float64) (ez float64) {
 	oR := cos.Ogamma0 + cos.Onu0
 	deScale := 1.0
 	Ol0 := 1 - cos.Om0
-	ez = math.Sqrt((1+z)*(1+z)*((oR*(1+z)+cos.Om0)*(1+z)) + Ol0*deScale)
+	// I find it easier to explicitly // see the powers of 4, 3, and 0
+	// The compiler is good enough that this operation or
+	// 1+z vs. opz doesn't matter
+	ez = math.Sqrt((1+z)*(1+z)*(1+z)*(1+z)*oR + (1+z)*(1+z)*(1+z)*cos.Om0 +
+		Ol0*deScale)
 	return ez
 }
 
