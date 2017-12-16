@@ -1,7 +1,10 @@
-// Package cosmogo implements basic cosmology calculations in Go
+// Package cosmo implements basic cosmology calculations in Go
 //
 // Provides E, Einv, LookbackTime, Age, LuminosityDistance, DistanceModulus,
 // ComovingDistance, AngularDiameterDistance
+//
+// LambdaCDM (OM, OL, OK) unconstrained.
+// FlatLCDM  (OM, OL, OK) = (OM, 1-OM, 0)
 //
 // Equations and numerical formulae based on
 //   Hogg, https://arxiv.org/abs/astro-ph/9905116
