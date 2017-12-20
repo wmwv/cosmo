@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func ExampleWCDMDistanceModulus() {
+func ExampleWCDM_DistanceModulus() {
 	var z_vec, obs_vec []float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
 
@@ -19,7 +19,7 @@ func ExampleWCDMDistanceModulus() {
 	// [42.26118542154089 44.10023765554372 45.95719725271018 47.026111928689645]
 }
 
-func ExampleWCDMLuminosityDistance() {
+func ExampleWCDM_LuminosityDistance() {
 	var z_vec, obs_vec []float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
@@ -34,7 +34,7 @@ func ExampleWCDMLuminosityDistance() {
 	// [2832.938093900105 6607.65761177494 15539.58622322811 25422.74174518986]
 }
 
-func ExampleWCDMAngularDiameterDistance() {
+func ExampleWCDM_AngularDiameterDistance() {
 	var z_vec, obs_vec []float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
