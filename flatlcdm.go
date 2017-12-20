@@ -14,17 +14,6 @@ import (
 //
 // For now the use case model seems more amenable to value receivers
 // and the performance penalty is acceptable.
-//
-//  func TestCosmologyInterface(t *testing.T) {
-//    age_distance := func(cos Cosmology) {
-//        z := 0.5
-//        age := cos.Age(z)
-//        dc := cos.ComovingDistance(z)
-//        _, _ = age, dc
-//    }
-//
-//  cos := FlatLCDM{Om0: 0.27, H0: 70, W0: -1.0, Tcmb0: 0.}
-//  age_distance(cos)
 type FlatLCDM struct {
 	Om0     float64 // Matter Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]

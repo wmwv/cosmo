@@ -14,17 +14,6 @@ import (
 //
 // For now the use case model seems more amenable to value receivers
 // and the performance penalty is acceptable.
-//
-//  func TestCosmologyInterface(t *testing.T) {
-//    age_distance := func(cos Cosmology) {
-//        z := 0.5
-//        age := cos.Age(z)
-//        dc := cos.ComovingDistance(z)
-//        _, _ = age, dc
-//    }
-//
-//  cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -0.9, H0: 70, Tcmb0: 0.}
-//  age_distance(cos)
 type WCDM struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Dark Energy density Lambda at z=0
