@@ -4,6 +4,13 @@ import (
 	"fmt"
 )
 
+// Calculated via
+//   from astropy.cosmology import w0waCDM
+//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+//   wCDM(70, 0.3, 0.7, -1.2).distmod(z)
+//   wCDM(70, 0.3, 0.7, -1.2).luminosity_distance(z)
+//   wCDM(70, 0.3, 0.7, -1.2).angular_diameter_distance(z)
+
 func ExampleWCDM() {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
 

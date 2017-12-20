@@ -4,6 +4,13 @@ import (
 	"fmt"
 )
 
+// Calculated via
+//   from astropy.cosmology import LambdaCDM
+//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+//   LambdaCDM(70, 0.3, 0.7).distmod(z)
+//   LambdaCDM(70, 0.3, 0.7).luminosity_distance(z)
+//   LambdaCDM(70, 0.3, 0.7).angular_diameter_distance(z)
+
 func ExampleLambdaCDM() {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
@@ -23,13 +30,6 @@ func ExampleLambdaCDM() {
 	fmt.Println(lumdist_vec)
 	fmt.Println("Angular Diameter Distance [Mpc]")
 	fmt.Println(angdist_vec)
-	// Calculated via
-	//   from astropy.cosmology import LambdaCDM
-	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
-	//   LambdaCDM(70, 0.3, 0.7).distmod(z)
-	//   LambdaCDM(70, 0.3, 0.7).luminosity_distance(z)
-	//   LambdaCDM(70, 0.3, 0.7).angular_diameter_distance(z)
-
 	// Output:
 	// Distance Modulus [mag]
 	// [42.26118542154089 44.10023765554372 45.95719725271018 47.026111928689645]

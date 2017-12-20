@@ -4,6 +4,13 @@ import (
 	"fmt"
 )
 
+// Calculated via
+//   from astropy.cosmology import FlatLCDM
+//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+//   FlatLCDM(70, 0.3, 0.7).distmod(z)
+//   FlatLCDM(70, 0.3, 0.7).luminosity_distance(z)
+//   FlatLCDM(70, 0.3, 0.7).angular_diameter_distance(z)
+
 func ExampleFlatLCDM() {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 
@@ -23,13 +30,6 @@ func ExampleFlatLCDM() {
 	fmt.Println(lumdist_vec)
 	fmt.Println("Angular Diameter Distance [Mpc]")
 	fmt.Println(angdist_vec)
-	// Calculated via
-	//   from astropy.cosmology import FlatLCDM
-	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
-	//   FlatLCDM(70, 0.3, 0.7).distmod(z)
-	//   FlatLCDM(70, 0.3, 0.7).luminosity_distance(z)
-	//   FlatLCDM(70, 0.3, 0.7).angular_diameter_distance(z)
-
 	// Output:
 	// Distance Modulus [mag]
 	// [42.26118542154089 44.10023765554372 45.95719725271018 47.026111928689645]
