@@ -1,8 +1,10 @@
 package cosmo
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/floats"
 	"math"
+	"runtime"
 	"testing"
 )
 
@@ -110,12 +112,23 @@ func TestWCDMLuminosityDistanceFlat(t *testing.T) {
 	}
 }
 
-func test(cos_func func(float64) float64, z, exp, tol float64, test_description string, t *testing.T) {
+func test(cos_func func(float64) float64, z, exp, tol float64, t *testing.T) {
+	var test_description, test_line string
+
+	pc, file, no, ok := runtime.Caller(1)
+	if ok {
+		details := runtime.FuncForPC(pc)
+		test_description = details.Name()
+		test_line = fmt.Sprintf("%s#%d", file, no)
+	} else {
+		test_description = "CAN'T DETERMINE TEST NAME"
+		test_line = "CAN'T DETERMINE TEST LINE"
+	}
 	obs := cos_func(z)
 	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed %s test."+"  Expected %f, return %f", exp, obs, test_description)
+		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
+			test_description, test_line, exp, obs)
 	}
-
 }
 
 func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
@@ -126,11 +139,10 @@ func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
 	//   from astropy.cosmology import LambdaCDM
 	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
 	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
-	test_description := "nonLambda, nonflat wCDM luminosity distance"
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
-	exp_vec := []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}
+	exp_vec := []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.0592953}
 	for i, z := range z_vec {
-		test(cos.LuminosityDistance, z, exp_vec[i], tol, test_description, t)
+		test(cos.LuminosityDistance, z, exp_vec[i], tol, t)
 	}
 }
 
