@@ -140,32 +140,24 @@ func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
 	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
 	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
-	exp_vec := []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.0592953}
+	exp_vec := []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}
 	for i, z := range z_vec {
 		test(cos.LuminosityDistance, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMAngularDiameterDistance(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}
 	for i, z := range z_vec {
-		obs = cos.AngularDiameterDistance(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM angular diameter distance test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-
+		test(cos.AngularDiameterDistance, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMComovingTransverseDistance(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -174,13 +166,7 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
 	for i, z := range z_vec {
-		obs = cos.ComovingTransverseDistance(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM comoving transverse distance test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-
+		test(cos.ComovingTransverseDistance, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -225,7 +211,6 @@ func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 }
 
 func TestWCDMLookbackTime(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -233,17 +218,11 @@ func TestWCDMLookbackTime(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.2).lookback_time
 	exp_vec := []float64{5.18796426, 7.98542226, 10.58842012, 11.71902479}
 	for i, z := range z_vec {
-		obs = cos.LookbackTime(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM w0=%.1f lookback time test."+
-				"  Expected %f, return %f",
-				cos.W0, exp_vec[i], obs)
-		}
+		test(cos.LookbackTime, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMLookbackTimeIntegrate(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -251,17 +230,11 @@ func TestWCDMLookbackTimeIntegrate(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.1).lookback_time
 	exp_vec := []float64{5.11509518, 7.85406053, 10.42213038, 11.54588106}
 	for i, z := range z_vec {
-		obs = cos.LookbackTimeIntegrate(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM w0=%.1f lookback time integrate test."+
-				"  Expected %f, return %f",
-				cos.W0, exp_vec[i], obs)
-		}
+		test(cos.LookbackTimeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMLookbackTimeOM(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -0.9, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -269,17 +242,11 @@ func TestWCDMLookbackTimeOM(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-0.9).lookback_time
 	exp_vec := []float64{4.51471693, 6.62532254, 8.57486509, 9.45923582}
 	for i, z := range z_vec {
-		obs = cos.LookbackTimeOM(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed (OM, OL)=(0.3, 0) lookback time test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
+		test(cos.LookbackTimeOM, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMLookbackTimeOL(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0., Ol0: 0.5, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -287,17 +254,11 @@ func TestWCDMLookbackTimeOL(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3).lookback_time
 	exp_vec := []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605}
 	for i, z := range z_vec {
-		obs = cos.LookbackTimeOL(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed (OM, OL)=(0, 0.5) lookback time test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
+		test(cos.LookbackTimeOL, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMAge(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -310,17 +271,11 @@ func TestWCDMAge(t *testing.T) {
 	exp_vec := []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301}
 
 	for i, z := range z_vec {
-		obs = cos.Age(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed (OM, OL) = (%.2f, %.2f) LCDM age test."+
-				"  Expected %f, return %f",
-				cos.Om0, cos.Ol0, exp_vec[i], obs)
-		}
+		test(cos.Age, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMAgeFlatLCDM(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -333,17 +288,11 @@ func TestWCDMAgeFlatLCDM(t *testing.T) {
 	exp_vec := []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
-		obs = cos.Age(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM age test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
+		test(cos.Age, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMAgeIntegrate(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -356,18 +305,11 @@ func TestWCDMAgeIntegrate(t *testing.T) {
 	exp_vec := []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
-		obs = cos.AgeIntegrate(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM ageIntegrate test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
+		test(cos.AgeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
 func TestWCDMAgeOM(t *testing.T) {
-	var obs float64
-	var ageIntegrate float64
 	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -378,24 +320,14 @@ func TestWCDMAgeOM(t *testing.T) {
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065}
 	for i, z := range z_vec {
-		obs = cos.AgeOM(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed (OM, OL)=(0.3, 0) age test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-		ageIntegrate = cos.AgeIntegrate(z)
-		if !floats.EqualWithinAbs(obs, ageIntegrate, tol) {
-			t.Errorf("Failed (OM, OL)=(0.3, 0) comparison "+
-				"between AgeOM (%f) and AgeIntegrate (%f).",
-				obs, ageIntegrate)
-		}
+		test(cos.AgeOM, z, exp_vec[i], tol, t)
+		test(cos.AgeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
 // Analytic case of Omega_Lambda = 0
 func TestWCDMEOm(t *testing.T) {
-	var obs, exp float64
+	var exp float64
 	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-9
@@ -403,12 +335,7 @@ func TestWCDMEOm(t *testing.T) {
 	hubbleDistance := SpeedOfLightKmS / cos.H0
 	for _, z := range z_vec {
 		exp = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
-		obs = cos.ComovingDistance(z)
-		if !floats.EqualWithinAbs(obs, exp, tol) {
-			t.Errorf("Failed OM, OL = (1, 0) analytic comoving distance test."+
-				"  Expected %f, return %f",
-				exp, obs)
-		}
+		test(cos.ComovingDistance, z, exp, tol, t)
 	}
 }
 
