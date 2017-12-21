@@ -7,6 +7,10 @@ import (
 	"testing"
 )
 
+const distmodTol = 1e-8 // mag
+const distTol = 1e-6    // Mpc
+const ageTol = 1e-6     // Gyr
+
 // runTests run cos_func on an array of 'inputs' and compares to 'expected'
 func runTests(testFunc func(float64) float64, inputs, expected []float64, tol float64, t *testing.T) {
 	// We ask runTest to look one additional stack level down
