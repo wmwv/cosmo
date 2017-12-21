@@ -69,8 +69,8 @@ func (cos LambdaCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distance fl
 	}
 
 	hubbleDistance := cos.HubbleDistance()
-	return hubbleDistance /
-		math.Sinh(math.Sqrt(Ok0)*comovingDistance/hubbleDistance)
+	return hubbleDistance / math.Sqrt(math.Abs(Ok0)) *
+		math.Sinh(math.Sqrt(math.Abs(Ok0))*comovingDistance/hubbleDistance)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter
