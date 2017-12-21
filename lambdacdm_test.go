@@ -67,20 +67,45 @@ func TestLambdaCDMDistanceModulus(t *testing.T) {
 	}
 }
 
-func TestLambdaCDMLuminosityDistance(t *testing.T) {
+func TestLambdaCDMLuminosityDistanceFlat(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
-	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
-	//  exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	// Calculated via
+	//   from astropy.cosmology import LambdaCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   LambdaCDM(70, 0.3, 0.7).luminosity_distance(z)
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec = []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}
 	for i, z := range z_vec {
 		obs = cos.LuminosityDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed flat LCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestLambdaCDMLuminosityDistanceNonflat(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0.6, H0: 70, Tcmb0: 0.}
+
+	tol = 1e-6
+	// Calculated via
+	//   from astropy.cosmology import LambdaCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   LambdaCDM(70, 0.3, 0.6).luminosity_distance(z)
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}
+	for i, z := range z_vec {
+		obs = cos.LuminosityDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed nonflat LCDM luminosity distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}

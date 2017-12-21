@@ -72,7 +72,7 @@ func TestWCDMDistanceModulus(t *testing.T) {
 	}
 }
 
-func TestWCDMLuminosityDistance(t *testing.T) {
+func TestWCDMLuminosityDistanceFlatCDM(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
@@ -86,6 +86,52 @@ func TestWCDMLuminosityDistance(t *testing.T) {
 		obs = cos.LuminosityDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
 			t.Errorf("Failed flat wCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestWCDMLuminosityDistanceFlat(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
+
+	tol = 1e-6
+	// Calculated via
+	//   from astropy.cosmology import LambdaCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   wCDM(70, 0.3, 0.7, -1.1).luminosity_distance(z)
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{2877.10314183, 6734.38177991, 15823.59621899, 25841.56448508}
+	for i, z := range z_vec {
+		obs = cos.LuminosityDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed nonLambda, flat wCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -0.8, H0: 70, Tcmb0: 0.}
+
+	tol = 1e-6
+	// Calculated via
+	//   from astropy.cosmology import LambdaCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}
+	for i, z := range z_vec {
+		obs = cos.LuminosityDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed nonLambda, nonflat wCDM luminosity distance test."+
 				"  Expected %f, return %f",
 				exp_vec[i], obs)
 		}
