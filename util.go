@@ -72,6 +72,9 @@ func ageOL(z, Ol0, H0 float64) (time float64) {
 // Equation is in many sources.  Specifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
 func ageOM(z, Om0, H0 float64) (time float64) {
+	if Om0 == 1 {
+		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, -3./2)
+	}
 	return hubbleTime(H0) *
 		(math.Sqrt(1+Om0*z)/((1-Om0)*(1+z)) -
 			Om0*math.Pow(1-Om0, -3./2)*math.Asinh(math.Sqrt((1/Om0-1)/(1+z))))
@@ -89,6 +92,9 @@ func ageOM(z, Om0, H0 float64) (time float64) {
 // Equation is in many sources.  Specifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.
 func ageFlatLCDM(z, Om0, H0 float64) (time float64) {
+	if Om0 == 1 {
+		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, 3./2)
+	}
 	return hubbleTime(H0) * 2. / 3 / math.Sqrt(1-Om0) *
 		math.Asinh(math.Sqrt((1/Om0-1)/math.Pow(1+z, 3)))
 }
