@@ -9,22 +9,11 @@ import (
 //
 // The methods are implemented as value receivers
 // There's a mild performance hit for using value receivers instead of pointer receivers
-//   40% for individual calls to Einv, Einv
-//   1-2% for calls to the general *Distance methods.
+// 40% for individual calls to Einv, Einv
+// 1-2% for calls to the general *Distance methods.
 //
 // For now the use case model seems more amenable to value receivers
-//   and the performance penalty is acceptable.
-//
-//  func TestCosmologyInterface(t *testing.T) {
-//    age_distance := func(cos Cosmology) {
-//        z := 0.5
-//        age := cos.Age(z)
-//        dc := cos.ComovingDistance(z)
-//        _, _ = age, dc
-//    }
-//
-//  cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -0.9, H0: 70, Tcmb0: 0.}
-//  age_distance(cos)
+// and the performance penalty is acceptable.
 type WACDM struct {
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Dark Energy density Lambda at z=0
@@ -120,15 +109,15 @@ func (cos WACDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distance float64)
 }
 
 // ComovingDistanceZ1Z2Integrate is the comoving distance between two z
-//   in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
+// in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
 func (cos WACDM) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distance float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
 
 // ComovingDistanceZ1Z2 is the base function for calculation of comoving distances
-//   Here is where the choice of fundamental calculation method is made:
-//   Elliptic integral, quadrature integration, or analytic for special cases.
+// Here is where the choice of fundamental calculation method is made:
+// Elliptic integral, quadrature integration, or analytic for special cases.
 func (cos WACDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	switch {
 	// Test for Ol0==0 first so that (Om0, Ol0) = (1, 0)
@@ -146,15 +135,15 @@ func (cos WACDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 // ComovingDistanceOM is the analytic case of Omega_total=Omega_M
 func (cos WACDM) ComovingDistanceOM(z float64) (distance float64) {
 	// Call the internal function that just takes direct arguments
-	//   with nothing passed via the struct.
+	// with nothing passed via the struct.
 	return comovingDistanceOM(z, cos.Om0, cos.H0)
 }
 
 // ComovingDistanceOMZ1Z2 is the analytic case of Omega_total=Omega_M
-//    for the distance between two redshifts.
+// for the distance between two redshifts.
 //
 // This *Z1Z2 form exists to parallel the other versions
-//  and allow it to be a shortcut option in ComovingDistanceZ1Z2.
+// and allow it to be a shortcut option in ComovingDistanceZ1Z2.
 // Naively, it's twice as expensive to do this as (0, z2)
 // But this is such a trivial calculation, it probably doesn't matter.
 func (cos WACDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distance float64) {

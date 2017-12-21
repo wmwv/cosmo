@@ -121,9 +121,9 @@ func TestWACDMAngularDiameterDistance(t *testing.T) {
 
 	tol = 1e-6
 	// Calculated via
-	// from astropy.cosmology import w0waCDM
-	// z = np.asarray([0.5, 1.0, 2.0, 3.0])
-	// w0waCDM(70, 0.3, 0.7, -0.8, 2.5).angular_diameter_distance(z)
+	//   from astropy.cosmology import w0waCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   w0waCDM(70, 0.3, 0.7, -0.8, 2.5).angular_diameter_distance(z)
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec = []float64{1155.52181127, 1393.61319898, 1282.08090454, 1073.63096224}
 	for i, z := range z_vec {
