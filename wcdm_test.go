@@ -112,7 +112,7 @@ func TestWCDMLuminosityDistanceFlat(t *testing.T) {
 	}
 }
 
-func test(cos_func func(float64) float64, z, exp, tol float64, t *testing.T) {
+func runTest(cos_func func(float64) float64, z, exp, tol float64, t *testing.T) {
 	var test_description, test_line string
 
 	pc, file, no, ok := runtime.Caller(1)
@@ -124,6 +124,7 @@ func test(cos_func func(float64) float64, z, exp, tol float64, t *testing.T) {
 		test_description = "CAN'T DETERMINE TEST NAME"
 		test_line = "CAN'T DETERMINE TEST LINE"
 	}
+
 	obs := cos_func(z)
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
@@ -142,7 +143,7 @@ func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}
 	for i, z := range z_vec {
-		test(cos.LuminosityDistance, z, exp_vec[i], tol, t)
+		runTest(cos.LuminosityDistance, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -153,7 +154,7 @@ func TestWCDMAngularDiameterDistance(t *testing.T) {
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}
 	for i, z := range z_vec {
-		test(cos.AngularDiameterDistance, z, exp_vec[i], tol, t)
+		runTest(cos.AngularDiameterDistance, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -166,7 +167,7 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
 	for i, z := range z_vec {
-		test(cos.ComovingTransverseDistance, z, exp_vec[i], tol, t)
+		runTest(cos.ComovingTransverseDistance, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -218,7 +219,7 @@ func TestWCDMLookbackTime(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.2).lookback_time
 	exp_vec := []float64{5.18796426, 7.98542226, 10.58842012, 11.71902479}
 	for i, z := range z_vec {
-		test(cos.LookbackTime, z, exp_vec[i], tol, t)
+		runTest(cos.LookbackTime, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -230,7 +231,7 @@ func TestWCDMLookbackTimeIntegrate(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.1).lookback_time
 	exp_vec := []float64{5.11509518, 7.85406053, 10.42213038, 11.54588106}
 	for i, z := range z_vec {
-		test(cos.LookbackTimeIntegrate, z, exp_vec[i], tol, t)
+		runTest(cos.LookbackTimeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -242,7 +243,7 @@ func TestWCDMLookbackTimeOM(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-0.9).lookback_time
 	exp_vec := []float64{4.51471693, 6.62532254, 8.57486509, 9.45923582}
 	for i, z := range z_vec {
-		test(cos.LookbackTimeOM, z, exp_vec[i], tol, t)
+		runTest(cos.LookbackTimeOM, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -254,7 +255,7 @@ func TestWCDMLookbackTimeOL(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3).lookback_time
 	exp_vec := []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605}
 	for i, z := range z_vec {
-		test(cos.LookbackTimeOL, z, exp_vec[i], tol, t)
+		runTest(cos.LookbackTimeOL, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -271,7 +272,7 @@ func TestWCDMAge(t *testing.T) {
 	exp_vec := []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301}
 
 	for i, z := range z_vec {
-		test(cos.Age, z, exp_vec[i], tol, t)
+		runTest(cos.Age, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -288,7 +289,7 @@ func TestWCDMAgeFlatLCDM(t *testing.T) {
 	exp_vec := []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
-		test(cos.Age, z, exp_vec[i], tol, t)
+		runTest(cos.Age, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -305,7 +306,7 @@ func TestWCDMAgeIntegrate(t *testing.T) {
 	exp_vec := []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}
 
 	for i, z := range z_vec {
-		test(cos.AgeIntegrate, z, exp_vec[i], tol, t)
+		runTest(cos.AgeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -320,8 +321,8 @@ func TestWCDMAgeOM(t *testing.T) {
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065}
 	for i, z := range z_vec {
-		test(cos.AgeOM, z, exp_vec[i], tol, t)
-		test(cos.AgeIntegrate, z, exp_vec[i], tol, t)
+		runTest(cos.AgeOM, z, exp_vec[i], tol, t)
+		runTest(cos.AgeIntegrate, z, exp_vec[i], tol, t)
 	}
 }
 
@@ -335,7 +336,7 @@ func TestWCDMEOm(t *testing.T) {
 	hubbleDistance := SpeedOfLightKmS / cos.H0
 	for _, z := range z_vec {
 		exp = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
-		test(cos.ComovingDistance, z, exp, tol, t)
+		runTest(cos.ComovingDistance, z, exp, tol, t)
 	}
 }
 
