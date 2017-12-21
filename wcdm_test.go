@@ -54,8 +54,13 @@ func TestWCDMDistanceModulus(t *testing.T) {
 	tol = 1e-8
 	//  z_vec = []float64{0.2, 0.4, 0.9, 1.2}
 	//  exp_vec = []float64{971.667, 2141.67, 5685.96, 8107.41}
+	// Calculated via
+	//   from astropy.cosmology import wCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   wCDM(70, 0.3, 0.7, -1.2).distmod(z)
+
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	exp_vec = []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193}
+	exp_vec = []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}
 	for i, z := range z_vec {
 		obs = cos.DistanceModulus(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
