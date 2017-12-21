@@ -62,11 +62,10 @@ func TestWACDMELcdm(t *testing.T) {
 	//   sqrt(2.89)
 	z = 1.0
 	exp = 1.7
-	tol = 1e-9
-	runTest(cos.E, z, exp, tol, t, 0)
+	runTest(cos.E, z, exp, eTol, t, 0)
 
 	exp = 1 / 1.7
-	runTest(cos.Einv, z, exp, tol, t, 0)
+	runTest(cos.Einv, z, exp, eTol, t, 0)
 }
 
 func TestWACDMDistanceModulus(t *testing.T) {
