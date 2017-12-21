@@ -23,30 +23,22 @@ func TestWCDMCosmologyInterface(t *testing.T) {
 func TestWCDMELcdm(t *testing.T) {
 	cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70, Tcmb0: 0.}
 
+	tol := 1e-9
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
 	//   sqrt(OM*(1+z)**3 + OK * (1+z)**2 + OL)
 	//   sqrt(0.27*(1+1.0)**3 + 0.0 * (1+1.0)**2 + 0.73)
 	//   sqrt(0.27*8 + 0 + 0.73)
 	//   sqrt(2.89)
+	z := 1.0
 	exp := 1.7
-	obs := cos.E(1.0)
-	tol := 1e-9
-	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed flat wCDM E(z) test.  Expected %f, return %f",
-			exp, obs)
-	}
+	runTest(cos.E, z, exp, tol, t, 0)
 
 	exp = 1 / 1.7
-	obs = cos.Einv(1.0)
-	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed flat wCDM Einv(z) test.  Expected %f, return %f",
-			exp, obs)
-	}
+	runTest(cos.Einv, z, exp, tol, t, 0)
 }
 
 func TestWCDMDistanceModulus(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-8
@@ -59,37 +51,19 @@ func TestWCDMDistanceModulus(t *testing.T) {
 
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}
-	for i, z := range z_vec {
-		obs = cos.DistanceModulus(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM luminosity distance test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-
-	}
+	runTests(cos.DistanceModulus, z_vec, exp_vec, tol, t)
 }
 
 func TestWCDMLuminosityDistanceFlatCDM(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}
-	for i, z := range z_vec {
-		obs = cos.LuminosityDistance(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM luminosity distance test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-
-	}
+	runTests(cos.LuminosityDistance, z_vec, exp_vec, tol, t)
 }
 
 func TestWCDMLuminosityDistanceFlat(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -99,15 +73,7 @@ func TestWCDMLuminosityDistanceFlat(t *testing.T) {
 	//   wCDM(70, 0.3, 0.7, -1.1).luminosity_distance(z)
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{2877.10314183, 6734.38177991, 15823.59621899, 25841.56448508}
-	for i, z := range z_vec {
-		obs = cos.LuminosityDistance(z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed nonLambda, flat wCDM luminosity distance test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-
-	}
+	runTests(cos.LuminosityDistance, z_vec, exp_vec, tol, t)
 }
 
 func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
@@ -144,7 +110,6 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 }
 
 func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -152,18 +117,10 @@ func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	//  exp_vec := []float64{971.667, 2141.67, 5685.96, 8107.41}
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
-	for i, z := range z_vec {
-		obs = cos.ComovingDistanceZ1Z2Integrate(0, z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM comoving distance elliptic test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-	}
+	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, z_vec, exp_vec, tol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
-	var obs float64
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 
 	tol := 1e-6
@@ -171,14 +128,7 @@ func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	//  exp_vec := []float64{971.667, 2141.67, 5685.96, 8107.41}
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	exp_vec := []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}
-	for i, z := range z_vec {
-		obs = cos.ComovingDistanceZ1Z2Elliptic(0, z)
-		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
-			t.Errorf("Failed flat wCDM comoving distance elliptic test."+
-				"  Expected %f, return %f",
-				exp_vec[i], obs)
-		}
-	}
+	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, z_vec, exp_vec, tol, t)
 }
 
 func TestWCDMLookbackTime(t *testing.T) {
