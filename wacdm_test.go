@@ -91,18 +91,41 @@ func TestWACDMLcdmDistanceModulus(t *testing.T) {
 	}
 }
 
-func TestWACDMLuminosityDistance(t *testing.T) {
+func TestWACDMLuminosityDistanceFlat(t *testing.T) {
 	var z_vec, exp_vec []float64
 	var obs, tol float64
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1, WA: 2, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
 
 	tol = 1e-6
 	// Calculated via
 	//   from astropy.cosmology import w0waCDM
 	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
-	//   w0waCDM(70, 0.3, 0.7, -1, 2).luminosity_distance(z)
+	//   w0waCDM(70, 0.3, 0.7, -0.9, 2).luminosity_distance(z)
 	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
-	exp_vec = []float64{2723.8564247, 6067.27548444, 13407.53496469, 21024.89761811}
+	exp_vec = []float64{2676.62203931, 5904.08905744, 12867.17142278, 19961.9490794}
+	for i, z := range z_vec {
+		obs = cos.LuminosityDistance(z)
+		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
+			t.Errorf("Failed flat waCDM luminosity distance test."+
+				"  Expected %f, return %f",
+				exp_vec[i], obs)
+		}
+
+	}
+}
+
+func TestWACDMLuminosityDistanceNonflat(t *testing.T) {
+	var z_vec, exp_vec []float64
+	var obs, tol float64
+	cos := WACDM{Om0: 0.3, Ol0: 0.6, W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
+
+	tol = 1e-6
+	// Calculated via
+	//   from astropy.cosmology import w0waCDM
+	//   z = np.asarray([0.5, 1.0, 2.0, 3.0])
+	//   w0waCDM(70, 0.3, 0.6, -0.9, 2).luminosity_distance(z)
+	z_vec = []float64{0.5, 1.0, 2.0, 3.0}
+	exp_vec = []float64{2659.67537448, 5901.12663329, 13049.93089016, 20468.18548013}
 	for i, z := range z_vec {
 		obs = cos.LuminosityDistance(z)
 		if !floats.EqualWithinAbs(obs, exp_vec[i], tol) {
