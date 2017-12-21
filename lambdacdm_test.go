@@ -157,6 +157,7 @@ func TestLambdaCDMAgeFlatLCDM(t *testing.T) {
 	// FlatLambdaCDM(70, 0.3).age(z)
 	exp_vec := answersLambdaCDM["LambdaCDMAgeFlatLCDM"]
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.AgeFlatLCDM, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMAgeIntegrate(t *testing.T) {
