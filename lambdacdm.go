@@ -123,7 +123,7 @@ func (cos LambdaCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distance float64) {
 	// rather than the explicit integration.
 	case cos.Ol0 == 0:
 		return cos.ComovingDistanceOMZ1Z2(z1, z2)
-	case cos.Om0 < 1:
+	case (cos.Ol0+cos.Om0 == 1) && (cos.Om0 < 1):
 		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
 		return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
