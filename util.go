@@ -93,7 +93,7 @@ func ageOM(z, Om0, H0 float64) (time float64) {
 // Thomas and Kantowski, 2000, PRD, 62, 103507.
 func ageFlatLCDM(z, Om0, H0 float64) (time float64) {
 	if Om0 == 1 {
-		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, 3./2)
+		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, -3./2)
 	}
 	return hubbleTime(H0) * 2. / 3 / math.Sqrt(1-Om0) *
 		math.Asinh(math.Sqrt((1/Om0-1)/math.Pow(1+z, 3)))
