@@ -192,10 +192,10 @@ func (cos WACDM) LookbackTimeOM(z float64) (time float64) {
 // z : redshift
 func (cos WACDM) Age(z float64) (time float64) {
 	switch {
-	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1):
-		return cos.AgeFlatLCDM(z)
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
 		return cos.AgeOM(z)
+	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1):
+		return cos.AgeFlatLCDM(z)
 	case (cos.W0 == -1.0) && (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
 		return cos.AgeOL(z)
 	default:
