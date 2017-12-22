@@ -125,12 +125,14 @@ func TestWACDMLookbackTimeIntegrate(t *testing.T) {
 func TestWACDMLookbackTimeOM(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMLookbackTimeOM"]
+	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
 	runTests(cos.LookbackTimeOM, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeOL(t *testing.T) {
 	cos := WACDM{Om0: 0., Ol0: 0.5, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMLookbackTimeOL"]
+	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
 	runTests(cos.LookbackTimeOL, zWACDM, exp_vec, ageTol, t)
 }
 
