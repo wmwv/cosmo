@@ -34,6 +34,8 @@ var answersLambdaCDM = map[string][]float64{
 	"LambdaCDMAge":            []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301},
 	"LambdaCDMAgeFlatLCDM":    []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
 	"LambdaCDMAgeIntegrate":   []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
+	// FlatLambdaCDM(70, 1.0).age(z)
+	"LambdaCDMAgeOMFlatLCDM": []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836},
 	// LambdaCDM(70, 0.3, 0.).age(z)
 	"LambdaCDMAgeOM": []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065},
 	// FlatLambdaCDM(70, 0.3).lookback_time
@@ -172,6 +174,14 @@ func TestLambdaCDMAgeOM(t *testing.T) {
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
 	runTests(cos.AgeOM, zLambdaCDM, exp_vec, ageTol, t)
 	runTests(cos.AgeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+}
+
+func TestLambdaCDMAgeOMFlat(t *testing.T) {
+	cos := LambdaCDM{Om0: 1.0, Ol0: 0., H0: 70, Tcmb0: 0.}
+	exp_vec := answersLambdaCDM["LambdaCDMAgeOMFlatLCDM"]
+	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.AgeOM, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.AgeFlatLCDM, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMAgeOL(t *testing.T) {
