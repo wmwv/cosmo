@@ -1,7 +1,6 @@
 package cosmo
 
 import (
-	"gonum.org/v1/gonum/floats"
 	"testing"
 )
 
@@ -188,16 +187,4 @@ func TestWACDMAgeOL(t *testing.T) {
 	exp_vec := answersWACDM["WACDMAgeOL"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
 	runTests(cos.AgeOL, zWACDM, exp_vec, ageTol, t)
-}
-
-func TestWACDMEvecLcdm(t *testing.T) {
-	cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
-	// Check array
-	z := []float64{0.5, 1.0}
-	// FlatLambdaCDM (v1.3.2)
-	exp := []float64{1.2811127975318957, 1.7}
-	obs := cos.Evec(z)
-	if !floats.EqualApprox(obs, exp, eTol) {
-		t.Errorf("Failed array float LCDM test.  Expected %v, return %v", exp, obs)
-	}
 }
