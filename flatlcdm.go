@@ -224,14 +224,3 @@ func (cos FlatLCDM) Einv(z float64) (invEz float64) {
 	// Thus we just return the inverse of E(z) instead of rewriting out here.
 	return 1 / cos.E(z)
 }
-
-// Evec is vectorized form of 'E'.
-// I haven't figured out whether this is useful or makes sense
-// in a Go framework, which looping over functions is more expected.
-// thank in IDL, Matlab, or Python numpy+scipy worlds.
-func (cos FlatLCDM) Evec(z []float64) (ez []float64) {
-	for _, z := range z {
-		ez = append(ez, cos.E(z))
-	}
-	return ez
-}

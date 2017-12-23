@@ -1,7 +1,6 @@
 package cosmo
 
 import (
-	"gonum.org/v1/gonum/floats"
 	"math"
 	"testing"
 )
@@ -162,17 +161,4 @@ func TestFlatLCDMEOm(t *testing.T) {
 		exp_vec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
 	}
 	runTests(cos.ComovingDistance, z_vec, exp_vec, distTol, t)
-}
-
-func TestFlatLCDMEvecLcdm(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70, Tcmb0: 0.}
-	// Check array
-	z := []float64{0.5, 1.0}
-	// Calculated using astropy.cosmology.FlatFlatLCDM (v1.3.2)
-	exp := []float64{1.2811127975318957, 1.7}
-	obs := cos.Evec(z)
-	if !floats.EqualApprox(obs, exp, eTol) {
-		t.Errorf("Failed array float LCDM test.  Expected %v, return %v", exp, obs)
-	}
-
 }
