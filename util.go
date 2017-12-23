@@ -101,6 +101,8 @@ func ageFlatLCDM(z, Om0, H0 float64) (time float64) {
 
 // comovingDistanceOM is the analytic case of Omega_total=Omega_M
 //
+// distance : Mpc
+//
 // Hogg, 1999
 // Peebles, 1993
 // Weinberg, 1972

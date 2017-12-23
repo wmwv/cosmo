@@ -21,24 +21,27 @@ var answersLambdaCDM = map[string][]float64{
 	"LambdaCDMComovingTransverseDistance":    []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363},
 	"LambdaCDMComovingDistanceZ1Z2Integrate": []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363},
 	"LambdaCDMComovingDistanceZ1Z2Elliptic":  []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363},
+	// LambdaCDM(70, 0.3, 0).comoving_distance(z)
+	"LambdaCDMComovingDistanceNonflatOM": []float64{1679.81156606, 2795.15602075, 4244.25192263, 5178.38877021},
+	// LambdaCDM(70, 0.3, 0).comoving_transverse_distance(z)
+	"LambdaCDMComovingTransverseDistanceNonflatOM": []float64{1710.1240353, 2936.1472205, 4747.54480615, 6107.95517311},
 	// FlatLambdaCDM(70, 1.0).comoving_distance(z)
-	"LambdaCDMComovingDistanceOM": []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
-	// FlatLambdaCDM(70, 0.3).lookback_time(z)
+	"LambdaCDMComovingDistanceEdS": []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
+	// LambdaCDM(70, 0.3, 0).lookback_time(z)
 	"LambdaCDMLookbackTime": []float64{5.04063793, 7.715337, 10.24035689, 11.35445676},
-	// FlatLambdaCDM(70, 0.3).lookback_time(z)
+	// LambdaCDM(70, 0.3, 0).lookback_time(z)
 	"LambdaCDMLookbackTimeOM": []float64{4.51471693, 6.62532254, 8.57486509, 9.45923582},
-	// FlatLambdaCDM(70, 0.3).lookback_time(z)
+	// LambdaCDM(70, 0.3, 0.7).lookback_time(z)
 	"LambdaCDMLookbackTimeIntegrate": []float64{5.04063793, 7.715337, 10.24035689, 11.35445676},
-	// FlatLambdaCDM(70, 0.3).lookback_time(z)
-	"LambdaCDMLookbackTimeOL": []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605},
-	"LambdaCDMAge":            []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301},
-	"LambdaCDMAgeFlatLCDM":    []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
-	"LambdaCDMAgeIntegrate":   []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
+	"LambdaCDMLookbackTimeOL":        []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605},
+	"LambdaCDMAge":                   []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301},
+	"LambdaCDMAgeFlatLCDM":           []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
+	"LambdaCDMAgeIntegrate":          []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
 	// FlatLambdaCDM(70, 1.0).age(z)
 	"LambdaCDMAgeOMFlatLCDM": []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836},
 	// LambdaCDM(70, 0.3, 0.).age(z)
 	"LambdaCDMAgeOM": []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065},
-	// FlatLambdaCDM(70, 0.3).lookback_time
+	// FlatLambdaCDM(70, 0, 0.5).lookback_time
 	"LambdaCDMAgeOL": []float64{12.34935796, 9.50604415, 6.46857667, 4.88854801},
 }
 
@@ -117,9 +120,22 @@ func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zLambdaCDM, exp_vec, distTol, t)
 }
 
-func TestLambdaCDMComovingDistanceOM(t *testing.T) {
+func TestLambdaCDMComovingDistanceNonflatOM(t *testing.T) {
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
+	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceNonflatOM"]
+	runTests(cos.ComovingDistance, zLambdaCDM, exp_vec, distTol, t)
+	runTests(cos.ComovingDistanceOM, zLambdaCDM, exp_vec, distTol, t)
+}
+
+func TestLambdaCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
+	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
+	exp_vec := answersLambdaCDM["LambdaCDMComovingTransverseDistanceNonflatOM"]
+	runTests(cos.ComovingTransverseDistance, zLambdaCDM, exp_vec, distTol, t)
+}
+
+func TestLambdaCDMComovingDistanceEdS(t *testing.T) {
 	cos := LambdaCDM{Om0: 1.0, Ol0: 0., H0: 70, Tcmb0: 0.}
-	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceOM"]
+	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceEdS"]
 	runTests(cos.ComovingDistanceOM, zLambdaCDM, exp_vec, distTol, t)
 }
 

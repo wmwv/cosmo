@@ -20,7 +20,11 @@ var answersWACDM = map[string][]float64{
 	"WACDMLuminosityDistanceNonflat": []float64{2659.67537448, 5901.12663329, 13049.93089016, 20468.18548013},
 	//   w0waCDM(70, 0.3, 0.7, -0.8, 2.5).angular_diameter_distance(z)
 	"WACDMAngularDiameterDistance": []float64{1155.52181127, 1393.61319898, 1282.08090454, 1073.63096224},
-	//   w0waCDM(70, 1.0, 0., -1, 0).comoving_distance(z)
+	//   w0waCDM(70, 0.3, 0., -1, 0).comoving_distance(z)
+	"WACDMComovingDistanceNonflatOM": []float64{1679.81156606, 2795.15602075, 4244.25192263, 5178.38877021},
+	//   w0waCDM(70, 0.3, 0., -1, 0).comoving_transverse_distance(z)
+	"WACDMComovingTransverseDistanceNonflatOM": []float64{1710.1240353, 2936.1472205, 4747.54480615, 6107.95517311},
+	//   w0waCDM(70, 1.0, 0., -1, 0).comoving_transverse_distance(z)
 	"WACDMComovingDistanceEdS": []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
 	//   w0waCDM(70, 0.3, 0.7, -1.2, -1.2).comoving_transverse_distance(z)
 	"WACDMComovingTransverseDistance": []float64{1985.54631561, 3533.91345688, 5524.66720808, 6731.56420461},
@@ -108,6 +112,19 @@ func TestWACDMComovingTransverseDistance(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: -1.2, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMComovingTransverseDistance"]
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
+	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
+}
+
+func TestWACDMComovingDistanceNonflatOM(t *testing.T) {
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	exp_vec := answersWACDM["WACDMComovingDistanceNonflatOM"]
+	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
+	runTests(cos.ComovingDistanceOM, zWACDM, exp_vec, distTol, t)
+}
+
+func TestWACDMComovingTransverseDistanceNonflatOM(t *testing.T) {
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	exp_vec := answersWACDM["WACDMComovingTransverseDistanceNonflatOM"]
 	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
 }
 
