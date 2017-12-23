@@ -192,12 +192,12 @@ func (cos WACDM) LookbackTimeOM(z float64) (time float64) {
 // z : redshift
 func (cos WACDM) Age(z float64) (time float64) {
 	switch {
-	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1):
-		return cos.AgeFlatLCDM(z)
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
 		return cos.AgeOM(z)
 	case (cos.W0 == -1.0) && (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
 		return cos.AgeOL(z)
+	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1):
+		return cos.AgeFlatLCDM(z)
 	default:
 		return cos.AgeIntegrate(z)
 	}
@@ -209,8 +209,7 @@ func (cos WACDM) Age(z float64) (time float64) {
 // Equation is in many sources.
 // I took this from Thomas and Kantowski, 2000 PRD, 62, 103507.
 func (cos WACDM) AgeFlatLCDM(z float64) (time float64) {
-	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
-		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
+	return ageFlatLCDM(z, cos.Om0, cos.H0)
 }
 
 // AgeIntegrate is the time from redshift ∞ to z

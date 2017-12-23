@@ -189,7 +189,7 @@ func (cos FlatLCDM) AgeIntegrate(z float64) (time float64) {
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
 }
 
-// AgeOL is the time from redshift ∞ to z
+// AgeOM is the time from redshift ∞ to z
 // with only non-relativistic matter and curvature.
 // z : redshift
 func (cos FlatLCDM) AgeOM(z float64) (time float64) {

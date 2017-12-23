@@ -72,6 +72,9 @@ func ageOL(z, Ol0, H0 float64) (time float64) {
 // Equation is in many sources.  Specifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 2
 func ageOM(z, Om0, H0 float64) (time float64) {
+	if Om0 == 1 {
+		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, -3./2)
+	}
 	return hubbleTime(H0) *
 		(math.Sqrt(1+Om0*z)/((1-Om0)*(1+z)) -
 			Om0*math.Pow(1-Om0, -3./2)*math.Asinh(math.Sqrt((1/Om0-1)/(1+z))))
@@ -89,21 +92,38 @@ func ageOM(z, Om0, H0 float64) (time float64) {
 // Equation is in many sources.  Specifically used
 // Thomas and Kantowski, 2000, PRD, 62, 103507.
 func ageFlatLCDM(z, Om0, H0 float64) (time float64) {
+	if Om0 == 1 {
+		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, -3./2)
+	}
 	return hubbleTime(H0) * 2. / 3 / math.Sqrt(1-Om0) *
 		math.Asinh(math.Sqrt((1/Om0-1)/math.Pow(1+z, 3)))
 }
 
-// comovingDistanceOM is the analytic case of Omega_total=Omega_M
+// comovingTransverseDistanceOM is the analytic case of Omega_total=Omega_M
+//
+// distance : Mpc
 //
 // Hogg, 1999
 // Peebles, 1993
 // Weinberg, 1972
 // Mattig, 1958
 // Transcribed from Kantowski 2000 (arXiv:0002334)
-func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
+func comovingTransverseDistanceOM(z, Om0, H0 float64) (distance float64) {
 	return (SpeedOfLightKmS / H0) *
 		2 * (2 - Om0*(1-z) - (2-Om0)*math.Sqrt(1+Om0*z)) /
 		((1 + z) * Om0 * Om0)
+}
+
+func comovingDistanceOM(z, Om0, H0 float64) (distance float64) {
+	comovingTransverseDistance := comovingTransverseDistanceOM(z, Om0, H0)
+	Ok0 := 1 - Om0
+	if Ok0 == 0 {
+		return comovingTransverseDistance
+	}
+
+	hubbleDistance := SpeedOfLightKmS / H0
+	hdk := hubbleDistance / math.Sqrt(Ok0)
+	return hdk * math.Asinh(comovingTransverseDistance/hdk)
 }
 
 // tElliptic uses elliptic integral of the first kind in Carlson form
