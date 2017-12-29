@@ -126,6 +126,12 @@ func TestFlatLCDMAge(t *testing.T) {
 	runTests(cos.ageIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
+func TestFlatLCDMAgeEdS(t *testing.T) {
+	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
+	exp_vec := answersFlatLCDM["FlatLCDMAgeEdS"]
+	runTests(cos.Age, zFlatLCDM, exp_vec, ageTol, t)
+}
+
 func TestFlatLCDMAgeIntegrate(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMAgeIntegrate"]
