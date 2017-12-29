@@ -119,7 +119,6 @@ func TestWACDMComovingDistanceNonflatOM(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMComovingDistanceNonflatOM"]
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
-	runTests(cos.ComovingDistanceOM, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingTransverseDistanceNonflatOM(t *testing.T) {
@@ -133,8 +132,6 @@ func TestWACDMComovingDistanceEdS(t *testing.T) {
 	exp_vec := answersWACDM["WACDMComovingDistanceEdS"]
 	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
-	runTests(cos.ComovingDistanceOM, zWACDM, exp_vec, distTol, t)
-	runTestsZ0Z2(cos.ComovingDistanceOMZ1Z2, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
@@ -152,21 +149,19 @@ func TestWACDMLookbackTime(t *testing.T) {
 func TestWACDMLookbackTimeIntegrate(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, WA: 2.8, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMLookbackTimeIntegrate"]
-	runTests(cos.LookbackTimeIntegrate, zWACDM, exp_vec, ageTol, t)
+	runTests(cos.lookbackTimeIntegrate, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeOM(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMLookbackTimeOM"]
 	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
-	runTests(cos.LookbackTimeOM, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeOL(t *testing.T) {
 	cos := WACDM{Om0: 0., Ol0: 0.5, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMLookbackTimeOL"]
 	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
-	runTests(cos.LookbackTimeOL, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMAge(t *testing.T) {
@@ -179,12 +174,10 @@ func TestWACDMAgeOM(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.6, WA: 3.5, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMAgeOM"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOM, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMAgeOL(t *testing.T) {
 	cos := WACDM{Om0: 0.0, Ol0: 0.5, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMAgeOL"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOL, zWACDM, exp_vec, ageTol, t)
 }
