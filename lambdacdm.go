@@ -123,7 +123,7 @@ func (cos LambdaCDM) LookbackTime(z float64) (timeGyr float64) {
 	}
 }
 
-// LookbackTimeIntegrate is the lookback time using explicit integration
+// lookbackTimeIntegrate is the lookback time using explicit integration
 func (cos LambdaCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
