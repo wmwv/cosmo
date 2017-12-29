@@ -101,11 +101,11 @@ func (cos FlatLCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 
 // LookbackTime is the time from redshift 0 to z.
 func (cos FlatLCDM) LookbackTime(z float64) (timeGyr float64) {
-	return cos.LookbackTimeIntegrate(z)
+	return cos.lookbackTimeIntegrate(z)
 }
 
 // LookbackTimeIntegrate is the look-back time using explicit integration
-func (cos FlatLCDM) LookbackTimeIntegrate(z float64) (timeGyr float64) {
+func (cos FlatLCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)

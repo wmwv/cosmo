@@ -110,7 +110,7 @@ func TestFlatLCDMLookbackTime(t *testing.T) {
 func TestFlatLCDMLookbackTimeIntegrate(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMLookbackTimeIntegrate"]
-	runTests(cos.LookbackTimeIntegrate, zFlatLCDM, exp_vec, ageTol, t)
+	runTests(cos.lookbackTimeIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMAge(t *testing.T) {
