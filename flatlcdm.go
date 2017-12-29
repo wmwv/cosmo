@@ -130,26 +130,22 @@ func (cos FlatLCDM) LookbackTimeIntegrate(z float64) (timeGyr float64) {
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
 }
 
-// LookbackTimeOM is lookback time for matter only Universe
-// All matter is non-relativistic.
-func (cos FlatLCDM) LookbackTimeOM(z float64) (timeGyr float64) {
-	return lookbackTimeOM(z, cos.Om0, cos.H0)
-}
-
 // AgeFlatLCDM is the time from redshift ∞ to z
 // in a flat LCDM cosmology.
 func (cos FlatLCDM) Age(z float64) (timeGyr float64) {
 	return ageFlatLCDM(z, cos.Om0, cos.H0)
 }
 
-// AgeIntegrate is the time from redshift ∞ to z
+// ageIntegrate is the time from redshift ∞ to z
 // using explicit integration.
 //
+// Age is analytic in a Flat LCDM Universe.
+// This function exists for consistency testing.
 // The basic integrand can be found in many texts.
 // I happened to copy this from
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 1.
 // Current implementation is fixed quadrature using mathext.integrate.quad.Fixed
-func (cos FlatLCDM) AgeIntegrate(z float64) (timeGyr float64) {
+func (cos FlatLCDM) ageIntegrate(z float64) (timeGyr float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	Ol0 := 1 - cos.Om0
 	integrand := func(z float64) float64 {
@@ -159,12 +155,6 @@ func (cos FlatLCDM) AgeIntegrate(z float64) (timeGyr float64) {
 	// When given math.Inf(), quad.Fixed automatically redefines variables
 	// to successfully do the numerical integration.
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
-}
-
-// AgeOM is the time from redshift ∞ to z
-// with only non-relativistic matter and curvature.
-func (cos FlatLCDM) AgeOM(z float64) (timeGyr float64) {
-	return ageOM(z, cos.Om0, cos.H0)
 }
 
 // E is the Hubble parameter as a fraction of its present value.

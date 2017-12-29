@@ -121,12 +121,6 @@ func TestFlatLCDMLookbackTime(t *testing.T) {
 	runTests(cos.LookbackTime, zFlatLCDM, exp_vec, ageTol, t)
 }
 
-func TestFlatLCDMLookbackTimeOM(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
-	exp_vec := answersFlatLCDM["FlatLCDMLookbackTimeOM"]
-	runTests(cos.LookbackTimeOM, zFlatLCDM, exp_vec, ageTol, t)
-}
-
 func TestFlatLCDMLookbackTimeIntegrate(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMLookbackTimeIntegrate"]
@@ -137,18 +131,13 @@ func TestFlatLCDMAge(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMAge"]
 	runTests(cos.Age, zFlatLCDM, exp_vec, ageTol, t)
-}
-
-func TestFlatLCDMAgeOM(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
-	exp_vec := answersFlatLCDM["FlatLCDMAgeOM"]
-	runTests(cos.AgeOM, zFlatLCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMAgeIntegrate(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMAgeIntegrate"]
-	runTests(cos.AgeIntegrate, zFlatLCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0
