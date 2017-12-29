@@ -81,7 +81,7 @@ func (cos LambdaCDM) ComovingDistance(z float64) (distanceMpc float64) {
 //     Mészáros & Řípai 2013, A&A, 556, A13.
 // and a useful summary in
 //     Baes, Camps, Van De Putte, 2017, MNRAS, 468, 927.
-func (cos LambdaCDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distanceMpc float64) {
+func (cos LambdaCDM) comovingDistanceZ1Z2Elliptic(z1, z2 float64) (distanceMpc float64) {
 	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
 	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
 	return prefactor * (tElliptic(s/(1+z1)) - tElliptic(s/(1+z2)))
@@ -89,7 +89,7 @@ func (cos LambdaCDM) ComovingDistanceZ1Z2Elliptic(z1, z2 float64) (distanceMpc f
 
 // ComovingDistanceZ1Z2Integrate is the comoving distance between two z
 // in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
-func (cos LambdaCDM) ComovingDistanceZ1Z2Integrate(z1, z2 float64) (distanceMpc float64) {
+func (cos LambdaCDM) comovingDistanceZ1Z2Integrate(z1, z2 float64) (distanceMpc float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	return cos.HubbleDistance() * quad.Fixed(cos.Einv, z1, z2, n, nil, 0)
 }
@@ -103,94 +103,55 @@ func (cos LambdaCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) 
 	// is handled by the analytic solution
 	// rather than the explicit integration.
 	case cos.Ol0 == 0:
-		return cos.ComovingDistanceOMZ1Z2(z1, z2)
+		return comovingDistanceOMZ1Z2(z1, z2, cos.Om0, cos.H0)
 	case (cos.Ol0+cos.Om0 == 1) && (cos.Om0 < 1):
-		return cos.ComovingDistanceZ1Z2Elliptic(z1, z2)
+		return cos.comovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
-		return cos.ComovingDistanceZ1Z2Integrate(z1, z2)
+		return cos.comovingDistanceZ1Z2Integrate(z1, z2)
 	}
-}
-
-// ComovingDistanceOM is the analytic case of Omega_total=Omega_M
-func (cos LambdaCDM) ComovingDistanceOM(z float64) (distanceMpc float64) {
-	// Call the internal function that just takes direct arguments
-	// with nothing passed via the struct.
-	return comovingDistanceOM(z, cos.Om0, cos.H0)
-}
-
-// ComovingDistanceOMZ1Z2 is the analytic case of Omega_total=Omega_M
-// for the distance between two redshifts.
-//   z1: redshift
-//   z2: redshift
-//   distance: [Mpc]
-//
-// This *Z1Z2 form exists to parallel the other versions
-// and allow it to be a shortcut option in ComovingDistanceZ1Z2.
-// Naively, it's twice as expensive to do this as (0, z2)
-// But this is such a trivial calculation, it probably doesn't matter.
-func (cos LambdaCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distanceMpc float64) {
-	return comovingDistanceOM(z2, cos.Om0, cos.H0) -
-		comovingDistanceOM(z1, cos.Om0, cos.H0)
 }
 
 // LookbackTime is the time from redshift 0 to z.
 func (cos LambdaCDM) LookbackTime(z float64) (timeGyr float64) {
 	switch {
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
-		return cos.LookbackTimeOM(z)
+		return lookbackTimeOM(z, cos.Om0, cos.H0)
 	case (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
-		return cos.LookbackTimeOL(z)
+		return lookbackTimeOL(z, cos.Ol0, cos.H0)
 	default:
-		return cos.LookbackTimeIntegrate(z)
+		return cos.lookbackTimeIntegrate(z)
 	}
 }
 
-// LookbackTimeIntegrate is the lookback time using explicit integration
-func (cos LambdaCDM) LookbackTimeIntegrate(z float64) (timeGyr float64) {
+// lookbackTimeIntegrate is the lookback time using explicit integration
+func (cos LambdaCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 { return cos.Einv(z) / (1 + z) }
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
-}
-
-// LookbackTimeOL is lookback time for dark-energy only Universe
-func (cos LambdaCDM) LookbackTimeOL(z float64) (timeGyr float64) {
-	return lookbackTimeOL(z, cos.Ol0, cos.H0)
-}
-
-// LookbackTimeOM is lookback time for matter only Universe
-// All matter is non-relativistic.
-func (cos LambdaCDM) LookbackTimeOM(z float64) (timeGyr float64) {
-	return lookbackTimeOM(z, cos.Om0, cos.H0)
 }
 
 // Age is the time from redshift ∞ to z.
 func (cos LambdaCDM) Age(z float64) (timeGyr float64) {
 	switch {
 	case cos.Om0+cos.Ol0 == 1:
-		return cos.AgeFlatLCDM(z)
+		return ageFlatLCDM(z, cos.Om0, cos.H0)
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
-		return cos.AgeOM(z)
+		return ageOM(z, cos.Om0, cos.H0)
 	case (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
-		return cos.AgeOL(z)
+		return ageOL(z, cos.Ol0, cos.H0)
 	default:
-		return cos.AgeIntegrate(z)
+		return cos.ageIntegrate(z)
 	}
 }
 
-// AgeFlatLCDM is the time from redshift ∞ to z
-// in a flat LCDM cosmology.
-func (cos LambdaCDM) AgeFlatLCDM(z float64) (timeGyr float64) {
-	return ageFlatLCDM(z, cos.Om0, cos.H0)
-}
-
-// AgeIntegrate is the time from redshift ∞ to z
+// ageIntegrate is the time from redshift ∞ to z
 // using explicit integration.
 //
 // Basic integrand can be found in many texts.
 // I happened to copy this from
 // Thomas and Kantowski, 2000, PRD, 62, 103507.  Eq. 1.
 // Current implementation is fixed quadrature using mathext.integrate.quad.Fixed
-func (cos LambdaCDM) AgeIntegrate(z float64) (timeGyr float64) {
+func (cos LambdaCDM) ageIntegrate(z float64) (timeGyr float64) {
 	n := 1000 // Integration will be n-point Gaussian quadrature
 	integrand := func(z float64) float64 {
 		denom := (1 + z) * math.Sqrt((1+z)*(1+z)*(1+cos.Om0*z)-z*(2+z)*cos.Ol0)
@@ -199,18 +160,6 @@ func (cos LambdaCDM) AgeIntegrate(z float64) (timeGyr float64) {
 	// When given math.Inf(), quad.Fixed automatically redefines variables
 	// to successfully do the numerical integration.
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, z, math.Inf(1), n, nil, 0)
-}
-
-// AgeOL is the time from redshift ∞ to z
-// with only constant dark energy and curvature.
-func (cos LambdaCDM) AgeOL(z float64) (timeGyr float64) {
-	return ageOL(z, cos.Ol0, cos.H0)
-}
-
-// AgeOL is the time from redshift ∞ to z
-// with only non-relativistic matter and curvature.
-func (cos LambdaCDM) AgeOM(z float64) (timeGyr float64) {
-	return ageOM(z, cos.Om0, cos.H0)
 }
 
 // E is the Hubble parameter as a fraction of its present value.

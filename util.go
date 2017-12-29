@@ -123,6 +123,20 @@ func comovingDistanceOM(z, Om0, H0 float64) (distanceMpc float64) {
 	return hdk * math.Asinh(comovingTransverseDistance/hdk)
 }
 
+// ComovingDistanceOMZ1Z2 is the analytic case of Omega_total=Omega_M
+// for the distance between two redshifts.
+//   z1: redshift
+//   z2: redshift
+//   distance: [Mpc]
+//
+// This *Z1Z2 form exists to parallel the other versions
+// and allow it to be a shortcut option in ComovingDistanceZ1Z2.
+// Naively, it's twice as expensive to do this as (0, z2)
+// But this is such a trivial calculation, it probably doesn't matter.
+func comovingDistanceOMZ1Z2(z1, z2, Om0, H0 float64) (distanceMpc float64) {
+	return comovingDistanceOM(z2, Om0, H0) - comovingDistanceOM(z1, Om0, H0)
+}
+
 // tElliptic uses elliptic integral of the first kind in Carlson form
 //   to calculate the basic integral for cosmological distances
 // gonum.org/v1/mathext/EllipticRF (Carlson form)

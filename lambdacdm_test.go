@@ -37,7 +37,7 @@ var answersLambdaCDM = map[string][]float64{
 	"LambdaCDMAgeFlatLCDM":           []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
 	"LambdaCDMAgeIntegrate":          []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719},
 	// FlatLambdaCDM(70, 1.0).age(z)
-	"LambdaCDMAgeOMFlatLCDM": []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836},
+	"LambdaCDMAgeEdS": []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836},
 	// LambdaCDM(70, 0.3, 0.).age(z)
 	"LambdaCDMAgeOM": []float64{6.78287955, 4.67227393, 2.72273139, 1.83836065},
 	// FlatLambdaCDM(70, 0, 0.5).lookback_time
@@ -110,20 +110,19 @@ func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
 func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zLambdaCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zLambdaCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceNonflatOM(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceNonflatOM"]
 	runTests(cos.ComovingDistance, zLambdaCDM, exp_vec, distTol, t)
-	runTests(cos.ComovingDistanceOM, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
@@ -135,7 +134,7 @@ func TestLambdaCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
 func TestLambdaCDMComovingDistanceEdS(t *testing.T) {
 	cos := LambdaCDM{Om0: 1.0, Ol0: 0., H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceEdS"]
-	runTests(cos.ComovingDistanceOM, zLambdaCDM, exp_vec, distTol, t)
+	runTests(cos.ComovingDistance, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMLookbackTime(t *testing.T) {
@@ -147,7 +146,7 @@ func TestLambdaCDMLookbackTime(t *testing.T) {
 func TestLambdaCDMLookbackTimeIntegrate(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMLookbackTimeIntegrate"]
-	runTests(cos.LookbackTimeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.lookbackTimeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMLookbackTimeOM(t *testing.T) {
@@ -174,37 +173,33 @@ func TestLambdaCDMAgeFlatLCDM(t *testing.T) {
 	// FlatLambdaCDM(70, 0.3).age(z)
 	exp_vec := answersLambdaCDM["LambdaCDMAgeFlatLCDM"]
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeFlatLCDM, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMAgeIntegrate(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMAgeIntegrate"]
-	runTests(cos.AgeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMAgeOM(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0., H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMAgeOM"]
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOM, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zLambdaCDM, exp_vec, ageTol, t)
 }
 
-func TestLambdaCDMAgeOMFlat(t *testing.T) {
+func TestLambdaCDMAgeEdS(t *testing.T) {
 	cos := LambdaCDM{Om0: 1.0, Ol0: 0., H0: 70, Tcmb0: 0.}
-	exp_vec := answersLambdaCDM["LambdaCDMAgeOMFlatLCDM"]
+	exp_vec := answersLambdaCDM["LambdaCDMAgeEdS"]
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOM, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeFlatLCDM, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 func TestLambdaCDMAgeOL(t *testing.T) {
 	cos := LambdaCDM{Om0: 0., Ol0: 0.5, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMAgeOL"]
 	runTests(cos.Age, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOL, zLambdaCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeIntegrate, zLambdaCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zLambdaCDM, exp_vec, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0

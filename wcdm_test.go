@@ -116,7 +116,6 @@ func TestWCDMComovingDistanceNonflatOM(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceNonflatOM"]
 	runTests(cos.ComovingDistance, zWCDM, exp_vec, distTol, t)
-	runTests(cos.ComovingDistanceOM, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
@@ -129,7 +128,6 @@ func TestWCDMComovingDistanceEdS(t *testing.T) {
 	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceEdS"]
 	runTests(cos.ComovingDistance, zWCDM, exp_vec, distTol, t)
-	runTests(cos.ComovingDistanceOM, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingTransverseDistance(t *testing.T) {
@@ -141,13 +139,13 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zWCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zWCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLookbackTime(t *testing.T) {
@@ -161,7 +159,7 @@ func TestWCDMLookbackTimeIntegrate(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.1).lookback_time
 	exp_vec := answersWCDM["WCDMLookbackTimeIntegrate"]
-	runTests(cos.LookbackTimeIntegrate, zWCDM, exp_vec, ageTol, t)
+	runTests(cos.lookbackTimeIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMLookbackTimeOM(t *testing.T) {
@@ -169,14 +167,6 @@ func TestWCDMLookbackTimeOM(t *testing.T) {
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-0.9).lookback_time
 	exp_vec := answersWCDM["WCDMLookbackTimeOM"]
 	runTests(cos.LookbackTime, zWCDM, exp_vec, ageTol, t)
-	runTests(cos.LookbackTimeOM, zWCDM, exp_vec, ageTol, t)
-}
-
-func TestWCDMLookbackTimeOL(t *testing.T) {
-	cos := WCDM{Om0: 0., Ol0: 0.5, W0: -1, H0: 70, Tcmb0: 0.}
-	// Calculated via astropy.cosmology.wCDM(70, 0.3).lookback_time
-	exp_vec := answersWCDM["WCDMLookbackTimeOL"]
-	runTests(cos.LookbackTimeOL, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAge(t *testing.T) {
@@ -197,7 +187,7 @@ func TestWCDMAgeIntegrate(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 	//   astropy.cosmology.wCDM(70, 0.3).age(z)
 	exp_vec := answersWCDM["WCDMAgeIntegrate"]
-	runTests(cos.AgeIntegrate, zWCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAgeOM(t *testing.T) {
@@ -205,8 +195,7 @@ func TestWCDMAgeOM(t *testing.T) {
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := answersWCDM["WCDMAgeOM"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOM, zWCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeIntegrate, zWCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAgeOL(t *testing.T) {
@@ -214,8 +203,7 @@ func TestWCDMAgeOL(t *testing.T) {
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := answersWCDM["WCDMAgeOL"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeOL, zWCDM, exp_vec, ageTol, t)
-	runTests(cos.AgeIntegrate, zWCDM, exp_vec, ageTol, t)
+	runTests(cos.ageIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0
