@@ -138,9 +138,6 @@ func (cos FlatLCDM) LookbackTimeOM(z float64) (timeGyr float64) {
 
 // AgeFlatLCDM is the time from redshift ∞ to z
 // in a flat LCDM cosmology.
-//
-// Equation is in many sources.
-// I took this from Thomas and Kantowski, 2000 PRD, 62, 103507.
 func (cos FlatLCDM) Age(z float64) (timeGyr float64) {
 	return ageFlatLCDM(z, cos.Om0, cos.H0)
 }
