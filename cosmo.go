@@ -59,6 +59,5 @@ type FLRW interface {
 	Einv(z float64) (invFractionalHubbleParameter float64)
 	HubbleDistance() (distanceMpc float64)
 	LookbackTime(z float64) (timeGyr float64)
-	LookbackTimeIntegrate(z float64) (timeGyr float64)
 	LuminosityDistance(z float64) (distanceMpc float64)
 }
