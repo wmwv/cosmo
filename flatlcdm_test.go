@@ -14,9 +14,7 @@ var answersFlatLCDM = map[string][]float64{
 	"FlatLCDMDistanceModulus":    []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193},
 	"FlatLCDMLuminosityDistance": []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519},
 	// Calculated via FlatLambdaCDM(70, 1.0).comoving_distance(z)
-	"FlatLCDMComovingDistanceOM": []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
-	// Calculated via FlatLambdaCDM(70, 1.0)._comoving_distance_z1z2(0, z)
-	"FlatLCDMComovingDistanceOMZ1Z2":        []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
+	"FlatLCDMComovingDistanceOM":            []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494},
 	"FlatLCDMAngularDiameterDistance":       []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907},
 	"FlatLCDMComovingTransverseDistance":    []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363},
 	"FlatLCDMComovingDistanceZ1Z2Integrate": []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363},
@@ -101,18 +99,6 @@ func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceZ1Z2Elliptic"]
 	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zFlatLCDM, exp_vec, distTol, t)
-}
-
-func TestFlatLCDMComovingDistanceOM(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
-	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceOM"]
-	runTests(cos.ComovingDistanceOM, zFlatLCDM, exp_vec, distmodTol, t)
-}
-
-func TestFlatLCDMComovingDistanceOMZ1Z2(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70, Tcmb0: 0.}
-	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceOMZ1Z2"]
-	runTestsZ0Z2(cos.ComovingDistanceOMZ1Z2, zFlatLCDM, exp_vec, distmodTol, t)
 }
 
 func TestFlatLCDMLookbackTime(t *testing.T) {

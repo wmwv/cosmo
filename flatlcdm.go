@@ -99,25 +99,6 @@ func (cos FlatLCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 	}
 }
 
-// ComovingDistanceOM is the analytic case of Omega_total=Omega_M
-func (cos FlatLCDM) ComovingDistanceOM(z float64) (distanceMpc float64) {
-	// Call the internal function that just takes direct arguments
-	// with nothing passed via the struct.
-	return comovingDistanceOM(z, cos.Om0, cos.H0)
-}
-
-// ComovingDistanceOMZ1Z2 is the analytic case of Omega_total=Omega_M
-// for the distance between two redshifts.
-//
-// This *Z1Z2 form exists to parallel the other versions
-// and allow it to be a shortcut option in ComovingDistanceZ1Z2.
-// Naively, it's twice as expensive to do this as (0, z2)
-// But this is such a trivial calculation, it probably doesn't matter.
-func (cos FlatLCDM) ComovingDistanceOMZ1Z2(z1, z2 float64) (distanceMpc float64) {
-	return comovingDistanceOM(z2, cos.Om0, cos.H0) -
-		comovingDistanceOM(z1, cos.Om0, cos.H0)
-}
-
 // LookbackTime is the time from redshift 0 to z.
 func (cos FlatLCDM) LookbackTime(z float64) (timeGyr float64) {
 	return cos.LookbackTimeIntegrate(z)
