@@ -110,13 +110,13 @@ func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
 func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zLambdaCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70, Tcmb0: 0.}
 	exp_vec := answersLambdaCDM["LambdaCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zLambdaCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zLambdaCDM, exp_vec, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceNonflatOM(t *testing.T) {

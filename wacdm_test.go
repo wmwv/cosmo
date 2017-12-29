@@ -140,7 +140,7 @@ func TestWACDMComovingDistanceEdS(t *testing.T) {
 func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWACDM["WACDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zWACDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMLookbackTime(t *testing.T) {

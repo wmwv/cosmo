@@ -92,13 +92,13 @@ func TestFlatLCDMComovingTransverseDistance(t *testing.T) {
 func TestFlatLCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zFlatLCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := FlatLCDM{Om0: 0.3, H0: 70, Tcmb0: 0.}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zFlatLCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMLookbackTime(t *testing.T) {

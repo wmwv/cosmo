@@ -141,13 +141,13 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Integrate, zWCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(cos.ComovingDistanceZ1Z2Elliptic, zWCDM, exp_vec, distTol, t)
+	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLookbackTime(t *testing.T) {
