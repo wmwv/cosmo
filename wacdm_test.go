@@ -54,7 +54,7 @@ func TestWACDMCosmologyInterface(t *testing.T) {
 		_, _ = age, dc
 	}
 
-	cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70}
 	age_distance(cos)
 }
 
@@ -62,7 +62,7 @@ func TestWACDMCosmologyInterface(t *testing.T) {
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestWACDMELcdm(t *testing.T) {
 	var z, exp float64
-	cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.27, Ol0: 0.73, W0: -1, WA: 0, H0: 70}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -79,105 +79,105 @@ func TestWACDMELcdm(t *testing.T) {
 }
 
 func TestWACDMDistanceModulus(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 3, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 3, H0: 70}
 	exp_vec := answersWACDM["WACDMDistanceModulus"]
 	runTests(cos.DistanceModulus, zWACDM, exp_vec, distmodTol, t)
 }
 
 func TestWACDMLcdmDistanceModulus(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 0, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 0, H0: 70}
 	exp_vec := answersWACDM["WACDMLcdmDistanceModulus"]
 	runTests(cos.DistanceModulus, zWACDM, exp_vec, distmodTol, t)
 }
 
 func TestWACDMLuminosityDistanceFlat(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 2, H0: 70}
 	exp_vec := answersWACDM["WACDMLuminosityDistanceFlat"]
 	runTests(cos.LuminosityDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMLuminosityDistanceNonflat(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.6, W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.6, W0: -0.9, WA: 2, H0: 70}
 	exp_vec := answersWACDM["WACDMLuminosityDistanceNonflat"]
 	runTests(cos.LuminosityDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMAngularDiameterDistance(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5, H0: 70}
 	exp_vec := answersWACDM["WACDMAngularDiameterDistance"]
 	runTests(cos.AngularDiameterDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingTransverseDistance(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: -1.2, H0: 70}
 	exp_vec := answersWACDM["WACDMComovingTransverseDistance"]
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
 	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingDistanceNonflatOM(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70}
 	exp_vec := answersWACDM["WACDMComovingDistanceNonflatOM"]
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingTransverseDistanceNonflatOM(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70}
 	exp_vec := answersWACDM["WACDMComovingTransverseDistanceNonflatOM"]
 	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingDistanceEdS(t *testing.T) {
-	cos := WACDM{Om0: 1.0, Ol0: 0, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 1.0, Ol0: 0, W0: -1, WA: 0, H0: 70}
 	exp_vec := answersWACDM["WACDMComovingDistanceEdS"]
 	runTests(cos.ComovingTransverseDistance, zWACDM, exp_vec, distTol, t)
 	runTests(cos.ComovingDistance, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5, H0: 70}
 	exp_vec := answersWACDM["WACDMComovingDistanceZ1Z2Integrate"]
 	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zWACDM, exp_vec, distTol, t)
 }
 
 func TestWACDMLookbackTime(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5, H0: 70}
 	exp_vec := answersWACDM["WACDMLookbackTime"]
 	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeIntegrate(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, WA: 2.8, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, WA: 2.8, H0: 70}
 	exp_vec := answersWACDM["WACDMLookbackTimeIntegrate"]
 	runTests(cos.lookbackTimeIntegrate, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeOM(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.9, WA: 2, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.9, WA: 2, H0: 70}
 	exp_vec := answersWACDM["WACDMLookbackTimeOM"]
 	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMLookbackTimeOL(t *testing.T) {
-	cos := WACDM{Om0: 0., Ol0: 0.5, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0., Ol0: 0.5, W0: -1, WA: 0, H0: 70}
 	exp_vec := answersWACDM["WACDMLookbackTimeOL"]
 	runTests(cos.LookbackTime, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMAge(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0.6, W0: -0.6, WA: 3.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.6, W0: -0.6, WA: 3.5, H0: 70}
 	exp_vec := answersWACDM["WACDMAge"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMAgeOM(t *testing.T) {
-	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.6, WA: 3.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0., W0: -0.6, WA: 3.5, H0: 70}
 	exp_vec := answersWACDM["WACDMAgeOM"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
 }
 
 func TestWACDMAgeOL(t *testing.T) {
-	cos := WACDM{Om0: 0.0, Ol0: 0.5, W0: -1, WA: 0, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.0, Ol0: 0.5, W0: -1, WA: 0, H0: 70}
 	exp_vec := answersWACDM["WACDMAgeOL"]
 	runTests(cos.Age, zWACDM, exp_vec, ageTol, t)
 }
