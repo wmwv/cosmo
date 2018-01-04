@@ -12,7 +12,7 @@ import (
 //   w0waCDM(70, 0.3, 0.7, -0.8, 2.5).angular_diameter_distance(z)
 
 func ExampleWACDM() {
-	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5, H0: 70, Tcmb0: 0.}
+	cos := WACDM{Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5, H0: 70}
 
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	distmod_vec := make([]float64, len(z_vec))
