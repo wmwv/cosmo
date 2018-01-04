@@ -56,14 +56,14 @@ func TestWCDMCosmologyInterface(t *testing.T) {
 		_, _ = age, dc
 	}
 
-	cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70}
 	age_distance(cos)
 }
 
 // TestE* tests that basic calculation of E
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestWCDMELcdm(t *testing.T) {
-	cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.27, Ol0: 0.73, W0: -1, H0: 70}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -80,118 +80,118 @@ func TestWCDMELcdm(t *testing.T) {
 }
 
 func TestWCDMDistanceModulus(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70}
 	//   wCDM(70, 0.3, 0.7, -1.2).distmod(z)
 	exp_vec := answersWCDM["WCDMDistanceModulus"]
 	runTests(cos.DistanceModulus, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLuminosityDistanceFlatCDM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMLuminosityDistanceFlatCDM"]
 	runTests(cos.LuminosityDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLuminosityDistanceFlat(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70}
 	//   wCDM(70, 0.3, 0.7, -1.1).luminosity_distance(z)
 	exp_vec := answersWCDM["WCDMLuminosityDistanceFlat"]
 	runTests(cos.LuminosityDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -0.8, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -0.8, H0: 70}
 	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
 	exp_vec := answersWCDM["WCDMLuminosityDistanceNonflat"]
 	runTests(cos.LuminosityDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMAngularDiameterDistance(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMAngularDiameterDistance"]
 	runTests(cos.AngularDiameterDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceNonflatOM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingDistanceNonflatOM"]
 	runTests(cos.ComovingDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingTransverseDistanceNonflatOM"]
 	runTests(cos.ComovingTransverseDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceEdS(t *testing.T) {
-	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingDistanceEdS"]
 	runTests(cos.ComovingDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingTransverseDistance(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingTransverseDistance"]
 	runTests(cos.ComovingTransverseDistance, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Integrate"]
 	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	exp_vec := answersWCDM["WCDMComovingDistanceZ1Z2Elliptic"]
 	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zWCDM, exp_vec, distTol, t)
 }
 
 func TestWCDMLookbackTime(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.2, H0: 70}
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.2).lookback_time
 	exp_vec := answersWCDM["WCDMLookbackTime"]
 	runTests(cos.LookbackTime, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMLookbackTimeIntegrate(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1.1, H0: 70}
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-1.1).lookback_time
 	exp_vec := answersWCDM["WCDMLookbackTimeIntegrate"]
 	runTests(cos.lookbackTimeIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMLookbackTimeOM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -0.9, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -0.9, H0: 70}
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-0.9).lookback_time
 	exp_vec := answersWCDM["WCDMLookbackTimeOM"]
 	runTests(cos.LookbackTime, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAge(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.6, W0: -1, H0: 70}
 	//   astropy.cosmology.WCDM(70, 0.3, 0.6).age(z)
 	exp_vec := answersWCDM["WCDMAge"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAgeFlatLCDM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	//   astropy.cosmology.wCDM(70, 0.3).age(z)
 	exp_vec := answersWCDM["WCDMAgeFlatLCDM"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAgeIntegrate(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0.7, W0: -1, H0: 70}
 	//   astropy.cosmology.wCDM(70, 0.3).age(z)
 	exp_vec := answersWCDM["WCDMAgeIntegrate"]
 	runTests(cos.ageIntegrate, zWCDM, exp_vec, ageTol, t)
 }
 
 func TestWCDMAgeOM(t *testing.T) {
-	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0., W0: -1, H0: 70}
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := answersWCDM["WCDMAgeOM"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
@@ -199,7 +199,7 @@ func TestWCDMAgeOM(t *testing.T) {
 }
 
 func TestWCDMAgeOL(t *testing.T) {
-	cos := WCDM{Om0: 0, Ol0: 0.5, W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0, Ol0: 0.5, W0: -1, H0: 70}
 	//   astropy.cosmology.WCDM(70, 0.3, 0.).age(z)
 	exp_vec := answersWCDM["WCDMAgeOL"]
 	runTests(cos.Age, zWCDM, exp_vec, ageTol, t)
@@ -208,7 +208,7 @@ func TestWCDMAgeOL(t *testing.T) {
 
 // Analytic case of Omega_Lambda = 0
 func TestWCDMEOm(t *testing.T) {
-	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 1.0, Ol0: 0., W0: -1, H0: 70}
 
 	z_vec := []float64{1.0, 10.0, 500.0, 1000.0}
 	exp_vec := make([]float64, len(z_vec))

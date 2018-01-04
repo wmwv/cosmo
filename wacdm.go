@@ -21,9 +21,10 @@ type WACDM struct {
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
-	Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
-	//    nuToPhotonDensity float64 // Neutrino density / photon density
 }
+
+// Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
+// nuToPhotonDensity float64 // Neutrino density / photon density
 
 // DistanceModulus is the magnitude difference between 1 Mpc and
 // the luminosity distance for the given z.

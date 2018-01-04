@@ -17,9 +17,10 @@ type FlatLCDM struct {
 	W0      float64 // Dark energy equation-of-state parameter
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
-	Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
-	//    nuToPhotonDensity float64 // Neutrino density / photon density
 }
+
+// Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
+// nuToPhotonDensity float64 // Neutrino density / photon density
 
 // DistanceModulus is the magnitude difference between 1 Mpc and
 // the luminosity distance for the given z.

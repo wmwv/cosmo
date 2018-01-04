@@ -6,7 +6,7 @@ import (
 )
 
 func benchmarkWCDMEN(n int, b *testing.B) {
-	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70}
 
 	var z float64
 	z_max := 1.0
@@ -28,7 +28,7 @@ func BenchmarkWCDMENdistance(b *testing.B) {
 }
 
 func BenchmarkWCDME(b *testing.B) {
-	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.E(z)
@@ -36,7 +36,7 @@ func BenchmarkWCDME(b *testing.B) {
 }
 
 func BenchmarkWCDMEinv(b *testing.B) {
-	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.Einv(z)
@@ -46,7 +46,7 @@ func BenchmarkWCDMEinv(b *testing.B) {
 // benchmarkWCDMDistanceOM is a helper function to be called by specific benchmarkWCDMs
 //   for an Omega_Lambda = 0 cosmology
 func benchmarkWCDMDistanceOM(distFunc string, b *testing.B) {
-	cos := WCDM{Om0: 0.3, Ol0: 0, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.3, Ol0: 0, W0: -1.2, H0: 70}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -57,7 +57,7 @@ func benchmarkWCDMDistanceOM(distFunc string, b *testing.B) {
 
 // benchmarkWCDMDistance is a helper function to be called by specific benchmarkWCDMs
 func benchmarkWCDMDistance(distFunc string, b *testing.B) {
-	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -68,7 +68,7 @@ func benchmarkWCDMDistance(distFunc string, b *testing.B) {
 
 // benchmarkWCDMNdistance is a helper function to be called by specific benchmarkWCDMs
 func benchmarkWCDMNdistance(n int, distFunc string, b *testing.B) {
-	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70, Tcmb0: 0.}
+	cos := WCDM{Om0: 0.2, Ol0: 0.7, W0: -1.2, H0: 70}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
 	z_max := 1.0
