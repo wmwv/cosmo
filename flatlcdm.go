@@ -12,8 +12,8 @@ import (
 //
 // No radiation pressure or neutrino contributions.
 type FlatLCDM struct {
-	Om0     float64 // Matter Density at z=0
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
+	Om0     float64 // Matter Density at z=0
 	W0      float64 // Dark energy equation-of-state parameter
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density

@@ -10,10 +10,10 @@ import (
 // matter, dark energy, and curvature,
 // with a w=constant equation-of-state parameter for dark energy
 type WCDM struct {
+	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Dark Energy density Lambda at z=0
 	W0      float64 // Dark energy equation-of-state parameter, w = p/rho
-	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
 }
