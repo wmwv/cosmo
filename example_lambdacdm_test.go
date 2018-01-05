@@ -12,7 +12,7 @@ import (
 //   LambdaCDM(70, 0.3, 0.7).angular_diameter_distance(z)
 
 func ExampleLambdaCDM() {
-	cos := LambdaCDM{Om0: 0.3, Ol0: 0.7, H0: 70}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}
 
 	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
 	distmod_vec := make([]float64, len(z_vec))

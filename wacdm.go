@@ -14,11 +14,11 @@ import (
 //
 // No radiation pressure or neutrino contributions.
 type WACDM struct {
+	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Dark Energy density Lambda at z=0
 	W0      float64 // Dark energy equation-of-state parameter, w0 + wa*(1-a) = p/rho
 	WA      float64 // Dark energy equation-of-state parameter, w0 + wa*(1-a) = p/rho
-	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
 }

@@ -12,9 +12,9 @@ import (
 //
 // No radiation pressure or neutrino contributions considered.
 type LambdaCDM struct {
+	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0
 	Ol0     float64 // Vacuum Energy density Lambda at z=0
-	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Ogamma0 float64 // Photon density
 	Onu0    float64 // Neutrino density
 }

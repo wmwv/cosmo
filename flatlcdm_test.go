@@ -41,7 +41,7 @@ func TestFlatLCDMCosmologyInterface(t *testing.T) {
 		_, _ = age, dc
 	}
 
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 	age_distance(cos)
 }
 
@@ -49,7 +49,7 @@ func TestFlatLCDMCosmologyInterface(t *testing.T) {
 //   https://github.com/astropy/astropy/blob/master/astropy/cosmology/tests/test_cosmology.py
 func TestFlatLCDME(t *testing.T) {
 	var z, exp float64
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 
 	// Check value of E(z=1.0)
 	//   OM, OL, OK, z = 0.27, 0.73, 0.0, 1.0
@@ -66,81 +66,81 @@ func TestFlatLCDME(t *testing.T) {
 }
 
 func TestFlatLCDMDistanceModulus(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMDistanceModulus"]
 	runTests(cos.DistanceModulus, zFlatLCDM, exp_vec, distmodTol, t)
 }
 
 func TestFlatLCDMLuminosityDistance(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMLuminosityDistance"]
 	runTests(cos.LuminosityDistance, zFlatLCDM, exp_vec, distmodTol, t)
 }
 
 func TestFlatLCDMAngularDiameterDistance(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMAngularDiameterDistance"]
 	runTests(cos.AngularDiameterDistance, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMComovingTransverseDistance(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingTransverseDistance"]
 	runTests(cos.ComovingTransverseDistance, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceZ1Z2Integrate"]
 	runTestsZ0Z2(cos.comovingDistanceZ1Z2Integrate, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMComovingDistanceZ1Z2Elliptic"]
 	runTestsZ0Z2(cos.comovingDistanceZ1Z2Elliptic, zFlatLCDM, exp_vec, distTol, t)
 }
 
 func TestFlatLCDMLookbackTime(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMLookbackTime"]
 	runTests(cos.LookbackTime, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMLookbackTimeEdS(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 1.0}
 	exp_vec := answersFlatLCDM["FlatLCDMLookbackTimeEdS"]
 	runTests(cos.LookbackTime, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMLookbackTimeIntegrate(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMLookbackTimeIntegrate"]
 	runTests(cos.lookbackTimeIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMAge(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMAge"]
 	runTests(cos.Age, zFlatLCDM, exp_vec, ageTol, t)
 	runTests(cos.ageIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMAgeEdS(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 1.0}
 	exp_vec := answersFlatLCDM["FlatLCDMAgeEdS"]
 	runTests(cos.Age, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 func TestFlatLCDMAgeIntegrate(t *testing.T) {
-	cos := FlatLCDM{Om0: 0.3, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.3}
 	exp_vec := answersFlatLCDM["FlatLCDMAgeIntegrate"]
 	runTests(cos.ageIntegrate, zFlatLCDM, exp_vec, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0
 func TestFlatLCDMEOm(t *testing.T) {
-	cos := FlatLCDM{Om0: 1.0, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 1.0}
 	z_vec := []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
 	exp_vec := make([]float64, len(z_vec))

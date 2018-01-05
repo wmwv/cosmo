@@ -6,7 +6,7 @@ import (
 )
 
 func benchmarkFlatLCDMEN(n int, b *testing.B) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 
 	var z float64
 	z_max := 1.0
@@ -28,7 +28,7 @@ func BenchmarkFlatLCDMENdistance(b *testing.B) {
 }
 
 func BenchmarkFlatLCDME(b *testing.B) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.E(z)
@@ -36,7 +36,7 @@ func BenchmarkFlatLCDME(b *testing.B) {
 }
 
 func BenchmarkFlatLCDMEinv(b *testing.B) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.Einv(z)
@@ -45,7 +45,7 @@ func BenchmarkFlatLCDMEinv(b *testing.B) {
 
 // benchmarkFlatLCDMDistance is a helper function to be called by specific benchmarkFlatLCDMs
 func benchmarkFlatLCDMDistance(distFunc string, b *testing.B) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -56,7 +56,7 @@ func benchmarkFlatLCDMDistance(distFunc string, b *testing.B) {
 
 // benchmarkFlatLCDMNdistance is a helper function to be called by specific benchmarkFlatLCDMs
 func benchmarkFlatLCDMNdistance(n int, distFunc string, b *testing.B) {
-	cos := FlatLCDM{Om0: 0.27, H0: 70}
+	cos := FlatLCDM{H0: 70, Om0: 0.27}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
 	z_max := 1.0
