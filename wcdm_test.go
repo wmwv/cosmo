@@ -8,7 +8,7 @@ import (
 var zWCDM = []float64{0.5, 1.0, 2.0, 3.0}
 
 // Calculated via Python AstroPy
-//   from astropy.cosmology import w0waCDM
+//   from astropy.cosmology import wCDM
 //   z = np.asarray([0.5, 1.0, 2.0, 3.0])
 var testTableWCDM = map[string]struct {
 	cos WCDM
