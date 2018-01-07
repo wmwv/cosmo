@@ -24,6 +24,7 @@ func ExampleWCDM() {
 		angdist_vec[i] = cos.AngularDiameterDistance(z)
 	}
 
+	fmt.Println(cos)
 	fmt.Println("Distance Modulus [mag]")
 	fmt.Println(distmod_vec)
 	fmt.Println("Luminosity Distance [Mpc]")
@@ -31,6 +32,7 @@ func ExampleWCDM() {
 	fmt.Println("Angular Diameter Distance [Mpc]")
 	fmt.Println(angdist_vec)
 	// Output:
+	// WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2}
 	// Distance Modulus [mag]
 	// [42.32710910996119 44.17957200628159 46.03118143998202 47.092287353314816]
 	// Luminosity Distance [Mpc]
