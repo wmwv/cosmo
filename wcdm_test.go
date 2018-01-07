@@ -38,8 +38,8 @@ var testTableWCDM = map[string]struct {
 	"WCDMLookbackTimeIntegrate": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.1}, "LookbackTime", []float64{5.11509518, 7.85406053, 10.42213038, 11.54588106}},
 	// Calculated via astropy.cosmology.wCDM(70, 0.3, 0.7, w0=-0.9).lookback_time
 	"WCDMLookbackTimeOM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0., W0: -0.9}, "LookbackTime", []float64{4.51471693, 6.62532254, 8.57486509, 9.45923582}},
-	// Calculated via astropy.cosmology.wCDM(70, 0.3).lookback_time
-	"WCDMLookbackTimeOL": {WCDM{H0: 70, Om0: 0, Ol0: 0.5, W0: -0.9}, "LookbackTime", []float64{5.0616361, 7.90494991, 10.94241739, 12.52244605}},
+	// Calculated via astropy.cosmology.wCDM(70, 0, 0.5, -0.9).lookback_time
+	"WCDMLookbackTimeOL": {WCDM{H0: 70, Om0: 0, Ol0: 0.5, W0: -0.9}, "LookbackTime", []float64{5.00576631, 7.78841245, 10.76147941, 12.31462586}},
 	//   astropy.cosmology.WCDM(70, 0.3, 0.6).age(z)
 	"WCDMAge": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -1}, "Age", []float64{8.11137578, 5.54558439, 3.13456008, 2.06445301}},
 	//   astropy.cosmology.wCDM(70, 0.3).age(z)
