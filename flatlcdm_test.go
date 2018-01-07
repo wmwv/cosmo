@@ -11,29 +11,26 @@ var zFlatLCDM = []float64{0.5, 1.0, 2.0, 3.0}
 //   from astropy.cosmology import FlatLambdaCDM
 //   z = np.asarray([0.5, 1.0, 2.0, 3.0])
 var testTableFlatLCDM = map[string]struct {
-	cos FlatLCDM
-	exp []float64
+	cos      FlatLCDM
+	function string
+	exp      []float64
 }{
-	"FlatLCDMDistanceModulus":    {FlatLCDM{H0: 70, Om0: 0.3}, []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193}},
-	"FlatLCDMLuminosityDistance": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
+	"FlatLCDMDistanceModulus":    {FlatLCDM{H0: 70, Om0: 0.3}, "DistanceModulus", []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193}},
+	"FlatLCDMLuminosityDistance": {FlatLCDM{H0: 70, Om0: 0.3}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
 	// Calculated via FlatLambdaCDM(70, 1.0).comoving_distance(z)
-	"FlatLCDMComovingDistanceEdS":           {FlatLCDM{H0: 70, Om0: 1}, []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
-	"FlatLCDMAngularDiameterDistance":       {FlatLCDM{H0: 70, Om0: 0.3}, []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
-	"FlatLCDMComovingTransverseDistance":    {FlatLCDM{H0: 70, Om0: 0.3}, []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"FlatLCDMComovingDistanceZ1Z2Integrate": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"FlatLCDMComovingDistanceZ1Z2Elliptic":  {FlatLCDM{H0: 70, Om0: 0.3}, []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"FlatLCDMComovingDistanceEdS":           {FlatLCDM{H0: 70, Om0: 1}, "ComovingDistance", []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
+	"FlatLCDMAngularDiameterDistance":       {FlatLCDM{H0: 70, Om0: 0.3}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
+	"FlatLCDMComovingTransverseDistance":    {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"FlatLCDMComovingDistanceZ1Z2Integrate": {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2Integrate", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"FlatLCDMComovingDistanceZ1Z2Elliptic":  {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2Elliptic", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	// Calculated via FlatLambdaCDM(70, 0.3).lookback_time(z)
-	"FlatLCDMLookbackTime": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}},
+	"FlatLCDMLookbackTime": {FlatLCDM{H0: 70, Om0: 0.3}, "LookbackTime", []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}},
 	// Calculated via FlatLambdaCDM(70, 1.0).lookback_time(z)
-	"FlatLCDMLookbackTimeEdS": {FlatLCDM{H0: 70, Om0: 1.0}, []float64{4.24332906, 6.0199092, 7.52015258, 8.14826851}},
-	// Calculated via FlatLambdaCDM(70, 0.3).lookback_time(z)
-	"FlatLCDMLookbackTimeIntegrate": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}},
+	"FlatLCDMLookbackTimeEdS": {FlatLCDM{H0: 70, Om0: 1.0}, "LookbackTime", []float64{4.24332906, 6.0199092, 7.52015258, 8.14826851}},
 	//   FlatLambdaCDM(70, 0.3).age(z)
-	"FlatLCDMAge": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}},
+	"FlatLCDMAge": {FlatLCDM{H0: 70, Om0: 0.3}, "Age", []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}},
 	//   FlatLambdaCDM(70, 1.0).age(z)
-	"FlatLCDMAgeEdS": {FlatLCDM{H0: 70, Om0: 1.0}, []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836}},
-	//   FlatLambdaCDM(70, 0.3).age(z)
-	"FlatLCDMAgeIntegrate": {FlatLCDM{H0: 70, Om0: 0.3}, []float64{8.42634602, 5.75164694, 3.22662706, 2.11252719}},
+	"FlatLCDMAgeEdS": {FlatLCDM{H0: 70, Om0: 1.0}, "Age", []float64{5.06897781, 3.29239767, 1.79215429, 1.16403836}},
 }
 
 func TestFlatLCDMCosmologyInterface(t *testing.T) {
@@ -68,24 +65,29 @@ func TestFlatLCDME(t *testing.T) {
 	runTest(cos.Einv, z, exp, eTol, t, 0)
 }
 
+func TestFlatLCDMDistanceModulusReflect(t *testing.T) {
+	test := testTableFlatLCDM["FlatLCDMDistanceModulus"]
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, distmodTol, t)
+}
+
 func TestFlatLCDMDistanceModulus(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMDistanceModulus"]
-	runTests(test.cos.DistanceModulus, zFlatLCDM, test.exp, distmodTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, distmodTol, t)
 }
 
 func TestFlatLCDMLuminosityDistance(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMLuminosityDistance"]
-	runTests(test.cos.LuminosityDistance, zFlatLCDM, test.exp, distmodTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, distmodTol, t)
 }
 
 func TestFlatLCDMAngularDiameterDistance(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMAngularDiameterDistance"]
-	runTests(test.cos.AngularDiameterDistance, zFlatLCDM, test.exp, distTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, distTol, t)
 }
 
 func TestFlatLCDMComovingTransverseDistance(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMComovingTransverseDistance"]
-	runTests(test.cos.ComovingTransverseDistance, zFlatLCDM, test.exp, distTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, distTol, t)
 }
 
 func TestFlatLCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
@@ -100,33 +102,22 @@ func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 
 func TestFlatLCDMLookbackTime(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMLookbackTime"]
-	runTests(test.cos.LookbackTime, zFlatLCDM, test.exp, ageTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, ageTol, t)
 }
 
 func TestFlatLCDMLookbackTimeEdS(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMLookbackTimeEdS"]
-	runTests(test.cos.LookbackTime, zFlatLCDM, test.exp, ageTol, t)
-}
-
-func TestFlatLCDMLookbackTimeIntegrate(t *testing.T) {
-	test := testTableFlatLCDM["FlatLCDMLookbackTimeIntegrate"]
-	runTests(test.cos.lookbackTimeIntegrate, zFlatLCDM, test.exp, ageTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, ageTol, t)
 }
 
 func TestFlatLCDMAge(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMAge"]
-	runTests(test.cos.Age, zFlatLCDM, test.exp, ageTol, t)
-	runTests(test.cos.ageIntegrate, zFlatLCDM, test.exp, ageTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, ageTol, t)
 }
 
 func TestFlatLCDMAgeEdS(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMAgeEdS"]
-	runTests(test.cos.Age, zFlatLCDM, test.exp, ageTol, t)
-}
-
-func TestFlatLCDMAgeIntegrate(t *testing.T) {
-	test := testTableFlatLCDM["FlatLCDMAgeIntegrate"]
-	runTests(test.cos.ageIntegrate, zFlatLCDM, test.exp, ageTol, t)
+	runTestsByName(test.cos, test.function, zFlatLCDM, test.exp, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0
