@@ -63,8 +63,8 @@ func runTestByName(cos interface{}, testFuncName string, input float64, exp, tol
 	// And produces a single output float64
 	obs := obsValue[0].Float()
 	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed %s\n"+"  Expected %f, return %f",
-			testFuncName, exp, obs)
+		t.Errorf("Failed %s : %v\n"+"  Expected %f, return %f",
+			testFuncName, cos, exp, obs)
 	}
 }
 
@@ -138,7 +138,7 @@ func runTestZ1Z2ByName(cos interface{}, testFuncName string, input [2]float64, e
 	// And produces a single output float64
 	obs := obsValue[0].Float()
 	if !floats.EqualWithinAbs(obs, exp, tol) {
-		t.Errorf("Failed %s\n"+"  Expected %f, return %f",
-			testFuncName, exp, obs)
+		t.Errorf("Failed %s : %v\n"+"  Expected %f, return %f",
+			testFuncName, cos, exp, obs)
 	}
 }
