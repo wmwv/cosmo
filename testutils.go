@@ -3,6 +3,7 @@ package cosmo
 import (
 	"fmt"
 	"gonum.org/v1/gonum/floats"
+	"reflect"
 	"runtime"
 	"testing"
 )
@@ -40,6 +41,30 @@ func runTest(testFunc func(float64) float64, input float64, exp, tol float64, t 
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
 			test_description, test_line, exp, obs)
+	}
+}
+
+func runTestsByName(cos interface{}, testFuncName string, inputs, expected []float64, tol float64, t *testing.T) {
+	// We ask runTest to look one additional stack level down
+	// to get the original caller of runTest
+	for i, z := range inputs {
+		runTestByName(cos, testFuncName, z, expected[i], tol, t)
+	}
+}
+
+// runTestByName runs method 'testFuncName' on scalar 'input' and compares to 'exp'
+func runTestByName(cos interface{}, testFuncName string, input float64, exp, tol float64, t *testing.T) {
+	v := reflect.ValueOf(cos)
+	method := v.MethodByName(testFuncName)
+	in := make([]reflect.Value, method.Type().NumIn())
+	// Assume the method takes single input
+	in[0] = reflect.ValueOf(input)
+	obsValue := method.Call(in)
+	// And produces a single output float64
+	obs := obsValue[0].Float()
+	if !floats.EqualWithinAbs(obs, exp, tol) {
+		t.Errorf("Failed %s : %v\n"+"  Expected %f, return %f",
+			testFuncName, cos, exp, obs)
 	}
 }
 
@@ -87,5 +112,33 @@ func runTestZ1Z2(testFunc func(float64, float64) float64, input [2]float64, exp,
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
 			test_description, test_line, exp, obs)
+	}
+}
+
+// runTestsZ0Z2 run cos_func on a set of inputs and compares to 'expected'
+// Creates pairs of (0, z) for z in 'inputs' and passes those to runTestZ1Z2
+func runTestsZ0Z2ByName(cos interface{}, testFuncName string, inputs []float64, expected []float64, tol float64, t *testing.T) {
+	newInputs := makeZeroPairs(inputs)
+
+	for i, zs := range newInputs {
+		runTestZ1Z2ByName(cos, testFuncName, zs, expected[i], tol, t)
+	}
+}
+
+// runTest runs 'testFunc' on scalar 'input' and compares to 'exp'
+func runTestZ1Z2ByName(cos interface{}, testFuncName string, input [2]float64, exp, tol float64, t *testing.T) {
+	v := reflect.ValueOf(cos)
+	method := v.MethodByName(testFuncName)
+	in := make([]reflect.Value, method.Type().NumIn())
+
+	// Assume the method takes two inputs
+	in[0] = reflect.ValueOf(input[0])
+	in[1] = reflect.ValueOf(input[1])
+	obsValue := method.Call(in)
+	// And produces a single output float64
+	obs := obsValue[0].Float()
+	if !floats.EqualWithinAbs(obs, exp, tol) {
+		t.Errorf("Failed %s : %v\n"+"  Expected %f, return %f",
+			testFuncName, cos, exp, obs)
 	}
 }
