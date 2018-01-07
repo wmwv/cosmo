@@ -3,6 +3,7 @@ package cosmo
 import (
 	"fmt"
 	"gonum.org/v1/gonum/floats"
+	"reflect"
 	"runtime"
 	"testing"
 )
@@ -37,6 +38,32 @@ func runTest(testFunc func(float64) float64, input float64, exp, tol float64, t 
 	}
 
 	obs := testFunc(input)
+	if !floats.EqualWithinAbs(obs, exp, tol) {
+		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
+			test_description, test_line, exp, obs)
+	}
+}
+
+// runTestByName runs method 'testFuncName' on scalar 'input' and compares to 'exp'
+func runTestByName(cos FLRW, testFuncName string, input float64, exp, tol float64, t *testing.T, stackLevel int) {
+	var test_description, test_line string
+
+	pc, file, no, ok := runtime.Caller(stackLevel + 1)
+	if ok {
+		details := runtime.FuncForPC(pc)
+		test_description = details.Name()
+		test_line = fmt.Sprintf("%s#%d", file, no)
+	} else {
+		test_description = "CAN'T DETERMINE TEST NAME"
+		test_line = "CAN'T DETERMINE TEST LINE"
+	}
+
+	v := reflect.ValueOf(cos)
+	method := v.MethodByName(testFuncName)
+	in := make([]reflect.Value, method.Type().NumIn())
+	in[0] = reflect.ValueOf(input)
+	obsValue := method.Call(in)
+	obs := obsValue[0].Float()
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
 			test_description, test_line, exp, obs)
