@@ -44,7 +44,7 @@ func runTest(testFunc func(float64) float64, input float64, exp, tol float64, t 
 	}
 }
 
-func runTestsByName(cos FLRW, testFuncName string, inputs, expected []float64, tol float64, t *testing.T) {
+func runTestsByName(cos interface{}, testFuncName string, inputs, expected []float64, tol float64, t *testing.T) {
 	// We ask runTest to look one additional stack level down
 	// to get the original caller of runTest
 	stackLevel := 1
@@ -54,7 +54,7 @@ func runTestsByName(cos FLRW, testFuncName string, inputs, expected []float64, t
 }
 
 // runTestByName runs method 'testFuncName' on scalar 'input' and compares to 'exp'
-func runTestByName(cos FLRW, testFuncName string, input float64, exp, tol float64, t *testing.T, stackLevel int) {
+func runTestByName(cos interface{}, testFuncName string, input float64, exp, tol float64, t *testing.T, stackLevel int) {
 	var test_description, test_line string
 
 	pc, file, no, ok := runtime.Caller(stackLevel + 1)
@@ -70,8 +70,10 @@ func runTestByName(cos FLRW, testFuncName string, input float64, exp, tol float6
 	v := reflect.ValueOf(cos)
 	method := v.MethodByName(testFuncName)
 	in := make([]reflect.Value, method.Type().NumIn())
+	// Assume the method takes single input
 	in[0] = reflect.ValueOf(input)
 	obsValue := method.Call(in)
+	// And produces a single output float64
 	obs := obsValue[0].Float()
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
