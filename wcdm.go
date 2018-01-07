@@ -1,6 +1,7 @@
 package cosmo
 
 import (
+	"fmt"
 	"gonum.org/v1/gonum/integrate/quad"
 	"math"
 )
@@ -20,6 +21,11 @@ type WCDM struct {
 
 // Tcmb0   float64 // Temperature of the CMB at z=0.  [K]
 // nuToPhotonDensity float64 // Neutrino density / photon density
+
+func (cos WCDM) String() string {
+	return fmt.Sprintf("WCDM{H0: %v, Om0: %v, Ol0: %v, W0: %v}",
+		cos.H0, cos.Om0, cos.Ol0, cos.W0)
+}
 
 // DistanceModulus is the magnitude difference between 1 Mpc and
 // the luminosity distance for the given z.
