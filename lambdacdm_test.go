@@ -2,6 +2,7 @@ package cosmo
 
 import (
 	"math"
+	"strings"
 	"testing"
 )
 
@@ -46,6 +47,17 @@ var testTableLambdaCDM = map[string]struct {
 	"LambdaCDMAgeOL": {LambdaCDM{H0: 70, Om0: 0., Ol0: 0.5}, "Age", []float64{12.34935796, 9.50604415, 6.46857667, 4.88854801}},
 }
 
+func TestTableLambdaCDM(t *testing.T) {
+	for _, test := range testTableLambdaCDM {
+		switch {
+		case strings.HasSuffix(test.function, "Z1Z2"):
+			runTestsZ0Z2ByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
+		default:
+			runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
+		}
+	}
+}
+
 func TestLambdaCDMCosmologyInterface(t *testing.T) {
 	age_distance := func(cos FLRW) {
 		z := 0.5
@@ -77,98 +89,6 @@ func TestLambdaCDMELcdm(t *testing.T) {
 
 	exp = 1 / 1.7
 	runTest(cos.Einv, z, exp, tol, t, 0)
-}
-
-func TestLambdaCDMDistanceModulus(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMDistanceModulus"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMLuminosityDistanceFlat(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMLuminosityDistanceFlat"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMLuminosityDistanceNonflat(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMLuminosityDistanceNonflat"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMAngularDiameterDistance(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMAngularDiameterDistance"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingTransverseDistance"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2ByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2ByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingDistanceNonflatOM(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingTransverseDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMComovingDistanceEdS(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMComovingDistanceEdS"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
-}
-
-func TestLambdaCDMLookbackTime(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMLookbackTime"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMLookbackTimeOM(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMLookbackTimeOM"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMLookbackTimeOL(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMLookbackTimeOL"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMAge(t *testing.T) {
-	// LambdaCDM(70, 0.3, 0.6).age(z)
-	test := testTableLambdaCDM["LambdaCDMAge"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMAgeFlatLCDM(t *testing.T) {
-	// FlatLambdaCDM(70, 0.3).age(z)
-	test := testTableLambdaCDM["LambdaCDMAgeFlatLCDM"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMAgeOM(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMAgeOM"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMAgeEdS(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMAgeEdS"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
-}
-
-func TestLambdaCDMAgeOL(t *testing.T) {
-	test := testTableLambdaCDM["LambdaCDMAgeOL"]
-	runTestsByName(test.cos, test.function, zLambdaCDM, test.exp, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0

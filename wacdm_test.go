@@ -1,6 +1,7 @@
 package cosmo
 
 import (
+	"strings"
 	"testing"
 )
 
@@ -50,6 +51,17 @@ var testTableWACDM = map[string]struct {
 	"WACDMAgeOL": {WACDM{H0: 70, Om0: 0, Ol0: 0.5, W0: -1, WA: 0}, "Age", []float64{12.34935796, 9.50604415, 6.46857667, 4.88854801}},
 }
 
+func TestTableWACDM(t *testing.T) {
+	for _, test := range testTableWACDM {
+		switch {
+		case strings.HasSuffix(test.function, "Z1Z2"):
+			runTestsZ0Z2ByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
+		default:
+			runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
+		}
+	}
+}
+
 func TestWACDMCosmologyInterface(t *testing.T) {
 	age_distance := func(cos FLRW) {
 		z := 0.5
@@ -80,91 +92,4 @@ func TestWACDMELcdm(t *testing.T) {
 
 	exp = 1 / 1.7
 	runTest(cos.Einv, z, exp, eTol, t, 0)
-}
-
-func TestWACDMDistanceModulus(t *testing.T) {
-	test := testTableWACDM["WACDMDistanceModulus"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distmodTol, t)
-}
-
-func TestWACDMLcdmDistanceModulus(t *testing.T) {
-	test := testTableWACDM["WACDMLcdmDistanceModulus"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distmodTol, t)
-}
-
-func TestWACDMLuminosityDistanceFlat(t *testing.T) {
-	test := testTableWACDM["WACDMLuminosityDistanceFlat"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMLuminosityDistanceNonflat(t *testing.T) {
-	test := testTableWACDM["WACDMLuminosityDistanceNonflat"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMAngularDiameterDistance(t *testing.T) {
-	test := testTableWACDM["WACDMAngularDiameterDistance"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMComovingTransverseDistance(t *testing.T) {
-	test := testTableWACDM["WACDMComovingTransverseDistance"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMComovingDistanceNonflatOM(t *testing.T) {
-	test := testTableWACDM["WACDMComovingDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMComovingTransverseDistanceNonflatOM(t *testing.T) {
-	test := testTableWACDM["WACDMComovingTransverseDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMComovingDistanceEdS(t *testing.T) {
-	test := testTableWACDM["WACDMComovingDistanceEdS"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	test := testTableWACDM["WACDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2ByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
-}
-
-func TestWACDMLookbackTime(t *testing.T) {
-	test := testTableWACDM["WACDMLookbackTime"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMLookbackTimeIntegrate(t *testing.T) {
-	test := testTableWACDM["WACDMLookbackTimeIntegrate"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMLookbackTimeOM(t *testing.T) {
-	test := testTableWACDM["WACDMLookbackTimeOM"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMLookbackTimeOL(t *testing.T) {
-	test := testTableWACDM["WACDMLookbackTimeOL"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMAge(t *testing.T) {
-	test := testTableWACDM["WACDMAge"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMAgeOM(t *testing.T) {
-	test := testTableWACDM["WACDMAgeOM"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
-}
-
-func TestWACDMAgeOL(t *testing.T) {
-	test := testTableWACDM["WACDMAgeOL"]
-	runTestsByName(test.cos, test.function, zWACDM, test.exp, ageTol, t)
 }

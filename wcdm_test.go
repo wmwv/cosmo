@@ -2,6 +2,7 @@ package cosmo
 
 import (
 	"math"
+	"strings"
 	"testing"
 )
 
@@ -52,6 +53,17 @@ var testTableWCDM = map[string]struct {
 	"WCDMAgeOL": {WCDM{H0: 70, Om0: 0, Ol0: 0.5, W0: -1}, "Age", []float64{12.34935796, 9.50604415, 6.46857667, 4.88854801}},
 }
 
+func TestTableWCDM(t *testing.T) {
+	for _, test := range testTableWCDM {
+		switch {
+		case strings.HasSuffix(test.function, "Z1Z2"):
+			runTestsZ0Z2ByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
+		default:
+			runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
+		}
+	}
+}
+
 func TestWCDMCosmologyInterface(t *testing.T) {
 	age_distance := func(cos FLRW) {
 		z := 0.5
@@ -80,103 +92,6 @@ func TestWCDMELcdm(t *testing.T) {
 
 	exp = 1 / 1.7
 	runTest(cos.Einv, z, exp, eTol, t, 0)
-}
-
-func TestWCDMDistanceModulus(t *testing.T) {
-	test := testTableWCDM["WCDMDistanceModulus"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMLuminosityDistanceFlatCDM(t *testing.T) {
-	test := testTableWCDM["WCDMLuminosityDistanceFlatCDM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMLuminosityDistanceFlat(t *testing.T) {
-	test := testTableWCDM["WCDMLuminosityDistanceFlat"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMLuminosityDistanceNonflat(t *testing.T) {
-	test := testTableWCDM["WCDMLuminosityDistanceNonflat"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMAngularDiameterDistance(t *testing.T) {
-	test := testTableWCDM["WCDMAngularDiameterDistance"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingDistanceNonflatOM(t *testing.T) {
-	test := testTableWCDM["WCDMComovingDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingTransverseDistanceNonflatOM(t *testing.T) {
-	test := testTableWCDM["WCDMComovingTransverseDistanceNonflatOM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingDistanceEdS(t *testing.T) {
-	test := testTableWCDM["WCDMComovingDistanceEdS"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingTransverseDistance(t *testing.T) {
-	test := testTableWCDM["WCDMComovingTransverseDistance"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
-	test := testTableWCDM["WCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2ByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
-	test := testTableWCDM["WCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2ByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
-}
-
-func TestWCDMLookbackTime(t *testing.T) {
-	test := testTableWCDM["WCDMLookbackTime"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMLookbackTimeIntegrate(t *testing.T) {
-	test := testTableWCDM["WCDMLookbackTimeIntegrate"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMLookbackTimeOM(t *testing.T) {
-	test := testTableWCDM["WCDMLookbackTimeOM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMAge(t *testing.T) {
-	test := testTableWCDM["WCDMAge"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMAgeFlatLCDM(t *testing.T) {
-	test := testTableWCDM["WCDMAgeFlatLCDM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMAgeIntegrate(t *testing.T) {
-	test := testTableWCDM["WCDMAgeIntegrate"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMAgeOM(t *testing.T) {
-	test := testTableWCDM["WCDMAgeOM"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-}
-
-func TestWCDMAgeOL(t *testing.T) {
-	test := testTableWCDM["WCDMAgeOL"]
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
-	runTestsByName(test.cos, test.function, zWCDM, test.exp, ageTol, t)
 }
 
 // Analytic case of Omega_Lambda = 0
