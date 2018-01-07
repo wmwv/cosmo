@@ -33,7 +33,7 @@ var testTableWACDM = map[string]struct {
 	//   w0waCDM(70, 0.3, 0.7, -1.2, -1.2).comoving_transverse_distance(z)
 	"WACDMComovingTransverseDistance": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: -1.2}, "ComovingTransverseDistance", []float64{1985.54631561, 3533.91345688, 5524.66720808, 6731.56420461}},
 	//   w0waCDM(70, 0.3, 0.7, -0.9, 3.5)._comoving_distance_z1z2(0, z)
-	"WACDMComovingDistanceZ1Z2Integrate": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5}, "ComovingDistanceZ1Z2Integrate", []float64{1726.71519955, 2709.17698433, 3538.63486291, 3798.28908226}},
+	"WACDMComovingDistanceZ1Z2Integrate": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5}, "ComovingDistanceZ1Z2", []float64{1726.71519955, 2709.17698433, 3538.63486291, 3798.28908226}},
 	//   w0waCDM(70, 0.3, 0.7, -0.9, 3.5).lookback_time(z)
 	"WACDMLookbackTime": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5}, "LookbackTime", []float64{4.64427098, 6.51439755, 7.65559243, 7.90553458}},
 	//   w0waCDM(70, 0.3, 0.7, -1.1, 2.8).lookback_time(z)
@@ -131,7 +131,7 @@ func TestWACDMComovingDistanceEdS(t *testing.T) {
 
 func TestWACDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	test := testTableWACDM["WACDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Integrate, zWACDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zWACDM, test.exp, distTol, t)
 }
 
 func TestWACDMLookbackTime(t *testing.T) {

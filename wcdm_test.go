@@ -24,8 +24,8 @@ var testTableWCDM = map[string]struct {
 	"WCDMLuminosityDistanceNonflat":     {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -0.8}, "LuminosityDistance", []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}},
 	"WCDMAngularDiameterDistance":       {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
 	"WCDMComovingTransverseDistance":    {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"WCDMComovingDistanceZ1Z2Integrate": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2Integrate", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"WCDMComovingDistanceZ1Z2Elliptic":  {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2Elliptic", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"WCDMComovingDistanceZ1Z2Integrate": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"WCDMComovingDistanceZ1Z2Elliptic":  {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	//   wCDM(70, 1.0, 0., -1, 0).comoving_distance(z)
 	"WCDMComovingDistanceEdS": {WCDM{H0: 70, Om0: 1.0, Ol0: 0., W0: -1}, "ComovingDistance", []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
 	//   wCDM(70, 0.3, 0.0, -1).comoving_distance(z)
@@ -129,12 +129,12 @@ func TestWCDMComovingTransverseDistance(t *testing.T) {
 
 func TestWCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	test := testTableWCDM["WCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Integrate, zWCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
 }
 
 func TestWCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	test := testTableWCDM["WCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Elliptic, zWCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zWCDM, test.exp, distTol, t)
 }
 
 func TestWCDMLookbackTime(t *testing.T) {

@@ -21,8 +21,8 @@ var testTableFlatLCDM = map[string]struct {
 	"FlatLCDMComovingDistanceEdS":           {FlatLCDM{H0: 70, Om0: 1}, "ComovingDistance", []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
 	"FlatLCDMAngularDiameterDistance":       {FlatLCDM{H0: 70, Om0: 0.3}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
 	"FlatLCDMComovingTransverseDistance":    {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"FlatLCDMComovingDistanceZ1Z2Integrate": {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2Integrate", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"FlatLCDMComovingDistanceZ1Z2Elliptic":  {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2Elliptic", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"FlatLCDMComovingDistanceZ1Z2Integrate": {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"FlatLCDMComovingDistanceZ1Z2Elliptic":  {FlatLCDM{H0: 70, Om0: 0.3}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	// Calculated via FlatLambdaCDM(70, 0.3).lookback_time(z)
 	"FlatLCDMLookbackTime": {FlatLCDM{H0: 70, Om0: 0.3}, "LookbackTime", []float64{5.04063793, 7.715337, 10.24035689, 11.35445676}},
 	// Calculated via FlatLambdaCDM(70, 1.0).lookback_time(z)
@@ -92,12 +92,12 @@ func TestFlatLCDMComovingTransverseDistance(t *testing.T) {
 
 func TestFlatLCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Integrate, zFlatLCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zFlatLCDM, test.exp, distTol, t)
 }
 
 func TestFlatLCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	test := testTableFlatLCDM["FlatLCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Elliptic, zFlatLCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zFlatLCDM, test.exp, distTol, t)
 }
 
 func TestFlatLCDMLookbackTime(t *testing.T) {

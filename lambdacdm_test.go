@@ -22,8 +22,8 @@ var testTableLambdaCDM = map[string]struct {
 	"LambdaCDMLuminosityDistanceNonflat":     {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.6}, "LuminosityDistance", []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}},
 	"LambdaCDMAngularDiameterDistance":       {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
 	"LambdaCDMComovingTransverseDistance":    {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"LambdaCDMComovingDistanceZ1Z2Integrate": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2Integrate", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"LambdaCDMComovingDistanceZ1Z2Elliptic":  {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2Elliptic", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"LambdaCDMComovingDistanceZ1Z2Integrate": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"LambdaCDMComovingDistanceZ1Z2Elliptic":  {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	// LambdaCDM(70, 0.3, 0).comoving_distance(z)
 	"LambdaCDMComovingDistanceNonflatOM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.}, "ComovingDistance", []float64{1679.81156606, 2795.15602075, 4244.25192263, 5178.38877021}},
 	// LambdaCDM(70, 0.3, 0).comoving_transverse_distance(z)
@@ -106,12 +106,12 @@ func TestLambdaCDMComovingTransverseDistance(t *testing.T) {
 
 func TestLambdaCDMComovingDistanceZ1Z2Integrate(t *testing.T) {
 	test := testTableLambdaCDM["LambdaCDMComovingDistanceZ1Z2Integrate"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Integrate, zLambdaCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceZ1Z2Elliptic(t *testing.T) {
 	test := testTableLambdaCDM["LambdaCDMComovingDistanceZ1Z2Elliptic"]
-	runTestsZ0Z2(test.cos.comovingDistanceZ1Z2Elliptic, zLambdaCDM, test.exp, distTol, t)
+	runTestsZ0Z2ByName(test.cos, test.function, zLambdaCDM, test.exp, distTol, t)
 }
 
 func TestLambdaCDMComovingDistanceNonflatOM(t *testing.T) {
