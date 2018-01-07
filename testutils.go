@@ -44,6 +44,15 @@ func runTest(testFunc func(float64) float64, input float64, exp, tol float64, t 
 	}
 }
 
+func runTestsByName(cos FLRW, testFuncName string, inputs, expected []float64, tol float64, t *testing.T) {
+	// We ask runTest to look one additional stack level down
+	// to get the original caller of runTest
+	stackLevel := 1
+	for i, z := range inputs {
+		runTestByName(cos, testFuncName, z, expected[i], tol, t, stackLevel)
+	}
+}
+
 // runTestByName runs method 'testFuncName' on scalar 'input' and compares to 'exp'
 func runTestByName(cos FLRW, testFuncName string, input float64, exp, tol float64, t *testing.T, stackLevel int) {
 	var test_description, test_line string
