@@ -44,7 +44,7 @@ func BenchmarkWCDMEinv(b *testing.B) {
 }
 
 // benchmarkWCDMDistanceFlat is a helper function to be called by specific benchmarkWCDMs
-//   for an Omega_Lambda = 0 cosmology
+//   for an Omega_K == 0 cosmology
 func benchmarkWCDMDistanceFlat(distFunc string, b *testing.B) {
 	cos := WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}
 	z := 1.0
@@ -55,9 +55,9 @@ func benchmarkWCDMDistanceFlat(distFunc string, b *testing.B) {
 	}
 }
 
-// benchmarkWCDMDistanceLCDM is a helper function to be called by specific benchmarkWCDMs
-//   for an Omega_Lambda = 0 cosmology
-func benchmarkWCDMDistanceLCDM(distFunc string, b *testing.B) {
+// benchmarkWCDMDistancePositiveOk0 is a helper function to be called by specific benchmarkWCDMs
+//   for an Omega_K > 0 cosmology
+func benchmarkWCDMDistancePositiveOk0(distFunc string, b *testing.B) {
 	cos := WCDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1}
 	z := 1.0
 
@@ -145,6 +145,6 @@ func BenchmarkWCDMComovingDistanceFlat(b *testing.B) {
 	benchmarkWCDMDistanceFlat("ComovingDistance", b)
 }
 
-func BenchmarkWCDMComovingDistanceLCDM(b *testing.B) {
-	benchmarkWCDMDistanceLCDM("ComovingDistance", b)
+func BenchmarkWCDMComovingDistancePositiveOk0(b *testing.B) {
+	benchmarkWCDMDistancePositiveOk0("ComovingDistance", b)
 }
