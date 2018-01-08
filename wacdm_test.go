@@ -21,6 +21,10 @@ var testTableWACDM = map[string]struct {
 	"WACDMLcdmDistanceModulus": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: 0}, "DistanceModulus", []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}},
 	//   w0waCDM(70, 0.3, 0.7, -0.9, 2).luminosity_distance(z)
 	"WACDMLuminosityDistanceFlat": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 2}, "LuminosityDistance", []float64{2676.62203931, 5904.08905744, 12867.17142278, 19961.9490794}},
+	//   w0waCDM(70, 0.3, 0.6, -1, 0).luminosity_distance(z)
+	"WACDMLuminosityDistancePositiveOkLCDM": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -1, WA: 0}, "LuminosityDistance", []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}},
+	//   w0waCDM(70, 0.3, 0.9, -1, 0).luminosity_distance(z)
+	"WACDMLuminosityDistanceNegativeOkLCDM": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1, WA: 0}, "LuminosityDistance", []float64{2933.96568944, 6896.93040403, 15899.60122012, 25287.53295915}},
 	//   w0waCDM(70, 0.3, 0.6, -0.9, 2).luminosity_distance(z)
 	"WACDMLuminosityDistanceNonflat": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -0.9, WA: 2}, "LuminosityDistance", []float64{2659.67537448, 5901.12663329, 13049.93089016, 20468.18548013}},
 	//   w0waCDM(70, 0.3, 0.7, -0.8, 2.5).angular_diameter_distance(z)
@@ -33,6 +37,10 @@ var testTableWACDM = map[string]struct {
 	"WACDMComovingDistanceEdS": {WACDM{H0: 70, Om0: 1.0, Ol0: 0, W0: -1, WA: 0}, "ComovingDistance", []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
 	//   w0waCDM(70, 0.3, 0.7, -1.2, -1.2).comoving_transverse_distance(z)
 	"WACDMComovingTransverseDistance": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2, WA: -1.2}, "ComovingTransverseDistance", []float64{1985.54631561, 3533.91345688, 5524.66720808, 6731.56420461}},
+	//   w0waCDM(70, 0.3, 0.6, -1, 0).comoving_transverse_distance(z)
+	"WACDMComovingTransverseDistancePositiveOkLCDM": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -1, WA: 0}, "ComovingTransverseDistance", []float64{1858.34336447, 3239.91725476, 5115.73838737, 6342.43100585}},
+	//   w0waCDM(70, 0.3, 0.9, -1, 0).comoving_transverse_distance(z)
+	"WACDMComovingTransverseDistanceNegativeOkLCDM": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1, WA: 0}, "ComovingTransverseDistance", []float64{1955.97712629, 3448.46520202, 5299.86707337, 6321.88323979}},
 	//   w0waCDM(70, 0.3, 0.7, -0.9, 3.5)._comoving_distance_z1z2(0, z)
 	"WACDMComovingDistanceZ1Z2Integrate": {WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.9, WA: 3.5}, "ComovingDistanceZ1Z2", []float64{1726.71519955, 2709.17698433, 3538.63486291, 3798.28908226}},
 	//   w0waCDM(70, 0.3, 0.7, -0.9, 3.5).lookback_time(z)
