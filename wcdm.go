@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gonum.org/v1/gonum/integrate/quad"
 	"math"
+	"math/cmplx"
 )
 
 // WCDM provides cosmological distances, age, and look-back time
@@ -62,8 +63,9 @@ func (cos WCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distanceMpcRad f
 	}
 
 	hubbleDistance := cos.HubbleDistance()
-	return hubbleDistance / math.Sqrt(math.Abs(Ok0)) *
-		math.Sinh(math.Sqrt(math.Abs(Ok0))*comovingDistance/hubbleDistance)
+	result := complex(hubbleDistance, 0) / cmplx.Sqrt(complex(Ok0, 0)) *
+		cmplx.Sinh(cmplx.Sqrt(complex(Ok0, 0))*complex(comovingDistance, 0)/complex(hubbleDistance, 0))
+	return real(result)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter
