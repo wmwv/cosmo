@@ -78,21 +78,6 @@ func (cos WACDM) ComovingDistance(z float64) (distanceMpc float64) {
 	return cos.ComovingDistanceZ1Z2(0, z)
 }
 
-// ComovingDistanceZ1Z2Elliptic is the comoving distance between two z
-// in a flat lambda CDM cosmology using elliptic integrals.
-//
-// See
-//     Feige, 1992, Astron. Nachr., 313, 139.
-//     Eisenstein, 1997, arXiv:9709054v2
-//     Mészáros & Řípai 2013, A&A, 556, A13.
-// and a useful summary in
-//     Baes, Camps, Van De Putte, 2017, MNRAS, 468, 927.
-func (cos WACDM) comovingDistanceZ1Z2Elliptic(z1, z2 float64) (distanceMpc float64) {
-	s := math.Pow((1-cos.Om0)/cos.Om0, 1./3)
-	prefactor := (SpeedOfLightKmS / cos.H0) * (1 / math.Sqrt(s*cos.Om0))
-	return prefactor * (tElliptic(s/(1+z1)) - tElliptic(s/(1+z2)))
-}
-
 // ComovingDistanceZ1Z2Integrate is the comoving distance between two z
 // in a flat lambda CDM cosmology using fixed Gaussian quadrature integration.
 func (cos WACDM) comovingDistanceZ1Z2Integrate(z1, z2 float64) (distanceMpc float64) {
@@ -102,7 +87,7 @@ func (cos WACDM) comovingDistanceZ1Z2Integrate(z1, z2 float64) (distanceMpc floa
 
 // ComovingDistanceZ1Z2 is the base function for calculation of comoving distances
 // Here is where the choice of fundamental calculation method is made:
-// Elliptic integral, quadrature integration, or analytic for special cases.
+// Fall back to simpler cosmology, or quadature integration
 func (cos WACDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 	switch {
 	// Test for Ol0==0 first so that (Om0, Ol0) = (1, 0)
@@ -110,8 +95,9 @@ func (cos WACDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 	// rather than the explicit integration.
 	case cos.Ol0 == 0:
 		return comovingDistanceOMZ1Z2(z1, z2, cos.Om0, cos.H0)
-	case (cos.WA == 0) && (cos.W0 == -1) && (cos.Om0+cos.Ol0 == 1) && (cos.Om0 < 1):
-		return cos.comovingDistanceZ1Z2Elliptic(z1, z2)
+	case cos.WA == 0:
+		wcdm_cos := WCDM{H0: cos.H0, Om0: cos.Om0, Ol0: cos.Ol0, W0: cos.W0}
+		return wcdm_cos.ComovingDistanceZ1Z2(z1, z2)
 	default:
 		return cos.comovingDistanceZ1Z2Integrate(z1, z2)
 	}
@@ -122,6 +108,9 @@ func (cos WACDM) LookbackTime(z float64) (timeGyr float64) {
 	switch {
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
 		return lookbackTimeOM(z, cos.Om0, cos.H0)
+	case cos.WA == 0:
+		wcdm_cos := WCDM{H0: cos.H0, Om0: cos.Om0, Ol0: cos.Ol0, W0: cos.W0}
+		return wcdm_cos.LookbackTime(z)
 	default:
 		return cos.lookbackTimeIntegrate(z)
 	}
@@ -139,10 +128,9 @@ func (cos WACDM) Age(z float64) (timeGyr float64) {
 	switch {
 	case (cos.Ol0 == 0) && (0 < cos.Om0) && (cos.Om0 != 1):
 		return ageOM(z, cos.Om0, cos.H0)
-	case (cos.W0 == -1.0) && (cos.Om0 == 0) && (0 < cos.Ol0) && (cos.Ol0 < 1):
-		return ageOL(z, cos.Ol0, cos.H0)
-	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1):
-		return ageFlatLCDM(z, cos.Om0, cos.H0)
+	case cos.WA == 0:
+		wcdm_cos := WCDM{H0: cos.H0, Om0: cos.Om0, Ol0: cos.Ol0, W0: cos.W0}
+		return wcdm_cos.Age(z)
 	default:
 		return cos.ageIntegrate(z)
 	}
