@@ -117,7 +117,7 @@ func (cos WCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 	// rather than the explicit integration.
 	case cos.Ol0 == 0:
 		return comovingDistanceOMZ1Z2(z1, z2, cos.Om0, cos.H0)
-	case (cos.W0 == -1.0) && (cos.Om0 < 1):
+	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1) && (cos.Om0 < 1):
 		return cos.comovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
 		return cos.comovingDistanceZ1Z2Integrate(z1, z2)
