@@ -55,15 +55,7 @@ func (cos WCDM) ComovingTransverseDistance(z float64) (distanceMpcRad float64) {
 
 // ComovingTransverseDistanceZ1Z2 is the comoving distance at z2 as seen from z1
 func (cos WCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distanceMpcRad float64) {
-	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
-	Ok0 := 1 - (cos.Om0 + cos.Ol0)
-	if Ok0 == 0 {
-		return comovingDistance
-	}
-
-	hubbleDistance := cos.HubbleDistance()
-	return hubbleDistance / math.Sqrt(math.Abs(Ok0)) *
-		math.Sinh(math.Sqrt(math.Abs(Ok0))*comovingDistance/hubbleDistance)
+	return comovingTransverseDistanceZ1Z2(cos, z1, z2)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter
@@ -115,7 +107,7 @@ func (cos WCDM) ComovingDistanceZ1Z2(z1, z2 float64) (distanceMpc float64) {
 	// rather than the explicit integration.
 	case cos.Ol0 == 0:
 		return comovingDistanceOMZ1Z2(z1, z2, cos.Om0, cos.H0)
-	case (cos.W0 == -1.0) && (cos.Om0 < 1):
+	case (cos.W0 == -1.0) && (cos.Om0+cos.Ol0 == 1) && (cos.Om0 < 1):
 		return cos.comovingDistanceZ1Z2Elliptic(z1, z2)
 	default:
 		return cos.comovingDistanceZ1Z2Integrate(z1, z2)

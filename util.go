@@ -3,6 +3,7 @@ package cosmo
 import (
 	"gonum.org/v1/gonum/mathext"
 	"math"
+	"math/cmplx"
 )
 
 // lookbackTimeOL is lookback time for dark-energy + curvature only Universe
@@ -135,6 +136,31 @@ func comovingDistanceOM(z, Om0, H0 float64) (distanceMpc float64) {
 // But this is such a trivial calculation, it probably doesn't matter.
 func comovingDistanceOMZ1Z2(z1, z2, Om0, H0 float64) (distanceMpc float64) {
 	return comovingDistanceOM(z2, Om0, H0) - comovingDistanceOM(z1, Om0, H0)
+}
+
+// comovingTransverseDistanceZ1Z2 handles the curvature logic and then calls
+// the underlying FLRW type ComovingDistanceZ1Z2 function.
+func comovingTransverseDistanceZ1Z2(cos FLRW, z1, z2 float64) (distanceMpcRad float64) {
+	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
+	Ok0 := cos.Ok0()
+	// We don't need the hubbleDistance for OK0==0, but it's a trivial calculation.
+	hubbleDistance := cos.HubbleDistance()
+
+	var result float64
+	// We could in principle just use `cmplx.Sinh` everywhere.
+	// It's about 20ns faster to do separate calculations for the real vs complex
+	switch {
+	case Ok0 == 0:
+		result = comovingDistance
+	case Ok0 > 0:
+		result = hubbleDistance / math.Sqrt(Ok0) *
+			math.Sinh(math.Sqrt(Ok0)*comovingDistance/hubbleDistance)
+	case Ok0 < 0:
+		answer := complex(hubbleDistance, 0) / cmplx.Sqrt(complex(Ok0, 0)) *
+			cmplx.Sinh(cmplx.Sqrt(complex(Ok0, 0))*complex(comovingDistance, 0)/complex(hubbleDistance, 0))
+		result = real(answer)
+	}
+	return result
 }
 
 // tElliptic uses elliptic integral of the first kind in Carlson form

@@ -19,12 +19,18 @@ var testTableLambdaCDM = map[string]struct {
 	"LambdaCDMDistanceModulus": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "DistanceModulus", []float64{42.26118542, 44.10023766, 45.95719725, 47.02611193}},
 	//   LambdaCDM(70, 0.3, 0.7).luminosity_distance(z)
 	"LambdaCDMLuminosityDistanceFlat": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
-	//   LambdaCDM(70, 0.3, 0.6).luminosity_distance(z)
-	"LambdaCDMLuminosityDistanceNonflat":     {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.6}, "LuminosityDistance", []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}},
-	"LambdaCDMAngularDiameterDistance":       {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
-	"LambdaCDMComovingTransverseDistance":    {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"LambdaCDMComovingDistanceZ1Z2Integrate": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"LambdaCDMComovingDistanceZ1Z2Elliptic":  {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	// LambdaCDM(70, 0.3, 0.6).luminosity_distance(z)
+	"LambdaCDMLuminosityDistancePositiveOkLCDM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.6}, "LuminosityDistance", []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}},
+	// LambdaCDM(70, 0.3, 0.9).luminosity_distance(z)
+	"LambdaCDMLuminosityDistanceNegativeOkLCDM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}, "LuminosityDistance", []float64{2933.96568944, 6896.93040403, 15899.60122012, 25287.53295915}},
+	"LambdaCDMAngularDiameterDistance":          {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
+	"LambdaCDMComovingTransverseDistance":       {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	// LambdaCDM(70, 0.3, 0.6, -1).comoving_transverse_distance(z)
+	"LambdaCDMComovingTransverseDistancePositiveOkLCDM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.6}, "ComovingTransverseDistance", []float64{1858.34336447, 3239.91725476, 5115.73838737, 6342.43100585}},
+	// LambdaCDM(70, 0.3, 0.9, -1).comoving_transverse_distance(z)
+	"LambdaCDMComovingTransverseDistanceNegativeOkLCDM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}, "ComovingTransverseDistance", []float64{1955.97712629, 3448.46520202, 5299.86707337, 6321.88323979}},
+	"LambdaCDMComovingDistanceZ1Z2Integrate":            {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"LambdaCDMComovingDistanceZ1Z2Elliptic":             {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	// LambdaCDM(70, 0.3, 0).comoving_distance(z)
 	"LambdaCDMComovingDistanceNonflatOM": {LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.}, "ComovingDistance", []float64{1679.81156606, 2795.15602075, 4244.25192263, 5178.38877021}},
 	// LambdaCDM(70, 0.3, 0).comoving_transverse_distance(z)

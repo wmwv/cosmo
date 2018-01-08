@@ -17,16 +17,24 @@ var testTableWCDM = map[string]struct {
 	exp      []float64
 }{
 	//   wCDM(70, 0.3, 0.7, -  "WCDMELcdm": WCDM{H0: 70, Om0: 0.27, Ol0: 0.73, W0: -1},
-	"WCDMDistanceModulus":           {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2}, "DistanceModulus", []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}},
-	"WCDMLuminosityDistanceFlatCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
+	"WCDMDistanceModulus":            {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2}, "DistanceModulus", []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}},
+	"WCDMLuminosityDistanceFlatLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
+	//   wCDM(70, 0.3, 0.6, -1).luminosity_distance(z)
+	"WCDMLuminosityDistancePositiveOkLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -1}, "LuminosityDistance", []float64{2787.51504671, 6479.83450953, 15347.21516211, 25369.7240234}},
+	//   wCDM(70, 0.3, 0.9, -1).luminosity_distance(z)
+	"WCDMLuminosityDistanceNegativeOkLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1}, "LuminosityDistance", []float64{2933.96568944, 6896.93040403, 15899.60122012, 25287.53295915}},
 	//   wCDM(70, 0.3, 0.7, -1.1).luminosity_distance(z)
 	"WCDMLuminosityDistanceFlat": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.1}, "LuminosityDistance", []float64{2877.10314183, 6734.38177991, 15823.59621899, 25841.56448508}},
 	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
-	"WCDMLuminosityDistanceNonflat":     {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -0.8}, "LuminosityDistance", []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}},
-	"WCDMAngularDiameterDistance":       {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
-	"WCDMComovingTransverseDistance":    {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"WCDMComovingDistanceZ1Z2Integrate": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
-	"WCDMComovingDistanceZ1Z2Elliptic":  {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"WCDMLuminosityDistanceNonflat":  {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -0.8}, "LuminosityDistance", []float64{2713.4660301, 6257.24866642, 14794.59911147, 24496.30592953}},
+	"WCDMAngularDiameterDistance":    {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "AngularDiameterDistance", []float64{1259.08359729, 1651.91440294, 1726.62069147, 1588.92135907}},
+	"WCDMComovingTransverseDistance": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingTransverseDistance", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	//   wCDM(70, 0.3, 0.6, -1).comoving_transverse_distance(z)
+	"WCDMComovingTransverseDistancePositiveOkLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.6, W0: -1}, "ComovingTransverseDistance", []float64{1858.34336447, 3239.91725476, 5115.73838737, 6342.43100585}},
+	//   wCDM(70, 0.3, 0.9, -1).comoving_transverse_distance(z)
+	"WCDMComovingTransverseDistanceNegativeOkLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1}, "ComovingTransverseDistance", []float64{1955.97712629, 3448.46520202, 5299.86707337, 6321.88323979}},
+	"WCDMComovingDistanceZ1Z2Integrate":            {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
+	"WCDMComovingDistanceZ1Z2Elliptic":             {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "ComovingDistanceZ1Z2", []float64{1888.62539593, 3303.82880589, 5179.86207441, 6355.6854363}},
 	//   wCDM(70, 1.0, 0., -1, 0).comoving_distance(z)
 	"WCDMComovingDistanceEdS": {WCDM{H0: 70, Om0: 1.0, Ol0: 0., W0: -1}, "ComovingDistance", []float64{1571.79831586, 2508.77651427, 3620.20576208, 4282.7494}},
 	//   wCDM(70, 0.3, 0.0, -1).comoving_distance(z)
