@@ -17,8 +17,10 @@ var testTableWCDM = map[string]struct {
 	exp      []float64
 }{
 	//   wCDM(70, 0.3, 0.7, -  "WCDMELcdm": WCDM{H0: 70, Om0: 0.27, Ol0: 0.73, W0: -1},
-	"WCDMDistanceModulus":           {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2}, "DistanceModulus", []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}},
-	"WCDMLuminosityDistanceFlatCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
+	"WCDMDistanceModulus":            {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.2}, "DistanceModulus", []float64{42.32710911, 44.17957201, 46.03118144, 47.09228735}},
+	"WCDMLuminosityDistanceFlatLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1}, "LuminosityDistance", []float64{2832.9380939, 6607.65761177, 15539.58622323, 25422.74174519}},
+	//   wCDM(70, 0.3, 0.9, -1).luminosity_distance(z)
+	"WCDMLuminosityDistanceNegativeOkLCDM": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1}, "LuminosityDistance", []float64{2933.96568944, 6896.93040403, 15899.60122012, 25287.53295915}},
 	//   wCDM(70, 0.3, 0.7, -1.1).luminosity_distance(z)
 	"WCDMLuminosityDistanceFlat": {WCDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1.1}, "LuminosityDistance", []float64{2877.10314183, 6734.38177991, 15823.59621899, 25841.56448508}},
 	//   wCDM(70, 0.3, 0.6, -0.8).luminosity_distance(z)
