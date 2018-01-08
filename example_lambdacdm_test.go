@@ -25,6 +25,7 @@ func ExampleLambdaCDM() {
 	}
 
 	fmt.Println(cos)
+	fmt.Println("Ok0: ", cos.Ok0())
 	fmt.Println("Distance Modulus [mag]")
 	fmt.Println(distmod_vec)
 	fmt.Println("Luminosity Distance [Mpc]")
@@ -33,6 +34,7 @@ func ExampleLambdaCDM() {
 	fmt.Println(angdist_vec)
 	// Output:
 	// LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}
+	// Ok0:  0
 	// Distance Modulus [mag]
 	// [42.26118542154089 44.10023765554372 45.95719725271018 47.026111928689645]
 	// Luminosity Distance [Mpc]

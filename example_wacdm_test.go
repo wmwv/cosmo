@@ -25,6 +25,7 @@ func ExampleWACDM() {
 	}
 
 	fmt.Println(cos)
+	fmt.Println("Ok0: ", cos.Ok0())
 	fmt.Println("Distance Modulus [mag]")
 	fmt.Println(distmod_vec)
 	fmt.Println("Luminosity Distance [Mpc]")
@@ -33,6 +34,7 @@ func ExampleWACDM() {
 	fmt.Println(angdist_vec)
 	// Output:
 	// WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5}
+	// Ok0:  0
 	// Distance Modulus [mag]
 	// [42.07480332804884 43.731011211176536 45.31078970620773 46.17487505099648]
 	// Luminosity Distance [Mpc]
