@@ -27,6 +27,11 @@ func (cos FlatLCDM) String() string {
 	return fmt.Sprintf("FlatLCDM{H0: %v, Om0: %v}", cos.H0, cos.Om0)
 }
 
+// Ok0 is the curvature density at z=0
+func (cos FlatLCDM) Ok0() float64 {
+	return 0
+}
+
 // DistanceModulus is the magnitude difference between 1 Mpc and
 // the luminosity distance for the given z.
 func (cos FlatLCDM) DistanceModulus(z float64) (distanceModulusMag float64) {
