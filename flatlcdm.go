@@ -53,13 +53,12 @@ func (cos FlatLCDM) ComovingTransverseDistance(z float64) (distanceMpcRad float6
 
 // ComovingTransverseDistanceZ1Z2 is the comoving distance at z2 as seen from z1
 func (cos FlatLCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distanceMpcRad float64) {
-	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
-	return comovingDistance
+	return cos.ComovingDistanceZ1Z2(z1, z2)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter times the speed of light.
 func (cos FlatLCDM) HubbleDistance() (distanceMpc float64) {
-	return SpeedOfLightKmS / cos.H0
+	return hubbleDistance(cos.H0)
 }
 
 // ComovingDistance is the distance that is constant with the Hubble flow

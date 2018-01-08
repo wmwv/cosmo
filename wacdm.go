@@ -64,7 +64,7 @@ func (cos WACDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distanceMpcRad 
 // HubbleDistance is the inverse of the Hubble parameter
 //   distance : [Mpc]
 func (cos WACDM) HubbleDistance() float64 {
-	return SpeedOfLightKmS / cos.H0
+	return hubbleDistance(cos.H0)
 }
 
 // ComovingDistance is the distance that is constant with the Hubble flow

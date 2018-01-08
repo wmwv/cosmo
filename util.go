@@ -26,7 +26,12 @@ func lookbackTimeOM(z, Om0, H0 float64) (timeGyr float64) {
 	return ageOM(0, Om0, H0) - ageOM(z, Om0, H0)
 }
 
-// Calculate the Hubble time, c/H0.
+// Calculate the Hubble distance, c/H0, in Mpc
+func hubbleDistance(H0 float64) (distanceMpc float64) {
+	return SpeedOfLightKmS / H0
+}
+
+// Calculate the Hubble time, 1/H0 in Gyr.
 //   H0 : Hubble parameter at z=0.  [km/s/Mpc]
 func hubbleTime(H0 float64) (timeGyr float64) {
 	hubbleTime := (1 / H0)  // 1/(km/s/Mpc) = Mpc s / km
