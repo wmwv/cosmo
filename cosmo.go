@@ -60,4 +60,5 @@ type FLRW interface {
 	HubbleDistance() (distanceMpc float64)
 	LookbackTime(z float64) (timeGyr float64)
 	LuminosityDistance(z float64) (distanceMpc float64)
+	Ok0() (curvatureDensity float64)
 }

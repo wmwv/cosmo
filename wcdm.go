@@ -27,6 +27,11 @@ func (cos WCDM) String() string {
 		cos.H0, cos.Om0, cos.Ol0, cos.W0)
 }
 
+// Ok0 is the curvature density at z=0
+func (cos WCDM) Ok0() float64 {
+	return 1 - (cos.Om0 + cos.Ol0)
+}
+
 // DistanceModulus is the magnitude difference between 1 Mpc and
 // the luminosity distance for the given z.
 func (cos WCDM) DistanceModulus(z float64) (distanceModulusMag float64) {
