@@ -10,8 +10,6 @@ import (
 // for a flat Universe with a cosmological constant:
 // matter, dark energy, and no curvature,
 // with a w=-1 equation-of-state parameter for dark energy
-//
-// No radiation pressure or neutrino contributions.
 type FlatLCDM struct {
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0

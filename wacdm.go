@@ -12,8 +12,6 @@ import (
 // with a
 // w = w0 + wa * (1-a)
 // equation-of-state parameter for dark energy.
-//
-// No radiation pressure or neutrino contributions.
 type WACDM struct {
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0

@@ -10,8 +10,6 @@ import (
 // for a LCDM cosmology:
 // matter, dark energy, and curvature,
 // with a w=-1 equation-of-state parameter for dark energy
-//
-// No radiation pressure or neutrino contributions considered.
 type LambdaCDM struct {
 	H0      float64 // Hubble constant at z=0.  [km/s/Mpc]
 	Om0     float64 // Matter Density at z=0
