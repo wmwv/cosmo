@@ -46,7 +46,7 @@ func TestTableFlatLCDM(t *testing.T) {
 }
 
 func TestFlatLCDMCosmologyInterface(t *testing.T) {
-	age_distance := func(cos FLRW) {
+	ageDistance := func(cos FLRW) {
 		z := 0.5
 		age := cos.Age(z)
 		dc := cos.ComovingDistance(z)
@@ -54,7 +54,7 @@ func TestFlatLCDMCosmologyInterface(t *testing.T) {
 	}
 
 	cos := FlatLCDM{H0: 70, Om0: 0.27}
-	age_distance(cos)
+	ageDistance(cos)
 }
 
 // TestE* tests that basic calculation of E
@@ -80,11 +80,11 @@ func TestFlatLCDME(t *testing.T) {
 // Analytic case of Omega_Lambda = 0
 func TestFlatLCDMEOm(t *testing.T) {
 	cos := FlatLCDM{H0: 70, Om0: 1.0}
-	z_vec := []float64{1.0, 10.0, 500.0, 1000.0}
+	zVec := []float64{1.0, 10.0, 500.0, 1000.0}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
-	exp_vec := make([]float64, len(z_vec))
-	for i, z := range z_vec {
-		exp_vec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
+	expVec := make([]float64, len(zVec))
+	for i, z := range zVec {
+		expVec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
 	}
-	runTests(cos.ComovingDistance, z_vec, exp_vec, distTol, t)
+	runTests(cos.ComovingDistance, zVec, expVec, distTol, t)
 }

@@ -50,6 +50,9 @@
 // and the performance penalty is acceptable.
 package cosmo
 
+// SpeedOfLightKmS is speed of light in kilometers/second
+// Useful in calculating Hubble distance (c/H0),
+// which is the basic prefactor for any distance measure.
 const SpeedOfLightKmS = 299792.458 // km/s
 // https://en.wikipedia.org/wiki/Parsec
 //   Accessed 2017-12-01

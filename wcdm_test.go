@@ -73,7 +73,7 @@ func TestTableWCDM(t *testing.T) {
 }
 
 func TestWCDMCosmologyInterface(t *testing.T) {
-	age_distance := func(cos FLRW) {
+	ageDistance := func(cos FLRW) {
 		z := 0.5
 		age := cos.Age(z)
 		dc := cos.ComovingDistance(z)
@@ -81,7 +81,7 @@ func TestWCDMCosmologyInterface(t *testing.T) {
 	}
 
 	cos := WCDM{H0: 70, Om0: 0.27, Ol0: 0.73, W0: -1}
-	age_distance(cos)
+	ageDistance(cos)
 }
 
 // TestE* tests that basic calculation of E
@@ -105,11 +105,11 @@ func TestWCDMELcdm(t *testing.T) {
 // Analytic case of Omega_Lambda = 0
 func TestWCDMEOm(t *testing.T) {
 	cos := WCDM{H0: 70, Om0: 1.0, Ol0: 0., W0: -1}
-	z_vec := []float64{1.0, 10.0, 500.0, 1000.0}
-	exp_vec := make([]float64, len(z_vec))
+	zVec := []float64{1.0, 10.0, 500.0, 1000.0}
+	expVec := make([]float64, len(zVec))
 	hubbleDistance := SpeedOfLightKmS / cos.H0
-	for i, z := range z_vec {
-		exp_vec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
+	for i, z := range zVec {
+		expVec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
 	}
-	runTests(cos.ComovingDistance, z_vec, exp_vec, distTol, t)
+	runTests(cos.ComovingDistance, zVec, expVec, distTol, t)
 }

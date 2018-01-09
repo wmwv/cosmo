@@ -14,24 +14,24 @@ import (
 func ExampleWACDM() {
 	cos := WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5}
 
-	z_vec := []float64{0.5, 1.0, 2.0, 3.0}
-	distmod_vec := make([]float64, len(z_vec))
-	lumdist_vec := make([]float64, len(z_vec))
-	angdist_vec := make([]float64, len(z_vec))
-	for i, z := range z_vec {
-		distmod_vec[i] = cos.DistanceModulus(z)
-		lumdist_vec[i] = cos.LuminosityDistance(z)
-		angdist_vec[i] = cos.AngularDiameterDistance(z)
+	zVec := []float64{0.5, 1.0, 2.0, 3.0}
+	distmodVec := make([]float64, len(zVec))
+	lumdistVec := make([]float64, len(zVec))
+	angdistVec := make([]float64, len(zVec))
+	for i, z := range zVec {
+		distmodVec[i] = cos.DistanceModulus(z)
+		lumdistVec[i] = cos.LuminosityDistance(z)
+		angdistVec[i] = cos.AngularDiameterDistance(z)
 	}
 
 	fmt.Println(cos)
 	fmt.Println("Ok0: ", cos.Ok0())
 	fmt.Println("Distance Modulus [mag]")
-	fmt.Println(distmod_vec)
+	fmt.Println(distmodVec)
 	fmt.Println("Luminosity Distance [Mpc]")
-	fmt.Println(lumdist_vec)
+	fmt.Println(lumdistVec)
 	fmt.Println("Angular Diameter Distance [Mpc]")
-	fmt.Println(angdist_vec)
+	fmt.Println(angdistVec)
 	// Output:
 	// WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -0.8, WA: 2.5}
 	// Ok0:  0

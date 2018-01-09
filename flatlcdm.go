@@ -41,7 +41,7 @@ func (cos FlatLCDM) LuminosityDistance(z float64) (distanceMpc float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }
 
-// AngularDistance is the ratio of physical transverse size to angular size
+// AngularDiameterDistance is the ratio of physical transverse size to angular size
 func (cos FlatLCDM) AngularDiameterDistance(z float64) (distanceMpcRad float64) {
 	return cos.ComovingTransverseDistance(z) / (1 + z)
 }
@@ -120,8 +120,7 @@ func (cos FlatLCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 	return hubbleTime(cos.H0) * quad.Fixed(integrand, 0, z, n, nil, 0)
 }
 
-// AgeFlatLCDM is the time from redshift ∞ to z
-// in a flat LCDM cosmology.
+// Age is the time from redshift ∞ to z
 func (cos FlatLCDM) Age(z float64) (timeGyr float64) {
 	return ageFlatLCDM(z, cos.Om0, cos.H0)
 }

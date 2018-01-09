@@ -46,7 +46,7 @@ func (cos WACDM) LuminosityDistance(z float64) (distanceMpc float64) {
 	return (1 + z) * cos.ComovingTransverseDistance(z)
 }
 
-// AngularDistance is the ratio of physical transverse size to angular size
+// AngularDiameterDistance is the ratio of physical transverse size to angular size
 func (cos WACDM) AngularDiameterDistance(z float64) (distanceMpcRad float64) {
 	return cos.ComovingTransverseDistance(z) / (1 + z)
 }
