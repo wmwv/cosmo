@@ -65,7 +65,7 @@ func TestTableLambdaCDM(t *testing.T) {
 }
 
 func TestLambdaCDMCosmologyInterface(t *testing.T) {
-	age_distance := func(cos FLRW) {
+	ageDistance := func(cos FLRW) {
 		z := 0.5
 		age := cos.Age(z)
 		dc := cos.ComovingDistance(z)
@@ -73,7 +73,7 @@ func TestLambdaCDMCosmologyInterface(t *testing.T) {
 	}
 
 	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
-	age_distance(cos)
+	ageDistance(cos)
 }
 
 // TestE* tests that basic calculation of E
@@ -102,9 +102,9 @@ func TestLambdaCDMEOm(t *testing.T) {
 	zLambdaCDM := []float64{1.0, 10.0, 500.0, 1000.0}
 	cos := LambdaCDM{H0: 70, Om0: 1.0, Ol0: 0.}
 	hubbleDistance := SpeedOfLightKmS / cos.H0
-	exp_vec := make([]float64, len(zLambdaCDM))
+	expVec := make([]float64, len(zLambdaCDM))
 	for i, z := range zLambdaCDM {
-		exp_vec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
+		expVec[i] = 2.0 * hubbleDistance * (1 - math.Sqrt(1/(1+z)))
 	}
-	runTests(cos.ComovingDistance, zLambdaCDM, exp_vec, distTol, t)
+	runTests(cos.ComovingDistance, zLambdaCDM, expVec, distTol, t)
 }

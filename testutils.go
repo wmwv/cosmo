@@ -25,22 +25,22 @@ func runTests(testFunc func(float64) float64, inputs, expected []float64, tol fl
 
 // runTest runs 'testFunc' on scalar 'input' and compares to 'exp'
 func runTest(testFunc func(float64) float64, input float64, exp, tol float64, t *testing.T, stackLevel int) {
-	var test_description, test_line string
+	var testDescription, testLine string
 
 	pc, file, no, ok := runtime.Caller(stackLevel + 1)
 	if ok {
 		details := runtime.FuncForPC(pc)
-		test_description = details.Name()
-		test_line = fmt.Sprintf("%s#%d", file, no)
+		testDescription = details.Name()
+		testLine = fmt.Sprintf("%s#%d", file, no)
 	} else {
-		test_description = "CAN'T DETERMINE TEST NAME"
-		test_line = "CAN'T DETERMINE TEST LINE"
+		testDescription = "CAN'T DETERMINE TEST NAME"
+		testLine = "CAN'T DETERMINE TEST LINE"
 	}
 
 	obs := testFunc(input)
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
-			test_description, test_line, exp, obs)
+			testDescription, testLine, exp, obs)
 	}
 }
 
@@ -95,23 +95,23 @@ func runTestsZ0Z2(testFunc func(float64, float64) float64, inputs []float64, exp
 
 // runTest runs 'testFunc' on scalar 'input' and compares to 'exp'
 func runTestZ1Z2(testFunc func(float64, float64) float64, input [2]float64, exp, tol float64, t *testing.T, stackLevel int) {
-	var test_description, test_line string
+	var testDescription, testLine string
 
 	pc, file, no, ok := runtime.Caller(stackLevel + 1)
 	if ok {
 		details := runtime.FuncForPC(pc)
-		test_description = details.Name()
-		test_line = fmt.Sprintf("%s#%d", file, no)
+		testDescription = details.Name()
+		testLine = fmt.Sprintf("%s#%d", file, no)
 	} else {
-		test_description = "CAN'T DETERMINE TEST NAME"
-		test_line = "CAN'T DETERMINE TEST LINE"
+		testDescription = "CAN'T DETERMINE TEST NAME"
+		testLine = "CAN'T DETERMINE TEST LINE"
 	}
 
 	z1, z2 := input[0], input[1]
 	obs := testFunc(z1, z2)
 	if !floats.EqualWithinAbs(obs, exp, tol) {
 		t.Errorf("Failed %s at\n %s\n"+"  Expected %f, return %f",
-			test_description, test_line, exp, obs)
+			testDescription, testLine, exp, obs)
 	}
 }
 

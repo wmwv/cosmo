@@ -71,7 +71,7 @@ func TestTableWACDM(t *testing.T) {
 }
 
 func TestWACDMCosmologyInterface(t *testing.T) {
-	age_distance := func(cos FLRW) {
+	ageDistance := func(cos FLRW) {
 		z := 0.5
 		age := cos.Age(z)
 		dc := cos.ComovingDistance(z)
@@ -79,7 +79,7 @@ func TestWACDMCosmologyInterface(t *testing.T) {
 	}
 
 	cos := WACDM{H0: 70, Om0: 0.27, Ol0: 0.73, W0: -1}
-	age_distance(cos)
+	ageDistance(cos)
 }
 
 // TestE* tests that basic calculation of E

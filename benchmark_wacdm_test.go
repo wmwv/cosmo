@@ -9,8 +9,8 @@ func benchmarkWACDMEN(n int, b *testing.B) {
 	cos := WACDM{H0: 70, Om0: 0.2, Ol0: 0.7, W0: -1.2, WA: 2}
 
 	var z float64
-	z_max := 1.0
-	step := z_max / float64(n)
+	zMax := 1.0
+	step := zMax / float64(n)
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < n; j++ {
 			z = 0.001 + step*float64(j)
@@ -71,8 +71,8 @@ func benchmarkWACDMNdistance(n int, distFunc string, b *testing.B) {
 	cos := WACDM{H0: 70, Om0: 0.2, Ol0: 0.7, W0: -1.2}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
-	z_max := 1.0
-	step := z_max / float64(n)
+	zMax := 1.0
+	step := zMax / float64(n)
 	for i := 0; i < b.N; i++ {
 		for j := 0; j < n; j++ {
 			z = 0.001 + step*float64(j)
