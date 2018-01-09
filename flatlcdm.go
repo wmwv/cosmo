@@ -28,7 +28,7 @@ func (cos FlatLCDM) String() string {
 }
 
 // Ok0 is the curvature density at z=0
-func (cos FlatLCDM) Ok0() float64 {
+func (cos FlatLCDM) Ok0() (curvatureDensity float64) {
 	return 0
 }
 

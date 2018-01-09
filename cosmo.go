@@ -1,18 +1,18 @@
-// Package cosmo implements basic cosmology calculations in Go
+// Package cosmo implements basic cosmology calculations in Go.
 //
-// FLRW is the basic interface type that defines the functions to be supported
-// The Friedmann-Lemaître-Robertson-Walker metric is the general form that
+// FLRW is the basic interface type that defines the key cosmological functions
+// common to all supported cosmologies.
+//
+// The Friedmann-Lemaître-Robertson-Walker (FLRW) metric is the general form that
 // all homogenous, isotropic, connected cosmologies follow.
+//
 // https://en.wikipedia.org/wiki/Friedmann-Lema%C3%AEtre-Robertson-Walker_metric
 //
-// Provides E, Einv, LookbackTime, Age, LuminosityDistance, DistanceModulus,
-// ComovingDistance, ComovingTransverseDistance, AngularDiameterDistance
-// LookbackTime, HubbleDistance
-//
-//   FlatLCDM  (OM, OL, OK) = (OM, 1-OM, 0)
-//   LambdaCDM (OM, OL, OK); w = -1
-//   WCDM      (OM, OL, W); w = w0
-//   WACDM     (OM, OL, W0, WA); w = w0 + w_a * (1-a)
+// Provides:
+//   FlatLCDM  (H0, OM); OL = 1-OM, OK=0
+//   LambdaCDM (H0, OM, OL, OK); w = -1
+//   WCDM      (H0, OM, OL, W); w = w0
+//   WACDM     (H0, OM, OL, W0, WA); w = w0 + w_a * (1-a)
 //
 // Equations and numerical formulae based on
 //   Hogg, https://arxiv.org/abs/astro-ph/9905116
@@ -26,15 +26,27 @@
 // Organizational thoughts based on code in astropy.cosmology
 //   http://docs.astropy.org/en/stable/_modules/astropy/cosmology
 //
-// Performance Note:
+// Performance Notes:
 //
-// 1. The current types FlatLCDM, LambdaCDM, WCDM, WACDM
+// 1. Calculating a single line-of-sight comoving distance takes from 890ns - 260µs,
+// depending on the complexity of the cosmology.
+// Analytic cases take ~1µs, while explicit integration is ~200µs.
+//   FlatLCDM      892ns  (analytic for OM<1)
+//   LambdaCDM     139µs
+//   WCDM          250µs
+//   WACDM         261µs
+// These numbers are based on the output of `go test -bench ComovingDistance`
+// run on a 2015 MacBook Air: dual-core 2.2 GHz Intel Core i7, 8 GB 1600 MHz DDR3;
+// with Mac OS X 10.13.2 and go 1.9.2
+//
+// 2. The current types FlatLCDM, LambdaCDM, WCDM, WACDM
 // implement their methods as value receivers.
 // There's a mild performance hit for using value receivers instead of pointer receivers.
 // This performance penalty is 40% for individual calls to E or Einv
 // but this penalty is only 1-2% for calls to the general *Distance methods.
 //
 // For now the use case model seems more amenable to value receivers
+// -- conceptually, the cosmologies should be immutable --
 // and the performance penalty is acceptable.
 package cosmo
 
@@ -45,7 +57,7 @@ const kmInAMpc = 3.08567758149137e19 // km/Mpc
 //   365*24*3600 * one billion
 const secInAGyr = 31557600 * 1e9 // s/Gyr
 
-// FLRW specifies the functions cosmological calculations in
+// FLRW specifies the cosmological calculations to be available from
 // Friedmann-Lemaître-Robertson-Walker metrics.
 type FLRW interface {
 	Age(z float64) (timeGyr float64)
