@@ -1,14 +1,14 @@
 // Package cosmo implements basic cosmology calculations in Go
 //
-// FLRW is the basic interface type that defines the functions to be supported
+// FLRW is the basic interface type that defines the key cosmological functions
+// common to all supported cosmologies.
+//
 // The Friedmann-Lemaître-Robertson-Walker metric is the general form that
 // all homogenous, isotropic, connected cosmologies follow.
+//
 // https://en.wikipedia.org/wiki/Friedmann-Lema%C3%AEtre-Robertson-Walker_metric
 //
-// Provides E, Einv, LookbackTime, Age, LuminosityDistance, DistanceModulus,
-// ComovingDistance, ComovingTransverseDistance, AngularDiameterDistance
-// LookbackTime, HubbleDistance
-//
+// Provides:
 //   FlatLCDM  (OM, OL, OK) = (OM, 1-OM, 0)
 //   LambdaCDM (OM, OL, OK); w = -1
 //   WCDM      (OM, OL, W); w = w0
@@ -45,7 +45,7 @@ const kmInAMpc = 3.08567758149137e19 // km/Mpc
 //   365*24*3600 * one billion
 const secInAGyr = 31557600 * 1e9 // s/Gyr
 
-// FLRW specifies the functions cosmological calculations in
+// FLRW specifies the cosmological calculations to be available from
 // Friedmann-Lemaître-Robertson-Walker metrics.
 type FLRW interface {
 	Age(z float64) (timeGyr float64)
