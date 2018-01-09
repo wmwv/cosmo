@@ -6,7 +6,7 @@ import (
 )
 
 func benchmarkLambdaCDMEN(n int, b *testing.B) {
-	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
 
 	var z float64
 	zMax := 1.0
@@ -28,7 +28,7 @@ func BenchmarkLambdaCDMENdistance(b *testing.B) {
 }
 
 func BenchmarkLambdaCDME(b *testing.B) {
-	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.E(z)
@@ -36,10 +36,34 @@ func BenchmarkLambdaCDME(b *testing.B) {
 }
 
 func BenchmarkLambdaCDMEinv(b *testing.B) {
-	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
 	z := 1.0
 	for i := 0; i < b.N; i++ {
 		cos.Einv(z)
+	}
+}
+
+// benchmarkLambdaCDMDistanceFlat is a helper function to be called by specific benchmarkLambdaCDMs
+//   for an Omega_K == 0 cosmology
+func benchmarkLambdaCDMDistanceFlat(distFunc string, b *testing.B) {
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.7}
+	z := 1.0
+
+	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
+	for i := 0; i < b.N; i++ {
+		funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
+	}
+}
+
+// benchmarkLambdaCDMDistancePositiveOk0 is a helper function to be called by specific benchmarkLambdaCDMs
+//   for an Omega_K > 0 cosmology
+func benchmarkLambdaCDMDistancePositiveOk0(distFunc string, b *testing.B) {
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
+	z := 1.0
+
+	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
+	for i := 0; i < b.N; i++ {
+		funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
 	}
 }
 
@@ -57,7 +81,7 @@ func benchmarkLambdaCDMDistanceOM(distFunc string, b *testing.B) {
 
 // benchmarkLambdaCDMDistance is a helper function to be called by specific benchmarkLambdaCDMs
 func benchmarkLambdaCDMDistance(distFunc string, b *testing.B) {
-	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
 	z := 1.0
 
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
@@ -68,7 +92,7 @@ func benchmarkLambdaCDMDistance(distFunc string, b *testing.B) {
 
 // benchmarkLambdaCDMNdistance is a helper function to be called by specific benchmarkLambdaCDMs
 func benchmarkLambdaCDMNdistance(n int, distFunc string, b *testing.B) {
-	cos := LambdaCDM{H0: 70, Om0: 0.27, Ol0: 0.73}
+	cos := LambdaCDM{H0: 70, Om0: 0.3, Ol0: 0.9}
 	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
 	var z float64
 	zMax := 1.0
@@ -115,4 +139,12 @@ func BenchmarkLambdaCDMComovingDistanceOM(b *testing.B) {
 
 func BenchmarkLambdaCDMLookbackTimeOM(b *testing.B) {
 	benchmarkLambdaCDMDistanceOM("LookbackTime", b)
+}
+
+func BenchmarkLambdaCDMComovingDistanceFlat(b *testing.B) {
+	benchmarkLambdaCDMDistanceFlat("ComovingDistance", b)
+}
+
+func BenchmarkLambdaCDMComovingDistancePositiveOk0(b *testing.B) {
+	benchmarkLambdaCDMDistancePositiveOk0("ComovingDistance", b)
 }

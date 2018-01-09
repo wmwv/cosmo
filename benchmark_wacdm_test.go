@@ -43,6 +43,30 @@ func BenchmarkWACDMEinv(b *testing.B) {
 	}
 }
 
+// benchmarkWACDMDistanceFlat is a helper function to be called by specific benchmarkWCDMs
+//   for an Omega_K == 0 cosmology
+func benchmarkWACDMDistanceFlat(distFunc string, b *testing.B) {
+	cos := WACDM{H0: 70, Om0: 0.3, Ol0: 0.7, W0: -1, WA: 0}
+	z := 1.0
+
+	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
+	for i := 0; i < b.N; i++ {
+		funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
+	}
+}
+
+// benchmarkWCDMDistancePositiveOk0 is a helper function to be called by specific benchmarkWCDMs
+//   for an Omega_K > 0 cosmology
+func benchmarkWACDMDistancePositiveOk0(distFunc string, b *testing.B) {
+	cos := WACDM{H0: 70, Om0: 0.3, Ol0: 0.9, W0: -1, WA: 2}
+	z := 1.0
+
+	funcToTest := reflect.ValueOf(&cos).MethodByName(distFunc)
+	for i := 0; i < b.N; i++ {
+		funcToTest.Call([]reflect.Value{reflect.ValueOf(z)})
+	}
+}
+
 // benchmarkWACDMDistanceOM is a helper function to be called by specific benchmarkWACDMs
 //   for an Omega_Lambda = 0 cosmology
 func benchmarkWACDMDistanceOM(distFunc string, b *testing.B) {
@@ -115,4 +139,12 @@ func BenchmarkWACDMComovingDistanceOM(b *testing.B) {
 
 func BenchmarkWACDMLookbackTimeOM(b *testing.B) {
 	benchmarkWACDMDistanceOM("LookbackTime", b)
+}
+
+func BenchmarkWACDMComovingDistanceFlat(b *testing.B) {
+	benchmarkWACDMDistanceFlat("ComovingDistance", b)
+}
+
+func BenchmarkWACDMComovingDistancePositiveOk0(b *testing.B) {
+	benchmarkWACDMDistancePositiveOk0("ComovingDistance", b)
 }

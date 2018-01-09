@@ -53,13 +53,12 @@ func (cos FlatLCDM) ComovingTransverseDistance(z float64) (distanceMpcRad float6
 
 // ComovingTransverseDistanceZ1Z2 is the comoving distance at z2 as seen from z1
 func (cos FlatLCDM) ComovingTransverseDistanceZ1Z2(z1, z2 float64) (distanceMpcRad float64) {
-	comovingDistance := cos.ComovingDistanceZ1Z2(z1, z2)
-	return comovingDistance
+	return cos.ComovingDistanceZ1Z2(z1, z2)
 }
 
 // HubbleDistance is the inverse of the Hubble parameter times the speed of light.
 func (cos FlatLCDM) HubbleDistance() (distanceMpc float64) {
-	return SpeedOfLightKmS / cos.H0
+	return hubbleDistance(cos.H0)
 }
 
 // ComovingDistance is the distance that is constant with the Hubble flow
@@ -122,7 +121,13 @@ func (cos FlatLCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 
 // Age is the time from redshift ∞ to z
 func (cos FlatLCDM) Age(z float64) (timeGyr float64) {
-	return ageFlatLCDM(z, cos.Om0, cos.H0)
+	// Equation is in many sources.  Specifically used
+	// Thomas and Kantowski, 2000, PRD, 62, 103507.
+	if cos.Om0 == 1 {
+		return (2. / 3) * hubbleTime(cos.H0) * math.Pow(1+z, -3./2)
+	}
+	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
+		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
 }
 
 // ageIntegrate is the time from redshift ∞ to z
