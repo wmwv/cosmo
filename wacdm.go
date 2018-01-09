@@ -33,7 +33,7 @@ func (cos WACDM) String() string {
 }
 
 // Ok0 is the curvature density at z=0
-func (cos WACDM) Ok0() float64 {
+func (cos WACDM) Ok0() (curvatureDensity float64) {
 	return 1 - (cos.Om0 + cos.Ol0)
 }
 
