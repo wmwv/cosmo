@@ -76,25 +76,6 @@ func ageOM(z, Om0, H0 float64) (timeGyr float64) {
 			Om0*math.Pow(1-Om0, -3./2)*math.Asinh(math.Sqrt((1/Om0-1)/(1+z))))
 }
 
-// ageFlatLCDM is the time from redshift ∞ to z
-// with only non-relativistic matter and dark energy.  No curvature: Om0+Ol0=1
-//
-//   z : redshift
-//   Om0 : Omega_M at z=0.
-//         Matter density as a fraction of the critical density
-//         All matter non-relatisvistic.
-//   H0 : Hubble Parameter at z=0.  [km/s/Mpc]
-//
-// Equation is in many sources.  Specifically used
-// Thomas and Kantowski, 2000, PRD, 62, 103507.
-func ageFlatLCDM(z, Om0, H0 float64) (timeGyr float64) {
-	if Om0 == 1 {
-		return (2. / 3) * hubbleTime(H0) * math.Pow(1+z, -3./2)
-	}
-	return hubbleTime(H0) * 2. / 3 / math.Sqrt(1-Om0) *
-		math.Asinh(math.Sqrt((1/Om0-1)/math.Pow(1+z, 3)))
-}
-
 // comovingTransverseDistanceOM is the case of Omega_M+Omega_K=1
 //
 //   z : redshift

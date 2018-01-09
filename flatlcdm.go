@@ -121,7 +121,13 @@ func (cos FlatLCDM) lookbackTimeIntegrate(z float64) (timeGyr float64) {
 
 // Age is the time from redshift ∞ to z
 func (cos FlatLCDM) Age(z float64) (timeGyr float64) {
-	return ageFlatLCDM(z, cos.Om0, cos.H0)
+	// Equation is in many sources.  Specifically used
+	// Thomas and Kantowski, 2000, PRD, 62, 103507.
+	if cos.Om0 == 1 {
+		return (2. / 3) * hubbleTime(cos.H0) * math.Pow(1+z, -3./2)
+	}
+	return hubbleTime(cos.H0) * 2. / 3 / math.Sqrt(1-cos.Om0) *
+		math.Asinh(math.Sqrt((1/cos.Om0-1)/math.Pow(1+z, 3)))
 }
 
 // ageIntegrate is the time from redshift ∞ to z
