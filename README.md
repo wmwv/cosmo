@@ -1,3 +1,5 @@
-Basic FLRW cosmological distance, time, and age calculations in Go.
+# cosmo
 
 [![GoDoc](https://godoc.org/github.com/wmwv/cosmo?status.svg)](https://godoc.org/github.com/wmwv/cosmo)
+
+Basic FLRW cosmological distance, time, and age calculations in Go.
